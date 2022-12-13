@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route exact path="/" element={<Main />}></Route>
+            <Route exact path="/" element={<Baord />}></Route>
             <Route path="/board" element={<Baord />}></Route>
             <Route path="/add" element={<Add />}></Route>
             <Route path="/viewOne/:id" element={<ViewOne />}></Route>

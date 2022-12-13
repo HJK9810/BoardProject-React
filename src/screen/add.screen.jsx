@@ -44,7 +44,7 @@ function Add() {
         </Form.Group>
       </Form>
       <button style={{width: 100 + "%"}} onClick={submit}>
-        문의하기
+        문의 남기기
       </button>
     </Container>
   );

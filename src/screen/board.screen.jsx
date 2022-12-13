@@ -14,7 +14,7 @@ function Baord() {
 
   const moveView = (event) => {
     event.preventDefault();
-    navigate(`/viewOne/${event.target.id}`);
+    if (event.target.id) navigate(`/viewOne/${event.target.id}`);
   };
 
   return (
@@ -28,7 +28,7 @@ function Baord() {
             <p>
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>
-            <hr />
+            <hr className="m-0" />
           </div>
         );
       })}

@@ -6,22 +6,20 @@ import {useParams} from "react-router-dom";
 
 function ViewOne() {
   const [post, setPost] = useState({});
+  const [image, setImage] = useState([]);
   const {id} = useParams();
 
-  const fileDir = "/Users/hiju/documents/study/boardImage/";
+  const fileDir = "http://localhost:8080/image/";
 
   useEffect(() => {
-    BoardService.findOne(Number(id)).then((res) => setPost(res));
+    BoardService.findOne(Number(id)).then((res) => {
+      setPost(res);
+      if (res.images) setImage(res.images.split(","));
+    });
   }, []);
 
-  const showImage = () => {
-    if (post.images) {
-      post.images.split(",").map((el) => {
-        return <img src={fileDir + el} />;
-      });
-    } else {
-      return "";
-    }
+  const showImage = (root) => {
+    return <img src={fileDir + root} width={300 + "px"} />;
   };
 
   return (
@@ -32,7 +30,7 @@ function ViewOne() {
       <h4>제목</h4>
       <div>{post.title}</div>
       <h4>첨부파일</h4>
-      <div>{showImage()}</div>
+      <div style={{overflow: "scroll"}}>{image ? image.map((el) => (el ? showImage(el) : null)) : null}</div>
       <h4>상세내용</h4>
       <div>{post.contents}</div>
     </Container>

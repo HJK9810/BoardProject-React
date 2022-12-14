@@ -24,6 +24,10 @@ class BoardService {
   async addItem(form) {
     return await Axios.post("/question/add", form, formHeader);
   }
+
+  async addAnswer(id = 1, form = {}) {
+    return await Axios.post(`/answer/add/${id}`, form, jsonHeader);
+  }
 }
 
 export default new BoardService();

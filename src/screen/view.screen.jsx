@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
 
 function ViewOne() {
@@ -10,6 +10,7 @@ function ViewOne() {
   const [image, setImage] = useState([]);
   const [show, setShow] = useState("none");
   const {id} = useParams();
+  const navigate = useNavigate();
 
   const fileDir = "http://localhost:8080/image/";
 
@@ -39,6 +40,9 @@ function ViewOne() {
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
+      <button className="btn btn-secondary" style={{width: 100 + "%"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+        답변하기
+      </button>
     </Container>
   );
 }

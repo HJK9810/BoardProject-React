@@ -11,7 +11,6 @@ function Add() {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log(files);
 
     const formData = new FormData();
 
@@ -20,9 +19,7 @@ function Add() {
 
     Object.values(files).map((file) => formData.append("images", file));
 
-    console.log("formData save");
     await BoardService.addItem(formData);
-    console.log("save clear");
     navigate("/board");
   };
 

@@ -43,7 +43,7 @@ function Add() {
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </Form.Group>
       </Form>
-      <button style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-secondary mt-3" style={{width: 100 + "%"}} onClick={submit}>
         문의 남기기
       </button>
     </Container>

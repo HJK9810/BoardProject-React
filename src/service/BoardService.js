@@ -13,8 +13,8 @@ const formHeader = {
 };
 
 class BoardService {
-  findAll() {
-    return Axios.get("/question/list", jsonHeader).then((res) => res.data);
+  findAll(page = 0, size) {
+    return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, jsonHeader).then((res) => res.data);
   }
 
   findOne(id = 1) {

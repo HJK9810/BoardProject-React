@@ -30,7 +30,7 @@ function Baord() {
         return (
           <div key={el.id} id={el.id} onClick={moveView}>
             <h4 className="pt-2">{el.title}</h4>
-            <span>작성자</span>
+            <span>{el.user.name}</span>
             <p className="mb-0">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>

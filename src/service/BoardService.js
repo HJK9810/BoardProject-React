@@ -25,6 +25,14 @@ class BoardService {
     return await Axios.post("/question/add", form, formHeader);
   }
 
+  editView(id = 1) {
+    return Axios.get(`/question/edit/${id}`, jsonHeader).then((res) => res.data);
+  }
+
+  async editItem(id = 1, form) {
+    return await Axios.post(`/question/edit/${id}`, form, formHeader);
+  }
+
   async addAnswer(id = 1, form = {}) {
     return await Axios.post(`/answer/add/${id}`, form, jsonHeader);
   }

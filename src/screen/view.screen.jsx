@@ -40,6 +40,9 @@ function ViewOne() {
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
+      <button className="btn btn-secondary mb-1" style={{width: 100 + "%"}} onClick={(e) => navigate(`/edit/${id}`)}>
+        수정하기
+      </button>
       <button className="btn btn-secondary" style={{width: 100 + "%"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>

@@ -14,7 +14,10 @@ function ViewOne() {
 
   const fileDir = "http://localhost:8080/image/";
 
+  const [user, setUser] = useState({});
+
   useEffect(() => {
+    BoardService.getUser().then((res) => setUser(res.data));
     BoardService.findOne(Number(id)).then((res) => {
       setPost(res);
       if (res.images) setImage(res.images.split(","));
@@ -43,7 +46,7 @@ function ViewOne() {
       <button className="btn btn-secondary mb-1" style={{width: 100 + "%"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-secondary" style={{width: 100 + "%"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.email == "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

@@ -11,7 +11,11 @@ function Baord() {
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
 
+  const [user, setUser] = useState({});
+  // const [check, setCheck] = useState(true);
+
   useEffect(() => {
+    BoardService.getUser().then((res) => setUser(res.data));
     BoardService.findAll(page, 5).then((res) => {
       setPost(res.content);
       setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
@@ -27,10 +31,13 @@ function Baord() {
     <Container>
       <h3>문의사항</h3>
       {post.map((el) => {
+        const name = el.users.name;
+        const email = el.users.email;
+
         return (
-          <div key={el.id} id={el.id} onClick={moveView}>
+          <div key={el.id} id={el.id} onClick={email == user.email || user.email == "admin" ? moveView : () => {}}>
             <h4 className="pt-2">{el.title}</h4>
-            <span>{el.user.name}</span>
+            <span>{email == user.email || user.email == "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
             <p className="mb-0">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>

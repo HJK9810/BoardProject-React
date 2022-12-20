@@ -6,7 +6,6 @@ import Moment from "react-moment";
 import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
-import {moment} from "moment";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -47,7 +46,6 @@ function Baord() {
   const moveView = (event) => {
     event.preventDefault();
     if (event.target.id) navigate(`/viewOne/${event.target.id}`);
-    // if (event.target.id) window.location.href = `/viewOne/${event.target.id}`;
   };
 
   return (
@@ -58,9 +56,9 @@ function Baord() {
         const email = el.users.email;
 
         return (
-          <div key={el.id} id={el.id} onClick={email == user || user == "admin" ? moveView : () => {}}>
+          <div key={el.id} id={el.id} onClick={email === user || user === "admin" ? moveView : () => {}}>
             <h4 className="pt-2">{el.title}</h4>
-            <span>{email == user || user == "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
+            <span>{email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
             <p className="mb-0">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>
@@ -68,6 +66,7 @@ function Baord() {
           </div>
         );
       })}
+
       <div className="d-flex justify-content-center mt-2">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>

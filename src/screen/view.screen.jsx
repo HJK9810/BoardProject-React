@@ -51,10 +51,10 @@ function ViewOne() {
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
-      <button className="btn btn-secondary mb-1" style={{width: 100 + "%", display: user.sub == name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className="btn btn-secondary mb-1" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.sub == "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

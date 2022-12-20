@@ -6,7 +6,7 @@ import {useCookies} from "react-cookie";
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const [cookie, setCookie] = useCookies([]);
+  const [, setCookie] = useCookies([]);
 
   const submit = async (e) => {
     e.preventDefault();

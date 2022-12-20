@@ -1,16 +1,18 @@
 import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
+import Axios from "../Axios";
+import jwtDecode from "jwt-decode";
 
 function Logout() {
   const [cookie, setCookie, removeCookie] = useCookies([]);
-  const navigate = useNavigate();
 
   const logout = (e) => {
+    Axios.get("/api/logout", jwtDecode(cookie.token).sub);
+
     removeCookie("token");
     removeCookie("refreshToken");
+
     window.location.href = "/login";
-    // navigate("/login");
   };
 
   return (

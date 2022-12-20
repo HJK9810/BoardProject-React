@@ -8,7 +8,7 @@ function Logout() {
 
   const logout = (e) => {
     removeCookie("token");
-    navigate("/login");
+    // navigate("/login");
   };
 
   return (

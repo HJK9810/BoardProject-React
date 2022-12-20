@@ -45,10 +45,6 @@ class BoardService {
   async addAnswer(id = 1, form = {}, token) {
     return await Axios.post(`/answer/add/${id}`, form, setHeader(jsonHeader, token));
   }
-
-  getUser(token) {
-    return Axios.get("/question/user", setHeader(jsonHeader, token));
-  }
 }
 
 export default new BoardService();

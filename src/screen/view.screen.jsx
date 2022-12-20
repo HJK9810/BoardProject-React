@@ -5,6 +5,7 @@ import Moment from "react-moment";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
 import {useCookies} from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 function ViewOne() {
   const [post, setPost] = useState({});
@@ -21,12 +22,12 @@ function ViewOne() {
   useEffect(() => {
     const token = cookie.token;
 
-    BoardService.getUser(token).then((res) => setUser(res.data));
     BoardService.findOne(Number(id), token).then((res) => {
       setPost(res);
       if (res.images) setImage(res.images.split(","));
       if (res.answers) setShow("block");
     });
+    setUser(jwtDecode(token));
   }, []);
 
   const showImage = (root) => {
@@ -50,7 +51,7 @@ function ViewOne() {
       <button className="btn btn-secondary mb-1" style={{width: 100 + "%"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.email == "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.sub == "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

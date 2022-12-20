@@ -5,6 +5,7 @@ import BoardService from "../service/BoardService";
 import Moment from "react-moment";
 import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -12,17 +13,17 @@ function Baord() {
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
   const [cookie, setCookie] = useCookies(["token"]);
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     console.log(cookie.token);
     const token = cookie.token;
-    BoardService.getUser(token).then((res) => setUser(res.data));
     BoardService.findAll(page, 5, token).then((res) => {
       setPost(res.content);
       setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
     });
+    setUser(jwtDecode(token).sub);
   }, [page]);
 
   const moveView = (event) => {
@@ -39,9 +40,9 @@ function Baord() {
         const email = el.users.email;
 
         return (
-          <div key={el.id} id={el.id} onClick={email == user.email || user.email == "admin" ? moveView : () => {}}>
+          <div key={el.id} id={el.id} onClick={email == user || user == "admin" ? moveView : () => {}}>
             <h4 className="pt-2">{el.title}</h4>
-            <span>{email == user.email || user.email == "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
+            <span>{email == user || user == "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
             <p className="mb-0">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>

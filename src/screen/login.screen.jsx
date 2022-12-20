@@ -1,14 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Form} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
-import LogInService from "../service/LogInService";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const navigate = useNavigate();
   const [cookie, setCookie] = useCookies([]);
 
   const submit = (e) => {
@@ -20,13 +17,13 @@ function Login() {
     };
 
     Axios.post("/api/login", axiosBody).then((res) => {
+      console.log(res);
       setCookie("token", res.data.accessToken);
       setCookie("exp", res.data.accessTokenExpiresIn);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
     });
 
-    window.location.href = "/board";
-    // navigate("/board");
+    // window.location.href = "/board";
   };
 
   return (

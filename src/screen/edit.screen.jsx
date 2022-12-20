@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
+import {useCookies} from "react-cookie";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -10,8 +11,10 @@ function Edit() {
   const navigate = useNavigate();
   const {id} = useParams();
 
+  const [cookie, setCookie] = useCookies(["token"]);
+
   useEffect(() => {
-    BoardService.editView(Number(id)).then((res) => {
+    BoardService.editView(Number(id), cookie.token).then((res) => {
       setTitle(res.title);
       setContents(res.contents);
     });

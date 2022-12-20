@@ -2,12 +2,15 @@ import {useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
+import {useCookies} from "react-cookie";
 
 function Add() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
+
+  const [cookie, setCookie] = useCookies(["token"]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -19,7 +22,7 @@ function Add() {
 
     Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.addItem(formData);
+    await BoardService.addItem(formData, cookie.token);
     navigate("/board");
   };
 

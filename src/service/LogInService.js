@@ -1,4 +1,6 @@
 import Axios from "../Axios";
+import {Cookies, useCookies} from "react-cookie";
+import {useState} from "react";
 
 const header = {
   headers: {
@@ -6,14 +8,6 @@ const header = {
   },
 };
 
-class LoginService {
-  loginGet() {
-    return Axios.get("/login", header);
-  }
-
-  loginPost(form) {
-    return Axios.post("/login", form, header);
-  }
-}
+class LoginService {}
 
 export default new LoginService();

@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
 import Pagination from "./pagination.screen";
+import {useCookies} from "react-cookie";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -12,11 +13,13 @@ function Baord() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
-  // const [check, setCheck] = useState(true);
+  const [cookie, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
-    BoardService.getUser().then((res) => setUser(res.data));
-    BoardService.findAll(page, 5).then((res) => {
+    console.log(cookie.token);
+    const token = cookie.token;
+    BoardService.getUser(token).then((res) => setUser(res.data));
+    BoardService.findAll(page, 5, token).then((res) => {
       setPost(res.content);
       setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
     });
@@ -25,6 +28,7 @@ function Baord() {
   const moveView = (event) => {
     event.preventDefault();
     if (event.target.id) navigate(`/viewOne/${event.target.id}`);
+    // if (event.target.id) window.location.href = `/viewOne/${event.target.id}`;
   };
 
   return (

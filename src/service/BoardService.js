@@ -1,5 +1,14 @@
 import Axios from "../Axios";
 
+const setHeader = (header, auth) => {
+  return {
+    headers: {
+      "Content-Type": header,
+      Authorization: `Bearer ${auth}`,
+    },
+  };
+};
+
 const jsonHeader = {
   headers: {
     "Content-Type": "application/json;",
@@ -13,32 +22,32 @@ const formHeader = {
 };
 
 class BoardService {
-  findAll(page = 0, size) {
-    return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, jsonHeader).then((res) => res.data);
+  findAll(page = 0, size, token) {
+    return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, setHeader(jsonHeader, token)).then((res) => res.data);
   }
 
-  findOne(id = 1) {
-    return Axios.get(`/question/viewOne/${id}`, jsonHeader).then((res) => res.data);
+  findOne(id = 1, token) {
+    return Axios.get(`/question/viewOne/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
   }
 
-  async addItem(form) {
-    return await Axios.post("/question/add", form, formHeader);
+  async addItem(form, token) {
+    return await Axios.post("/question/add", form, setHeader(formHeader, token));
   }
 
-  editView(id = 1) {
-    return Axios.get(`/question/edit/${id}`, jsonHeader).then((res) => res.data);
+  editView(id = 1, token) {
+    return Axios.get(`/question/edit/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
   }
 
-  async editItem(id = 1, form) {
-    return await Axios.post(`/question/edit/${id}`, form, formHeader);
+  async editItem(id = 1, form, token) {
+    return await Axios.post(`/question/edit/${id}`, form, setHeader(formHeader, token));
   }
 
-  async addAnswer(id = 1, form = {}) {
-    return await Axios.post(`/answer/add/${id}`, form, jsonHeader);
+  async addAnswer(id = 1, form = {}, token) {
+    return await Axios.post(`/answer/add/${id}`, form, setHeader(jsonHeader, token));
   }
 
-  getUser() {
-    return Axios.get("/question/user", jsonHeader);
+  getUser(token) {
+    return Axios.get("/question/user", setHeader(jsonHeader, token));
   }
 }
 

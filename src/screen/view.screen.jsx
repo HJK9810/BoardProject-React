@@ -4,6 +4,7 @@ import BoardService from "../service/BoardService";
 import Moment from "react-moment";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
+import {useCookies} from "react-cookie";
 
 function ViewOne() {
   const [post, setPost] = useState({});
@@ -11,14 +12,17 @@ function ViewOne() {
   const [show, setShow] = useState("none");
   const {id} = useParams();
   const navigate = useNavigate();
+  const [cookie, setCookie] = useCookies(["token"]);
 
   const fileDir = "http://localhost:8080/image/";
 
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    BoardService.getUser().then((res) => setUser(res.data));
-    BoardService.findOne(Number(id)).then((res) => {
+    const token = cookie.token;
+
+    BoardService.getUser(token).then((res) => setUser(res.data));
+    BoardService.findOne(Number(id), token).then((res) => {
       setPost(res);
       if (res.images) setImage(res.images.split(","));
       if (res.answers) setShow("block");

@@ -7,12 +7,12 @@ function Header() {
       <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark">
         <Container>
           <Navbar.Brand href="/">&lt; 문의사항</Navbar.Brand>
-          {/* <Nav>
+          <Nav>
             <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link eventKey={2} href="#">
+            <Nav.Link eventKey={2} href="/logout">
               Logout
             </Nav.Link>
-          </Nav> */}
+          </Nav>
         </Container>
       </Navbar>
     </header>

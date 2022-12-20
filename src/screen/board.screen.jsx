@@ -6,6 +6,7 @@ import Moment from "react-moment";
 import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
+import {moment} from "moment";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -17,8 +18,25 @@ function Baord() {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    console.log(cookie.token);
+    // console.log(cookie);
     const token = cookie.token;
+
+    // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
+    const last = new Date(cookie.exp);
+    if (last - Date.now() < 10000 && cookie.refreshToken) {
+      const body = {
+        accessToken: token,
+        refreshToken: cookie.refreshToken,
+      };
+
+      // 토큰 갱신 서버통신
+      BoardService.refreshToken(body, token).then((res) => {
+        setCookie("refreshToken", res.data.refreshToken);
+        setCookie("exp", res.data.accessTokenExpiresIn);
+        setCookie("token", res.data.accessToken);
+      });
+    }
+
     BoardService.findAll(page, 5, token).then((res) => {
       setPost(res.content);
       setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});

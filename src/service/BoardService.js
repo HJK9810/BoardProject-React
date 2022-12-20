@@ -9,17 +9,9 @@ const setHeader = (header, auth) => {
   };
 };
 
-const jsonHeader = {
-  headers: {
-    "Content-Type": "application/json;",
-  },
-};
-
-const formHeader = {
-  headers: {
-    "Content-Type": "multipart/form-data;",
-  },
-};
+// for header
+const jsonHeader = "application/json;";
+const formHeader = "multipart/form-data;";
 
 class BoardService {
   findAll(page = 0, size, token) {
@@ -42,8 +34,12 @@ class BoardService {
     return await Axios.post(`/question/edit/${id}`, form, setHeader(formHeader, token));
   }
 
-  async addAnswer(id = 1, form = {}, token) {
+  async addAnswer(id = 1, form, token) {
     return await Axios.post(`/answer/add/${id}`, form, setHeader(jsonHeader, token));
+  }
+
+  async refreshToken(form, token) {
+    return await Axios.post("/reissue", form, setHeader(jsonHeader, token));
   }
 }
 

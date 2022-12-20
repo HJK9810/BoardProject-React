@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Container, Form} from "react-bootstrap";
+import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
 
@@ -8,10 +9,12 @@ function AddAnswer() {
   const navigate = useNavigate();
   const {id} = useParams();
 
+  const [cookie, setCookie] = useCookies(["token"]);
+
   const submit = async (e) => {
     e.preventDefault();
 
-    await BoardService.addAnswer(id, {contents: contents});
+    await BoardService.addAnswer(id, {contents: contents}, cookie.token);
     navigate(`/viewOne/${id}`);
   };
 

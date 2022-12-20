@@ -8,7 +8,7 @@ function Login() {
   const [passwd, setPasswd] = useState("");
   const [cookie, setCookie] = useCookies([]);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
 
     const axiosBody = {
@@ -16,14 +16,14 @@ function Login() {
       password: passwd,
     };
 
-    Axios.post("/api/login", axiosBody).then((res) => {
-      console.log(res);
+    await Axios.post("/api/login", axiosBody).then((res) => {
       setCookie("token", res.data.accessToken);
       setCookie("exp", res.data.accessTokenExpiresIn);
+      setCookie("refreshToken", res.data.refreshToken);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
     });
 
-    // window.location.href = "/board";
+    window.location.href = "/board";
   };
 
   return (

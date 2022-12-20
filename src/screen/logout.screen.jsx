@@ -8,6 +8,8 @@ function Logout() {
 
   const logout = (e) => {
     removeCookie("token");
+    removeCookie("refreshToken");
+    window.location.href = "/login";
     // navigate("/login");
   };
 

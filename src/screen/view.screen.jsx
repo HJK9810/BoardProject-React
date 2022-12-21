@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
+import ImageView from "./image.view";
 
 function ViewOne() {
   const [post, setPost] = useState({});
@@ -14,8 +15,6 @@ function ViewOne() {
   const {id} = useParams();
   const navigate = useNavigate();
   const [cookie, setCookie] = useCookies(["token"]);
-
-  const fileDir = "http://localhost:8080/image/";
 
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
@@ -33,10 +32,6 @@ function ViewOne() {
     setUser(jwtDecode(token));
   }, []);
 
-  const showImage = (root) => {
-    return <img key={root} src={fileDir + root} width={300 + "px"} />;
-  };
-
   return (
     <Container>
       <h3>
@@ -45,7 +40,7 @@ function ViewOne() {
       <h4>제목</h4>
       <div>{post.title}</div>
       <h4>첨부파일</h4>
-      <div style={{overflow: "scroll"}}>{image ? image.map((el) => (el ? showImage(el) : null)) : null}</div>
+      <ImageView image={image} setImage={(p) => setImage(p)} check={false} />
       <h4>상세내용</h4>
       <div>{post.contents}</div>
       <div style={{display: show}}>

@@ -3,6 +3,7 @@ import {Container, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
+import ImageView from "./image.view";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -12,11 +13,13 @@ function Edit() {
   const {id} = useParams();
 
   const [cookie, setCookie] = useCookies(["token"]);
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
     BoardService.editView(Number(id), cookie.token).then((res) => {
       setTitle(res.title);
       setContents(res.contents);
+      setImage(res.images.split(","));
     });
   }, []);
 
@@ -28,7 +31,9 @@ function Edit() {
     formData.append("title", title);
     formData.append("contents", contents);
 
+    image.map((el) => (el ? formData.append("images", el) : null));
     Object.values(files).map((file) => formData.append("images", file));
+    console.log(formData.values);
 
     await BoardService.editItem(Number(id), formData);
     navigate(`/viewOne/${id}`);
@@ -46,6 +51,7 @@ function Edit() {
           <Form.Label>첨부파일</Form.Label>
           <Form.Control type="file" multiple onChange={(e) => setFiles(e.target.files)} />
         </Form.Group>
+        <ImageView image={image} setImage={(p) => setImage(p)} check={true} />
         <Form.Group>
           <Form.Label>상세내용</Form.Label>
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />

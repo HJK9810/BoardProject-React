@@ -34,22 +34,22 @@ function ViewOne() {
 
   return (
     <Container>
-      <h3>
+      <h3 className="p-3 mb-1">
         문의내역 조회 - <Moment date={post.createdDate} format="YYYY.MM.DD" />
       </h3>
-      <h4>제목</h4>
-      <div>{post.title}</div>
-      <h4>첨부파일</h4>
+      <h5 className="p-3 mb-1">제목</h5>
+      <div className="p-3 m-2 bg-dark">{post.title}</div>
+      <h5 className="p-3 mb-1">첨부파일</h5>
       <ImageView image={image} setImage={(p) => setImage(p)} check={false} />
-      <h4>상세내용</h4>
-      <div>{post.contents}</div>
+      <h5 className="p-3 mb-1">상세내용</h5>
+      <div className="p-3 m-2 bg-dark">{post.contents}</div>
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
-      <button className="btn btn-secondary mb-1" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className="btn btn-warning mb-1" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-secondary" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-warning" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

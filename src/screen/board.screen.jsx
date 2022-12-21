@@ -36,7 +36,7 @@ function Baord() {
       });
     }
 
-    BoardService.findAll(page, 5, token).then((res) => {
+    BoardService.findAll(page, 6, token).then((res) => {
       setPost(res.content);
       setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
     });
@@ -50,7 +50,7 @@ function Baord() {
 
   return (
     <Container>
-      <h3>문의사항</h3>
+      <h3 className="text-center m-4">문의사항</h3>
       {post.map((el) => {
         const name = el.users.name;
         const email = el.users.email;
@@ -58,8 +58,8 @@ function Baord() {
         return (
           <div key={el.id} id={el.id} onClick={email === user || user === "admin" ? moveView : () => {}}>
             <h4 className="pt-2">{el.title}</h4>
-            <span>{email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
-            <p className="mb-0">
+            <span>작성자 : {email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
+            <p className="mb-0 text-muted">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>
             <hr className="m-0" />
@@ -67,10 +67,10 @@ function Baord() {
         );
       })}
 
-      <div className="d-flex justify-content-center mt-2">
+      <div className="d-flex justify-content-center mt-5 mb-2">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>
-      <button className="btn btn-secondary" style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
+      <button className="btn btn-light" style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
     </Container>

@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Form} from "react-bootstrap";
+import {Container, Form} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 
@@ -26,8 +26,12 @@ function Login() {
     window.location.href = "/board";
   };
 
+  const enterPress = (e) => {
+    if (e.key == "Enter") submit();
+  };
+
   return (
-    <>
+    <Container>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User</Form.Label>
@@ -36,13 +40,13 @@ function Login() {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} />
+          <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} onKeyDown={enterPress} />
         </Form.Group>
       </Form>
       <button className="btn btn-primary" onClick={submit}>
         submit
       </button>
-    </>
+    </Container>
   );
 }
 

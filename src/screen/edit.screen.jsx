@@ -40,23 +40,23 @@ function Edit() {
 
   return (
     <Container>
-      <h3>문의하기</h3>
+      <h3 className="p-3 mb-1">문의하기</h3>
       <Form>
-        <Form.Group>
+        <Form.Group className="p-3 mt-1">
           <Form.Label>제목</Form.Label>
           <Form.Control type="text" maxLength={256} value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="p-3 mt-1">
           <Form.Label>첨부파일</Form.Label>
           <Form.Control type="file" multiple onChange={(e) => setFiles(e.target.files)} />
         </Form.Group>
         <ImageView image={image} setImage={(p) => setImage(p)} check={true} />
-        <Form.Group>
+        <Form.Group className="p-3 mt-1">
           <Form.Label>상세내용</Form.Label>
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
         </Form.Group>
       </Form>
-      <button className="btn btn-secondary mt-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning mt-3" style={{width: 100 + "%"}} onClick={submit}>
         수정완료
       </button>
     </Container>

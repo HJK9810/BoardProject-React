@@ -1,41 +1,6 @@
+@import "./style/variables";
 @import "~bootstrap/scss/bootstrap";
 
-.scroll-image {
-  display: flex;
-  margin: 30px 0;
+@import "./style/bootswatch";
 
-  img {
-    width: calc(33.333% - 10px);
-    margin: 0 15px 15px 0;
-  }
-
-  img:last-child {
-    margin-right: 0;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .scroll-image {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    position: relative;
-    width: 105%;
-    left: -7%;
-    padding: 0 7%;
-    overflow-y: hidden;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
-
-    img {
-      display: block;
-      flex: 0 0 auto;
-      width: 80%;
-      margin: 0 15px 0 0;
-    }
-
-    img:last-of-type {
-      margin-right: 0;
-    }
-  }
-}
+@import "./style/imagescroll";

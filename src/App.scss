@@ -2,8 +2,6 @@
 
 .scroll-image {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
   margin: 30px 0;
 
   img {
@@ -11,7 +9,6 @@
     margin: 0 15px 15px 0;
   }
 
-  img:nth-of-type(3n),
   img:last-child {
     margin-right: 0;
   }
@@ -22,7 +19,7 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     position: relative;
-    width: 114%;
+    width: 105%;
     left: -7%;
     padding: 0 7%;
     overflow-y: hidden;
@@ -40,13 +37,5 @@
     img:last-of-type {
       margin-right: 0;
     }
-  }
-
-  .scroll-image:after {
-    content: "";
-    display: block;
-    flex: 0 0 auto;
-    align-self: stretch;
-    width: 7%;
   }
 }

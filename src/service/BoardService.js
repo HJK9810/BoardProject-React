@@ -14,7 +14,9 @@ const jsonHeader = "application/json;";
 const formHeader = "multipart/form-data;";
 
 class BoardService {
-  fileDir = "http://localhost:8080/image/";
+  fullFileURL(fileName) {
+    return "http://localhost:8080/image/" + fileName;
+  }
 
   findAll(page = 0, size, token) {
     return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, setHeader(jsonHeader, token)).then((res) => res.data);

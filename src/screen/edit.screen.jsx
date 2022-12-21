@@ -30,12 +30,11 @@ function Edit() {
 
     formData.append("title", title);
     formData.append("contents", contents);
+    formData.append("savedImages", image.join());
 
-    image.map((el) => (el ? formData.append("images", el) : null));
     Object.values(files).map((file) => formData.append("images", file));
-    console.log(formData.values);
 
-    await BoardService.editItem(Number(id), formData);
+    await BoardService.editItem(Number(id), formData, cookie.token);
     navigate(`/viewOne/${id}`);
   };
 

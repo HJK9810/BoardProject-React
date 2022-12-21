@@ -5,20 +5,18 @@ function ImageView(props) {
   const check = props.check;
   const image = props.image;
 
-  console.log(image);
-
-  useEffect(() => {
-    props.setImage(image);
-  }, []);
+  useEffect(() => {}, [image]);
 
   const showImage = (root, idx) => {
-    return <img id={idx} key={idx} src={BoardService.fileDir + root} width={300 + "px"} onClick={check ? delImage : () => {}} />;
+    const lastIndex = root.lastIndexOf(")");
+
+    return <img id={idx} name={root.substring(1, lastIndex)} key={idx} src={BoardService.fullFileURL(root.substring(lastIndex + 1))} width={300 + "px"} onClick={check ? delImage : () => {}} />;
   };
 
   const delImage = (e) => {
     e.preventDefault();
 
-    const result = window.confirm("해당 이미지를 삭제하시겠습니까?\n 한번 삭제한 이미지는 저장시 되돌릴수 없습니다.");
+    const result = window.confirm(`해당 이미지 '${e.target.name}'를 삭제하시겠습니까?\n 한번 삭제한 이미지는 저장시 되돌릴수 없습니다.`);
     if (result) {
       const idx = e.target.id;
       image.splice(idx, 1);

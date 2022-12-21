@@ -12,7 +12,7 @@ function Edit() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie] = useCookies(["token"]);
   const [image, setImage] = useState([]);
 
   useEffect(() => {

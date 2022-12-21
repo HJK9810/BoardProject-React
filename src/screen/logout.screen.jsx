@@ -4,10 +4,11 @@ import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
 
 function Logout() {
-  const [cookie, setCookie, removeCookie] = useCookies([]);
+  const [cookie, , removeCookie] = useCookies([]);
 
   const logout = (e) => {
-    Axios.get("/api/logout", jwtDecode(cookie.token).sub);
+    const name = jwtDecode(cookie.token).sub;
+    Axios.get("/api/logout/" + name, name);
 
     removeCookie("token");
     removeCookie("refreshToken");
@@ -17,8 +18,8 @@ function Logout() {
 
   return (
     <Container>
-      <h3>로그아웃 하시겠습니까?</h3>
-      <button className="btn btn-secondary" style={{width: 100 + "%"}} onClick={logout}>
+      <h3 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h3>
+      <button className="btn btn-danger mt-5" style={{width: 100 + "%"}} onClick={logout}>
         로그아웃
       </button>
     </Container>

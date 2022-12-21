@@ -14,7 +14,7 @@ function ViewOne() {
   const [show, setShow] = useState("none");
   const {id} = useParams();
   const navigate = useNavigate();
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie] = useCookies(["token"]);
 
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
@@ -46,10 +46,10 @@ function ViewOne() {
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
-      <button className="btn btn-warning mb-1" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className="btn btn-warning mt-4" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-warning" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-warning m-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

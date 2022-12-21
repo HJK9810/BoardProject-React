@@ -10,7 +10,7 @@ function Add() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie] = useCookies(["token"]);
 
   const submit = async (e) => {
     e.preventDefault();

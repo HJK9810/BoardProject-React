@@ -27,7 +27,7 @@ function Login() {
   };
 
   const enterPress = (e) => {
-    if (e.key == "Enter") submit();
+    if (e.key === "Enter") submit(e);
   };
 
   return (
@@ -43,8 +43,8 @@ function Login() {
           <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} onKeyDown={enterPress} />
         </Form.Group>
       </Form>
-      <button className="btn btn-primary" onClick={submit}>
-        submit
+      <button className="btn btn-info float-end" onClick={submit}>
+        Login
       </button>
     </Container>
   );

@@ -9,7 +9,7 @@ function AddAnswer() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie] = useCookies(["token"]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ function AddAnswer() {
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </Form.Group>
       </Form>
-      <button className="btn btn-secondary mt-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning mt-3" style={{width: 100 + "%"}} onClick={submit}>
         답변 남기기
       </button>
     </Container>

@@ -4,7 +4,7 @@ import {Navbar, Container, Nav} from "react-bootstrap";
 function Header() {
   return (
     <header>
-      <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark" fixed="top">
         <Container>
           <Navbar.Brand href="/">&lt; 문의사항</Navbar.Brand>
           <Nav>

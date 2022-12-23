@@ -19,8 +19,8 @@ function AddAnswer() {
   };
 
   return (
-    <Container>
-      <h3>답변하기</h3>
+    <Container className="pt-5">
+      <h3 className="pt-5">답변하기</h3>
       <Form>
         <Form.Group>
           <Form.Label>답변내용</Form.Label>

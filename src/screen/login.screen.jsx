@@ -48,7 +48,8 @@ function Login() {
   };
 
   return (
-    <Container onKeyDown={closeModal}>
+    <Container className="pt-5" onKeyDown={closeModal}>
+      <h3 className="text-center p-3 mt-5">Login</h3>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User</Form.Label>

@@ -30,7 +30,7 @@ function Logout() {
   };
 
   return (
-    <Container onKeyDown={closeModal}>
+    <Container className="pt-5" onKeyDown={closeModal}>
       <h3 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h3>
       <button className="btn btn-danger mt-5" style={{width: 100 + "%"}} onClick={logout}>
         로그아웃

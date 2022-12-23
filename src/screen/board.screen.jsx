@@ -6,6 +6,7 @@ import Moment from "react-moment";
 import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
+import Header from "../layout/Header";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -48,8 +49,8 @@ function Baord() {
   };
 
   return (
-    <Container>
-      <h3 className="text-center m-4">문의사항</h3>
+    <Container className="pt-5">
+      <h3 className="text-center m-4 pt-5">문의사항</h3>
       {post.map((el) => {
         const name = el.users.name;
         const email = el.users.email;
@@ -61,7 +62,7 @@ function Baord() {
             <p className="p-2 mb-2 text-muted">
               <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>
-            <hr className="m-0" />
+            <hr className="m-0 opacity-100" />
           </div>
         );
       })}

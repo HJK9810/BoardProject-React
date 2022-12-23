@@ -27,8 +27,8 @@ function Add() {
   };
 
   return (
-    <Container>
-      <h3 className="p-3 mb-1">문의하기</h3>
+    <Container className="pt-5">
+      <h3 className="p-3 pt-5 mb-1">문의하기</h3>
       <Form>
         <Form.Group className="p-3 mt-1">
           <Form.Label>제목</Form.Label>

@@ -33,8 +33,8 @@ function ViewOne() {
   }, []);
 
   return (
-    <Container>
-      <h3 className="p-3 mb-1">
+    <Container className="pt-5">
+      <h3 className="p-3 pt-5 mb-1">
         문의내역 조회 - <Moment date={post.createdDate} format="YYYY.MM.DD" />
       </h3>
       <h5 className="p-3 mb-1">제목</h5>

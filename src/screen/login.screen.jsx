@@ -6,7 +6,7 @@ import {useCookies} from "react-cookie";
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const [, setCookie] = useCookies([]);
+  const [cookie, setCookie] = useCookies([]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -17,13 +17,16 @@ function Login() {
     };
 
     await Axios.post("/api/login", axiosBody).then((res) => {
+      console.log(res.data.accessToken);
+      if (!res.data.accessToken) return window.location.reload();
+
       setCookie("token", res.data.accessToken);
       setCookie("exp", res.data.accessTokenExpiresIn);
       setCookie("refreshToken", res.data.refreshToken);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
     });
 
-    window.location.href = "/board";
+    if (cookie.token !== "undefined") window.location.replace("/board");
   };
 
   const enterPress = (e) => {

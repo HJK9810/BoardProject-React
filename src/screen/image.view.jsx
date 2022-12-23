@@ -5,6 +5,7 @@ import BoardService from "../service/BoardService";
 function ImageView(props) {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
+  const [clickURL, setClickURL] = useState("");
   const [id, setId] = useState(0);
 
   const image = props.image;
@@ -24,6 +25,7 @@ function ImageView(props) {
     setShow(true);
     setName(e.target.name);
     setId(e.target.id);
+    setClickURL(e.target.src);
   };
 
   const delImage = (e) => {
@@ -41,9 +43,10 @@ function ImageView(props) {
       </div>
 
       <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Body>
-          해당 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?
+        <Modal.Body className="text-center">
+          아래 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?
           <br /> 한번 삭제한 이미지는 저장시 되돌릴수 없습니다.
+          <img alt="name" src={clickURL} width={widthSize} className="m-3 img-thumbnail" />
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-danger" onClick={delImage}>

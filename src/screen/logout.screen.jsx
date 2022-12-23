@@ -24,14 +24,18 @@ function Logout() {
   const logoutClear = () => {
     setShow(false);
     navigate("/login", {replace: true});
+    window.location.reload();
   };
 
-  const closeModal = (e) => {
-    if (e.key === "Enter") setShow(false);
+  const pressKey = (e) => {
+    if (e.key === "Enter") {
+      if (show) logoutClear();
+      else setShow(true);
+    }
   };
 
   return (
-    <Container className="pt-5" onKeyDown={closeModal}>
+    <Container className="pt-5" onKeyDown={pressKey}>
       <Header headline={"Logout"} />
       <h3 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h3>
       <button className="btn btn-danger mt-5" style={{width: 100 + "%"}} onClick={logout}>

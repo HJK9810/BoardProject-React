@@ -9,22 +9,27 @@ function Header(props) {
   const [show, setShow] = useState(false);
 
   const checkLogin = () => {
-    if (cookie.hasOwnProperty("token")) return "/logout";
-    else {
-      setShow(true);
-      return "#";
+    if (cookie.hasOwnProperty("token")) {
+      props.headline.includes("Log") ? navigate("/board") : navigate(-1);
     }
+  };
+
+  const checkLogoutAvail = () => {
+    if (cookie.hasOwnProperty("token")) {
+      navigate("/logout");
+      window.location.reload();
+    } else setShow(true);
   };
 
   return (
     <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark" fixed="top">
       <Container>
-        <Navbar.Brand onClick={(e) => (props.headline.includes("Log") ? navigate("/board") : navigate(-1))} className="fs-6 fw-bold">
+        <Navbar.Brand onClick={checkLogin} className="fs-6 fw-bold">
           &lt; {props.headline}
         </Navbar.Brand>
         <Nav>
           <Nav.Link href="/login">Login</Nav.Link>
-          <Nav.Link eventKey={2} onClick={checkLogin}>
+          <Nav.Link eventKey={2} onClick={checkLogoutAvail}>
             Logout
           </Nav.Link>
         </Nav>

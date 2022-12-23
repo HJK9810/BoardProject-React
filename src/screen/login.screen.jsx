@@ -1,21 +1,19 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Container, Form, Modal} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
   const [, setCookie] = useCookies([]);
-  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
-  const [loginCheck, setLoginCheck] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    let loginCheck = false;
 
     const axiosBody = {
       email: email,
@@ -33,29 +31,28 @@ function Login() {
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("refreshToken", res.data.refreshToken);
         Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
-        setLoginCheck(true);
+        loginCheck = true;
       }
     });
 
-    if (loginCheck) navigate("/board", {replace: true});
+    if (loginCheck) window.location.replace("/board");
   };
 
   const enterPress = (e) => {
-    if (e.key === "Enter") submit(e);
-  };
-
-  const closeModal = (e) => {
-    if (e.key === "Enter") setShow(false);
+    if (e.key === "Enter") {
+      if (!show) submit(e);
+      else setShow(false);
+    }
   };
 
   return (
-    <Container className="pt-5" onKeyDown={closeModal}>
+    <Container className="pt-5" onKeyDown={enterPress}>
       <Header headline={"Login"} />
       <h3 className="text-center p-3 mt-5">Login</h3>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} />
+          <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} autoFocus />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">

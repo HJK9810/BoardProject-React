@@ -1,36 +1,44 @@
-import React from "react";
-import {Navbar, Container, Nav} from "react-bootstrap";
-import {useLocation, useNavigate} from "react-router-dom";
+import React, {useState} from "react";
+import {Navbar, Container, Nav, Modal} from "react-bootstrap";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
 
-function Header() {
+function Header(props) {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [cookie] = useCookies("[token]");
+  const [show, setShow] = useState(false);
 
-  const headerName = () => {
-    const path = location.pathname;
-
-    if (path.includes("board")) return "문의사항";
-    else if (path.includes("view")) return "문의내역 조회";
-    else if (path === "/add") return "문의하기";
-    else if (path.includes("edit")) return "문의사항 수정";
-    else if (path === "/addAnswer") return "답변하기";
-    else return "";
+  const checkLogin = () => {
+    if (cookie.hasOwnProperty("token")) return "/logout";
+    else {
+      setShow(true);
+      return "#";
+    }
   };
 
   return (
-    <header>
-      <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark" fixed="top">
-        <Container>
-          <Navbar.Brand onClick={(e) => navigate(-1)}>&lt; {headerName()}</Navbar.Brand>
-          <Nav>
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link eventKey={2} href="/logout">
-              Logout
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </header>
+    <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark" fixed="top">
+      <Container>
+        <Navbar.Brand onClick={(e) => (props.headline.includes("Log") ? navigate("/board") : navigate(-1))} className="fs-6 fw-bold">
+          &lt; {props.headline}
+        </Navbar.Brand>
+        <Nav>
+          <Nav.Link href="/login">Login</Nav.Link>
+          <Nav.Link eventKey={2} onClick={checkLogin}>
+            Logout
+          </Nav.Link>
+        </Nav>
+      </Container>
+
+      <Modal show={show} onHide={() => setShow(false)} animation={false}>
+        <Modal.Body className="text-center">이미 로그아웃된 상태입니다.&emsp;로그인 해 주세요.</Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-danger" onClick={() => setShow(false)}>
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </Navbar>
   );
 }
 

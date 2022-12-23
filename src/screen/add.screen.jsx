@@ -3,6 +3,7 @@ import {Container, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
+import Header from "../layout/Header";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -11,6 +12,7 @@ function Add() {
   const navigate = useNavigate();
 
   const [cookie] = useCookies(["token"]);
+  const headline = "문의하기";
 
   const submit = async (e) => {
     e.preventDefault();
@@ -28,7 +30,8 @@ function Add() {
 
   return (
     <Container className="pt-5">
-      <h3 className="p-3 pt-5 mb-1">문의하기</h3>
+      <Header headline={headline} />
+      <h3 className="p-3 pt-5 mb-1">{headline}</h3>
       <Form>
         <Form.Group className="p-3 mt-1">
           <Form.Label>제목</Form.Label>
@@ -43,7 +46,7 @@ function Add() {
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </Form.Group>
       </Form>
-      <button className="btn btn-warning mt-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         문의 남기기
       </button>
     </Container>

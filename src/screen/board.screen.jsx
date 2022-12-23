@@ -16,6 +16,7 @@ function Baord() {
 
   const [cookie, setCookie] = useCookies(["token"]);
   const [user, setUser] = useState("");
+  const headline = "문의사항";
 
   useEffect(() => {
     const token = cookie.token;
@@ -50,7 +51,8 @@ function Baord() {
 
   return (
     <Container className="pt-5">
-      <h3 className="text-center m-4 pt-5">문의사항</h3>
+      <Header headline={headline} />
+      <h3 className="text-center m-4 pt-5">{headline}</h3>
       {post.map((el) => {
         const name = el.users.name;
         const email = el.users.email;
@@ -67,10 +69,10 @@ function Baord() {
         );
       })}
 
-      <div className="d-flex justify-content-center mt-5 mb-2">
+      <div className="d-flex justify-content-center mt-5">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>
-      <button className={user === "admin" ? "btn btn-secondary mb-4 disabled" : "btn btn-light mb-4"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
+      <button className={user === "admin" ? "btn btn-secondary my-4 disabled" : "btn btn-light mb-4"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
     </Container>

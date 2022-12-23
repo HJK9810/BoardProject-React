@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
+import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
 
 function AddAnswer() {
@@ -10,6 +11,7 @@ function AddAnswer() {
   const {id} = useParams();
 
   const [cookie] = useCookies(["token"]);
+  const headline = "답변하기";
 
   const submit = async (e) => {
     e.preventDefault();
@@ -20,14 +22,15 @@ function AddAnswer() {
 
   return (
     <Container className="pt-5">
-      <h3 className="pt-5">답변하기</h3>
+      <Header headline={headline} />
+      <h3 className="pt-5">{headline}</h3>
       <Form>
         <Form.Group>
           <Form.Label>답변내용</Form.Label>
           <Form.Control as="textarea" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </Form.Group>
       </Form>
-      <button className="btn btn-warning mt-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         답변 남기기
       </button>
     </Container>

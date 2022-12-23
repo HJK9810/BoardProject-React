@@ -7,6 +7,7 @@ import Answer from "./answer.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import ImageView from "./image.view";
+import Header from "../layout/Header";
 
 function ViewOne() {
   const [post, setPost] = useState({});
@@ -32,11 +33,17 @@ function ViewOne() {
     setUser(jwtDecode(token));
   }, []);
 
+  const dateFormat = (inputDate) => {
+    const date = new Date(inputDate);
+    return `${date.getFullYear()}.${(date.getMonth() + 1 + "").padStart(2, "0")}.${(date.getDate() + "").padStart(2, "0")}`;
+  };
+
+  const headline = (date) => "문의내역 조회 - " + dateFormat(date);
+
   return (
     <Container className="pt-5">
-      <h3 className="p-3 pt-5 mb-1">
-        문의내역 조회 - <Moment date={post.createdDate} format="YYYY.MM.DD" />
-      </h3>
+      <Header headline={headline(post.createdDate)} />
+      <h3 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h3>
       <h5 className="p-3 mb-1">제목</h5>
       <div className="p-3 m-2 bg-dark">{post.title}</div>
       <h5 className="p-3 mb-1">첨부파일</h5>
@@ -46,10 +53,10 @@ function ViewOne() {
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>
-      <button className="btn btn-warning mt-4" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className={"btn btn-warning my-4"} style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-warning mt-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-warning my-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

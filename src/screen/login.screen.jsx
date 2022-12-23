@@ -3,6 +3,7 @@ import {Container, Form, Modal} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import Header from "../layout/Header";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -49,6 +50,7 @@ function Login() {
 
   return (
     <Container className="pt-5" onKeyDown={closeModal}>
+      <Header headline={"Login"} />
       <h3 className="text-center p-3 mt-5">Login</h3>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">

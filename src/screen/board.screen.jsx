@@ -17,7 +17,6 @@ function Baord() {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    // console.log(cookie);
     const token = cookie.token;
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
@@ -70,7 +69,7 @@ function Baord() {
       <div className="d-flex justify-content-center mt-5 mb-2">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>
-      <button className="btn btn-light mb-4" style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
+      <button className={user === "admin" ? "btn btn-light mb-4 disabled" : "btn btn-light mb-4 disabled"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
     </Container>

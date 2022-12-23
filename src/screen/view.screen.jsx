@@ -49,7 +49,7 @@ function ViewOne() {
       <button className="btn btn-warning mt-4" style={{width: 100 + "%", display: user.sub === name ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-warning m-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className="btn btn-warning mt-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </Container>

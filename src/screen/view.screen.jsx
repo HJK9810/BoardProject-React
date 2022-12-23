@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import BoardService from "../service/BoardService";
-import Moment from "react-moment";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
 import {useCookies} from "react-cookie";
@@ -45,11 +44,11 @@ function ViewOne() {
       <Header headline={headline(post.createdDate)} />
       <h3 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h3>
       <h5 className="p-3 mb-1">제목</h5>
-      <div className="p-3 m-2 bg-dark">{post.title}</div>
+      <div className="p-3 m-2 bg-dark rounded">{post.title}</div>
       <h5 className="p-3 mb-1">첨부파일</h5>
       <ImageView image={image} setImage={(p) => setImage(p)} check={false} />
       <h5 className="p-3 mb-1">상세내용</h5>
-      <div className="p-3 m-2 bg-dark">{post.contents}</div>
+      <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
       <div style={{display: show}}>
         <Answer answers={post.answers} />
       </div>

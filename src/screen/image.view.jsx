@@ -38,7 +38,7 @@ function ImageView(props) {
 
   return (
     <>
-      <div className="p-3 m-2 bg-dark scroll-image" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
+      <div className="p-3 m-2 bg-dark scroll-image rounded" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
         {image ? image.map((el, i) => (el ? showImage(el, i) : null)) : null}
       </div>
 

@@ -1,10 +1,12 @@
-import {Container} from "react-bootstrap";
+import {Container, Modal} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
+import {useState} from "react";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies([]);
+  const [show, setShow] = useState(false);
 
   const logout = (e) => {
     const name = jwtDecode(cookie.token).sub;
@@ -13,7 +15,12 @@ function Logout() {
     removeCookie("token");
     removeCookie("refreshToken");
 
-    window.location.href = "/login";
+    setShow(true);
+  };
+
+  const logoutClear = () => {
+    setShow(false);
+    window.location.replace("/login");
   };
 
   return (
@@ -22,6 +29,15 @@ function Logout() {
       <button className="btn btn-danger mt-5" style={{width: 100 + "%"}} onClick={logout}>
         로그아웃
       </button>
+
+      <Modal show={show} onHide={() => setShow(false)} animation={false}>
+        <Modal.Body className="text-center">로그아웃 되었습니다.</Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-danger" onClick={logoutClear}>
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

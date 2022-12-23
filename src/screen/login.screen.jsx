@@ -7,7 +7,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
   const [cookie, setCookie] = useCookies([]);
+
   const [show, setShow] = useState(false);
+  const [loginCheck, setLoginCheck] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -28,18 +30,22 @@ function Login() {
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("refreshToken", res.data.refreshToken);
         Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+        setLoginCheck(true);
       }
     });
 
-    if ("token" in cookie || !show) window.location.replace("/board");
+    if (loginCheck) window.location.replace("/board");
   };
 
   const enterPress = (e) => {
-    if (e.key === "Enter") submit(e);
+    if (e.key === "Enter") {
+      if (show) setShow(false);
+      else submit(e);
+    }
   };
 
   return (
-    <Container>
+    <Container onKeyDown={enterPress}>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User</Form.Label>

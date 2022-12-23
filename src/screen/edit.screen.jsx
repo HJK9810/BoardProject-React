@@ -19,7 +19,7 @@ function Edit() {
     BoardService.editView(Number(id), cookie.token).then((res) => {
       setTitle(res.title);
       setContents(res.contents);
-      setImage(res.images.split(","));
+      setImage(res.images ? res.images.split(",") : []);
     });
   }, []);
 
@@ -35,7 +35,7 @@ function Edit() {
     Object.values(files).map((file) => formData.append("images", file));
 
     await BoardService.editItem(Number(id), formData, cookie.token);
-    navigate(`/viewOne/${id}`);
+    navigate(`/viewOne/${id}`, {replace: true});
   };
 
   return (
@@ -50,6 +50,7 @@ function Edit() {
           <Form.Label>첨부파일</Form.Label>
           <Form.Control type="file" multiple onChange={(e) => setFiles(e.target.files)} />
         </Form.Group>
+        <h6 className="p-3 mb-1">기존 첨부파일</h6>
         <ImageView image={image} setImage={(p) => setImage(p)} check={true} />
         <Form.Group className="p-3 mt-1">
           <Form.Label>상세내용</Form.Label>

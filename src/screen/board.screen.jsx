@@ -69,7 +69,7 @@ function Baord() {
       <div className="d-flex justify-content-center mt-5 mb-2">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>
-      <button className={user === "admin" ? "btn btn-light mb-4 disabled" : "btn btn-light mb-4 disabled"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
+      <button className={user === "admin" ? "btn btn-secondary mb-4 disabled" : "btn btn-light mb-4"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
     </Container>

@@ -15,7 +15,7 @@ function AddAnswer() {
     e.preventDefault();
 
     await BoardService.addAnswer(id, {contents: contents}, cookie.token);
-    navigate(`/viewOne/${id}`);
+    navigate(`/viewOne/${id}`, {replace: true});
   };
 
   return (

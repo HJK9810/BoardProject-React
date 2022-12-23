@@ -23,7 +23,7 @@ function Add() {
     Object.values(files).map((file) => formData.append("images", file));
 
     await BoardService.addItem(formData, cookie.token);
-    navigate("/board");
+    navigate("/board", {replace: true});
   };
 
   return (

@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route exact path="/" element={<Baord />}></Route>
+            <Route exact path="/" element={<Login />}></Route>
             <Route path="/board" element={<Baord />}></Route>
             <Route path="/add" element={<Add />}></Route>
             <Route path="/viewOne/:id" element={<ViewOne />}></Route>

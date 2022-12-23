@@ -2,11 +2,13 @@ import {useState} from "react";
 import {Container, Form, Modal} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const [cookie, setCookie] = useCookies([]);
+  const [, setCookie] = useCookies([]);
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [loginCheck, setLoginCheck] = useState(false);
@@ -34,18 +36,19 @@ function Login() {
       }
     });
 
-    if (loginCheck) window.location.replace("/board");
+    if (loginCheck) navigate("/board", {replace: true});
   };
 
   const enterPress = (e) => {
-    if (e.key === "Enter") {
-      if (show) setShow(false);
-      else submit(e);
-    }
+    if (e.key === "Enter") submit(e);
+  };
+
+  const closeModal = (e) => {
+    if (e.key === "Enter") setShow(false);
   };
 
   return (
-    <Container onKeyDown={enterPress}>
+    <Container onKeyDown={closeModal}>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>User</Form.Label>

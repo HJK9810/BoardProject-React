@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {ButtonGroup, Container, ToggleButton} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
@@ -37,9 +37,8 @@ function Baord() {
   }, [page, check]);
 
   const reissueToken = async (cookie) => {
-    const token = cookie.token;
     const body = {
-      accessToken: token,
+      accessToken: cookie.token,
       refreshToken: cookie.refreshToken,
     };
 
@@ -48,9 +47,9 @@ function Baord() {
     // 1. 완전 만료시 만료 페이지 이동
     if (remainingTime < 0) navigate("/expire");
     // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-    else if (remainingTime < 60000) {
+    else if (remainingTime < 300000) {
       // 토큰 갱신 서버통신
-      await BoardService.refreshToken(body, token).then((res) => {
+      await BoardService.refreshToken(body, cookie.token).then((res) => {
         setCookie("refreshToken", res.data.refreshToken);
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("token", res.data.accessToken);
@@ -64,9 +63,9 @@ function Baord() {
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };
 
-  const moveView = (event) => {
-    event.preventDefault();
-    if (event.target.id) navigate(`/viewOne/${event.target.id}`);
+  const moveView = (e) => {
+    e.preventDefault();
+    if (e.target.id) navigate(`/viewOne/${e.target.id}`);
   };
 
   return (

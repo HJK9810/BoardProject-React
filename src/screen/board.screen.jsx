@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Container} from "react-bootstrap";
+import {ButtonGroup, Container, ToggleButton} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
@@ -23,38 +23,44 @@ function Baord() {
     const token = cookie.token;
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    const last = cookie.exp;
-    // 1. 완전 만료시 만료 페이지 이동
-    if (last - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
-    // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-    if (last - Date.now() < 10000 && cookie.refreshToken) {
-      const body = {
-        accessToken: token,
-        refreshToken: cookie.refreshToken,
-      };
+    if (cookie.refreshToken) reissueToken(cookie);
 
+    const email = jwtDecode(token).sub;
+    setUser(email);
+
+    if (check) {
+      BoardService.findByUser(email, page, 6, token).then(dataIn);
+    } else {
+      BoardService.findAll(page, 6, token).then(dataIn);
+    }
+  }, [page, check]);
+
+  const reissueToken = async (cookie) => {
+    const token = cookie.token;
+    const body = {
+      accessToken: token,
+      refreshToken: cookie.refreshToken,
+    };
+
+    // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
+    const remainingTime = cookie.exp - Date.now();
+    // 1. 완전 만료시 만료 페이지 이동
+    if (remainingTime < 0) navigate("/expire");
+    // 2. 완전 만료까지 시간이 남았을경우 자동 연장
+    else if (remainingTime < 60000) {
       // 토큰 갱신 서버통신
-      BoardService.refreshToken(body, token).then((res) => {
+      await BoardService.refreshToken(body, token).then((res) => {
         setCookie("refreshToken", res.data.refreshToken);
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("token", res.data.accessToken);
       });
     }
-    const email = jwtDecode(token).sub;
-    setUser(email);
+  };
 
-    if (check) {
-      BoardService.findByUser(email, page, 6, token).then((res) => {
-        setPost(res.content);
-        setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
-      });
-    } else {
-      BoardService.findAll(page, 6, token).then((res) => {
-        setPost(res.content);
-        setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
-      });
-    }
-  }, [page, check]);
+  const dataIn = (data) => {
+    setPost(data.content);
+    setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
+  };
 
   const moveView = (event) => {
     event.preventDefault();

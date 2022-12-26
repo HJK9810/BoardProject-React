@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
@@ -8,6 +9,11 @@ import BoardService from "../service/BoardService";
 function ExpireLogin() {
   const navigate = useNavigate();
   const [cookie, setCookie] = useCookies("[token]");
+  const [btnWork, setBtnWork] = useState(true);
+
+  useEffect(() => {
+    if (cookie.token === "undefined") setBtnWork(false);
+  }, [btnWork]);
 
   const reissue = async (e) => {
     e.preventDefault();
@@ -24,9 +30,10 @@ function ExpireLogin() {
       setCookie("exp", res.data.accessTokenExpiresIn);
       setCookie("token", res.data.accessToken);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
-    });
 
-    navigate("/board");
+      if (!res.data) setBtnWork(false);
+      else navigate("/board");
+    });
   };
 
   return (
@@ -37,7 +44,7 @@ function ExpireLogin() {
       <button className="btn btn-outline-success m-3" onClick={(e) => navigate("/login")}>
         로그인 하기
       </button>
-      <button className="btn btn-outline-success m-3" onClick={reissue}>
+      <button className="btn btn-outline-success m-3" onClick={reissue} disabled={btnWork ? "" : "disabled"}>
         연장하기
       </button>
     </Container>

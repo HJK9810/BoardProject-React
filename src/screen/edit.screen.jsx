@@ -20,7 +20,7 @@ function Edit() {
   useEffect(() => {
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
 
-    BoardService.editView(Number(id), cookie.token).then((res) => {
+    BoardService.findOne(Number(id), cookie.token).then((res) => {
       setTitle(res.title);
       setContents(res.contents);
       setImage(res.images ? res.images.split(",") : []);

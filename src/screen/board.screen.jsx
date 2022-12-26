@@ -50,6 +50,7 @@ function Baord() {
     else if (remainingTime < 300000) {
       // 토큰 갱신 서버통신
       await BoardService.refreshToken(body, cookie.token).then((res) => {
+        if (!res.data) navigate("/expire");
         setCookie("refreshToken", res.data.refreshToken);
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("token", res.data.accessToken);

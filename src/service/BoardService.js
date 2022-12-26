@@ -34,10 +34,6 @@ class BoardService {
     return await Axios.post("/question/add", form, setHeader(formHeader, token));
   }
 
-  editView(id = 1, token) {
-    return Axios.get(`/question/edit/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
-  }
-
   async editItem(id = 1, form, token) {
     return await Axios.post(`/question/edit/${id}`, form, setHeader(formHeader, token));
   }

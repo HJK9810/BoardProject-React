@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
@@ -13,6 +13,10 @@ function Add() {
 
   const [cookie] = useCookies(["token"]);
   const headline = "문의하기";
+
+  useEffect(() => {
+    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();

@@ -18,6 +18,8 @@ function Edit() {
   const headline = "문의사항 수정";
 
   useEffect(() => {
+    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+
     BoardService.editView(Number(id), cookie.token).then((res) => {
       setTitle(res.title);
       setContents(res.contents);

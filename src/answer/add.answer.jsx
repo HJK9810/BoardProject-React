@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
@@ -12,6 +12,10 @@ function AddAnswer() {
 
   const [cookie] = useCookies(["token"]);
   const headline = "답변하기";
+
+  useEffect(() => {
+    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();

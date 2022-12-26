@@ -23,7 +23,10 @@ function Baord() {
     const token = cookie.token;
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    const last = new Date(cookie.exp);
+    const last = cookie.exp;
+    // 1. 완전 만료시 만료 페이지 이동
+    if (last - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+    // 2. 완전 만료까지 시간이 남았을경우 자동 연장
     if (last - Date.now() < 10000 && cookie.refreshToken) {
       const body = {
         accessToken: token,

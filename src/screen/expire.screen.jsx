@@ -1,6 +1,7 @@
 import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import Axios from "../Axios";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
 
@@ -16,13 +17,13 @@ function ExpireLogin() {
       accessToken: token,
       refreshToken: cookie.refreshToken,
     };
-    console.log(body);
 
     // 토큰 갱신 서버통신
     await BoardService.refreshToken(body, token).then((res) => {
       setCookie("refreshToken", res.data.refreshToken);
       setCookie("exp", res.data.accessTokenExpiresIn);
       setCookie("token", res.data.accessToken);
+      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
     });
 
     navigate("/board");

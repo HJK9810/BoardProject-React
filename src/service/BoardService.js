@@ -47,7 +47,7 @@ class BoardService {
   }
 
   async refreshToken(form, token) {
-    return await Axios.post("/reissue", form, setHeader(jsonHeader, token));
+    return await Axios.post("/api/reissue", form, setHeader(jsonHeader, token));
   }
 }
 

@@ -7,6 +7,7 @@ import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
+import Axios from "../Axios";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -53,6 +54,7 @@ function Baord() {
         setCookie("refreshToken", res.data.refreshToken);
         setCookie("exp", res.data.accessTokenExpiresIn);
         setCookie("token", res.data.accessToken);
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
       });
     }
   };

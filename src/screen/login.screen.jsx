@@ -38,9 +38,9 @@ function Login() {
     if (loginCheck) window.location.replace("/board");
   };
 
-  const enterPress = (e) => {
+  const enterPress = async (e) => {
     if (e.key === "Enter") {
-      if (!show) submit(e);
+      if (!show) await submit(e);
       else setShow(false);
     }
   };

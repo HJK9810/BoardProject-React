@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Container, Form, Modal} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
@@ -57,7 +57,7 @@ function Login() {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} onKeyDown={enterPress} value={passwd} />
+          <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} value={passwd} />
         </Form.Group>
       </Form>
       <button className="btn btn-info float-end" onClick={submit}>

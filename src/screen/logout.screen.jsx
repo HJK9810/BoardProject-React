@@ -30,7 +30,7 @@ function Logout() {
   const pressKey = (e) => {
     if (e.key === "Enter") {
       if (show) logoutClear();
-      else setShow(true);
+      else logout();
     }
   };
 

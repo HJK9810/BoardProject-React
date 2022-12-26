@@ -12,6 +12,7 @@ function Baord() {
   const [post, setPost] = useState([]);
   const [pagination, setPagination] = useState({});
   const [page, setPage] = useState(0);
+  const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
   const [cookie, setCookie] = useCookies(["token"]);
@@ -36,13 +37,21 @@ function Baord() {
         setCookie("token", res.data.accessToken);
       });
     }
+    const email = jwtDecode(token).sub;
+    setUser(email);
 
-    BoardService.findAll(page, 6, token).then((res) => {
-      setPost(res.content);
-      setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
-    });
-    setUser(jwtDecode(token).sub);
-  }, [page]);
+    if (check) {
+      BoardService.findByUser(email, page, 6, token).then((res) => {
+        setPost(res.content);
+        setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
+      });
+    } else {
+      BoardService.findAll(page, 6, token).then((res) => {
+        setPost(res.content);
+        setPagination({number: res.number, totalPages: res.totalPages, first: res.first, last: res.last});
+      });
+    }
+  }, [page, check]);
 
   const moveView = (event) => {
     event.preventDefault();
@@ -53,6 +62,12 @@ function Baord() {
     <Container className="pt-5">
       <Header headline={headline} />
       <h3 className="text-center m-4 pt-5">{headline}</h3>
+      <div className="form-check float-end">
+        <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={(e) => setCheck(e.target.checked)} checked={check ? true : false} />
+        <label className="form-check-label" htmlFor="checkBox">
+          나만보기
+        </label>
+      </div>
       {post.map((el) => {
         const name = el.users.name;
         const email = el.users.email;

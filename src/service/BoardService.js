@@ -22,6 +22,10 @@ class BoardService {
     return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, setHeader(jsonHeader, token)).then((res) => res.data);
   }
 
+  findByUser(email, page = 0, size, token) {
+    return Axios.get(`/question/list/${email}?page=${page}&&size=${size}&sort=id,desc`, setHeader(jsonHeader, token)).then((res) => res.data);
+  }
+
   findOne(id = 1, token) {
     return Axios.get(`/question/viewOne/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
   }

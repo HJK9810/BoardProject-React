@@ -42,6 +42,18 @@ class BoardService {
     return await Axios.post(`/answer/add/${id}`, form, setHeader(jsonHeader, token));
   }
 
+  viewAnswerOne(id = 1, token) {
+    return Axios.get(`/answer/edit/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
+  }
+
+  async editAnswer(id = 1, form, token) {
+    return await Axios.post(`/answer/edit/${id}`, form, setHeader(jsonHeader, token));
+  }
+
+  async delAnswer(id = 1, aid = 1, token) {
+    return await Axios.delete(`/answer/del/${id}?aId=${aid}`, setHeader(jsonHeader, token));
+  }
+
   async refreshToken(form, token) {
     return await Axios.post("/api/reissue", form, setHeader(jsonHeader, token));
   }

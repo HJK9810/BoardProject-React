@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Navbar, Container, Nav} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
-import ModalView from "./Modal.layout";
+import {ModalView} from "./Modal.layout";
 
 function Header(props) {
   const navigate = useNavigate();

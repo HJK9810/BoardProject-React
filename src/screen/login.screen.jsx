@@ -3,7 +3,7 @@ import {Container, Form} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
-import ModalView from "../layout/Modal.layout";
+import {ModalView} from "../layout/Modal.layout";
 
 function Login() {
   const [email, setEmail] = useState("");

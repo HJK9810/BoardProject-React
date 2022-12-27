@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
-import ModalView from "../layout/Modal.layout";
+import {ModalView} from "../layout/Modal.layout";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies([]);

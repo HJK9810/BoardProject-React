@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import AddAnswer from "./answer/add.answer";
+import EditAnswer from "./answer/edit.answer";
 import "./App.scss";
 import Add from "./screen/add.screen";
 import Baord from "./screen/board.screen";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/viewOne/:id" element={<ViewOne />}></Route>
           <Route path="/edit/:id" element={<Edit />}></Route>
           <Route path="/addAnswer/:id" element={<AddAnswer />}></Route>
+          <Route path="/editAnswer/:id" element={<EditAnswer />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/logout" element={<Logout />}></Route>
           <Route path="/expire" element={<ExpireLogin />}></Route>

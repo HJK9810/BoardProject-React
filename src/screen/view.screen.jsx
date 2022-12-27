@@ -17,6 +17,7 @@ function ViewOne() {
 
   const [user, setUser] = useState({});
   const [email, setEmail] = useState("");
+  const [aCount, setACount] = useState(0);
 
   useEffect(() => {
     const token = cookie.token;
@@ -27,9 +28,10 @@ function ViewOne() {
       if (res.images) setImage(res.images.split(","));
 
       setEmail(res.users.email);
+      setACount(res.answers.length);
     });
     setUser(jwtDecode(token));
-  }, []);
+  }, [aCount]);
 
   const dateFormat = (inputDate) => {
     const date = new Date(inputDate);
@@ -53,7 +55,7 @@ function ViewOne() {
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
       <div style={{display: post.answers ? "block" : "none"}}>
-        <Answer answers={post.answers} />
+        <Answer answers={post.answers} viewId={id} token={cookie.token} setACount={(c) => setACount(c)} />
       </div>
 
       <button className={"btn btn-warning my-4"} style={{width: 100 + "%", display: user.sub === email ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>

@@ -5,6 +5,7 @@ import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
+import {ModalView} from "../layout/Modal.layout";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -16,6 +17,7 @@ function Edit() {
   const [cookie] = useCookies(["token"]);
   const [image, setImage] = useState([]);
   const headline = "문의사항 수정";
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
@@ -29,6 +31,8 @@ function Edit() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (title.length < 3) return setShow(true);
+    if (contents.length < 10) return setShow(true);
 
     const formData = new FormData();
 
@@ -65,6 +69,8 @@ function Edit() {
       <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         수정완료
       </button>
+
+      <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
     </Container>
   );
 }

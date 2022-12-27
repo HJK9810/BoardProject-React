@@ -3,6 +3,7 @@ import {Container, Form} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../layout/Header";
+import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
 
 function AddAnswer() {
@@ -12,6 +13,7 @@ function AddAnswer() {
 
   const [cookie] = useCookies(["token"]);
   const headline = "답변하기";
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
@@ -19,6 +21,7 @@ function AddAnswer() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (contents.length < 10) return setShow(true);
 
     await BoardService.addAnswer(id, {contents: contents}, cookie.token);
     navigate(`/viewOne/${id}`, {replace: true});
@@ -37,6 +40,8 @@ function AddAnswer() {
       <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         답변 남기기
       </button>
+
+      <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
     </Container>
   );
 }

@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {Navbar, Container, Nav, Modal} from "react-bootstrap";
+import {Navbar, Container, Nav} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import ModalView from "./Modal.layout";
 
 function Header(props) {
   const navigate = useNavigate();
@@ -35,14 +36,7 @@ function Header(props) {
         </Nav>
       </Container>
 
-      <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Body className="text-center">이미 로그아웃된 상태입니다.&emsp;로그인 해 주세요.</Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-danger" onClick={() => setShow(false)}>
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+      <ModalView show={show} message={"이미 로그아웃된 상태입니다.\u00a0\u00a0로그인 해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-danger"} />
     </Navbar>
   );
 }

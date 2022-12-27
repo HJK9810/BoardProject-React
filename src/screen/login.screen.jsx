@@ -1,8 +1,9 @@
 import {useState} from "react";
-import {Container, Form, Modal} from "react-bootstrap";
+import {Container, Form} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
+import ModalView from "../layout/Modal.layout";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -64,14 +65,7 @@ function Login() {
         Login
       </button>
 
-      <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Body className="text-center">등록되지 않은 사용자입니다. 다시 입력해 주세요.</Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-warning" onClick={() => setShow(false)}>
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+      <ModalView show={show} message={"등록되지 않은 사용자입니다.\u00a0\u00a0다시 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
     </Container>
   );
 }

@@ -1,10 +1,11 @@
-import {Container, Modal} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
+import ModalView from "../layout/Modal.layout";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies([]);
@@ -42,14 +43,7 @@ function Logout() {
         로그아웃
       </button>
 
-      <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Body className="text-center">로그아웃 되었습니다.</Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-danger" onClick={logoutClear}>
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+      <ModalView show={show} message={"로그아웃 되었습니다."} clickFunc={logoutClear} btnColor={"btn-danger"} />
     </Container>
   );
 }

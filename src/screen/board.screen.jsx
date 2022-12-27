@@ -19,6 +19,7 @@ function Baord() {
   const [cookie, setCookie] = useCookies(["token"]);
   const [user, setUser] = useState("");
   const headline = "문의사항";
+  const emails = {};
 
   useEffect(() => {
     const token = cookie.token;
@@ -66,7 +67,9 @@ function Baord() {
 
   const moveView = (e) => {
     e.preventDefault();
-    if (e.target.id) navigate(`/viewOne/${e.target.id}`);
+    if (emails[e.target.id] === user || user === "admin") {
+      if (e.target.id) navigate(`/viewOne/${e.target.id}`);
+    }
   };
 
   return (
@@ -82,15 +85,20 @@ function Baord() {
       {post.map((el) => {
         const name = el.users.name;
         const email = el.users.email;
+        emails[el.id] = email;
 
         return (
-          <div className="pt-3" key={el.id} id={el.id} onClick={email === user || user === "admin" ? moveView : () => {}}>
-            <h4 className="p-2 pt-3">{el.title}</h4>
-            <span className="p-2">작성자 : {email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}</span>
-            <p className="p-2 mb-2 text-muted">
-              <Moment date={el.createdDate} format="YYYY.MM.DD" />
+          <div className="pt-3" key={el.id} id={el.id} onClick={moveView}>
+            <h4 className="p-2 pt-3" id={el.id} onClick={moveView}>
+              {el.title}
+            </h4>
+            <span className="p-2" id={el.id} onClick={moveView}>
+              작성자 : {email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}
+            </span>
+            <p className="p-2 mb-2 text-muted" id={el.id} onClick={moveView}>
+              <Moment date={el.createdDate} format="YYYY.MM.DD" id={el.id} onClick={moveView} />
             </p>
-            <hr className="m-0 opacity-100" />
+            <hr className="m-0 opacity-100" id={el.id} onClick={moveView} />
           </div>
         );
       })}

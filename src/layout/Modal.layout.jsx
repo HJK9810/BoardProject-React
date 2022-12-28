@@ -30,11 +30,11 @@ export function ModalConfirm(props) {
             ))}
           </div>
           <div className="modal-footer">
-            <button className="btn btn-info" editid={props.id} onClick={props.okFunc}>
-              확인
-            </button>
             <button className="btn btn-danger" onClick={props.cancleFunc}>
               취소
+            </button>
+            <button className="btn btn-info" editid={props.id} onClick={props.okFunc}>
+              확인
             </button>
           </div>
         </div>

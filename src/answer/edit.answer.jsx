@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Container, Form} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
+import Axios from "../Axios";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
@@ -12,14 +13,32 @@ function EditAnswer() {
   const {id} = useParams();
   const location = useLocation();
 
-  const [cookie] = useCookies(["token"]);
+  const [cookie, setCookie] = useCookies(["token"]);
   const headline = "답변수정하기";
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+    const lastTime = cookie.exp - Date.now();
+    if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+    else if (lastTime < 1000 * 60 * 10) tokenRefresh(cookie); // 만료 10분전
     BoardService.viewAnswerOne(id, cookie.token).then((res) => setContents(res.contents));
   }, []);
+
+  const tokenRefresh = async (cookie) => {
+    const body = {
+      accessToken: cookie.token,
+      refreshToken: cookie.refreshToken,
+    };
+
+    // 토큰 갱신 서버통신
+    await BoardService.refreshToken(body, cookie.token).then((res) => {
+      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+      setCookie("refreshToken", res.refreshToken);
+      setCookie("exp", res.accessTokenExpiresIn);
+      setCookie("token", res.accessToken);
+      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+    });
+  };
 
   const submit = async (e) => {
     e.preventDefault();

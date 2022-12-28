@@ -4,6 +4,7 @@ import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
+import BoardService from "../service/BoardService";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ function Login() {
   const [, setCookie] = useCookies([]);
 
   const [show, setShow] = useState(false);
+  const [eMessage, setEMessage] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
@@ -21,17 +23,18 @@ function Login() {
       password: passwd,
     };
 
-    await Axios.post("/api/login", axiosBody).then((res) => {
-      // user 존재 여부 체크
-      if (!res.data.accessToken) {
+    await BoardService.login(axiosBody).then((res) => {
+      if (res.hasOwnProperty("code")) {
+        // user 존재X
+        setEMessage(res.message);
         setEmail("");
         setPasswd("");
         setShow(true);
       } else {
-        setCookie("token", res.data.accessToken);
-        setCookie("exp", res.data.accessTokenExpiresIn);
-        setCookie("refreshToken", res.data.refreshToken);
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+        setCookie("token", res.accessToken);
+        setCookie("exp", res.accessTokenExpiresIn);
+        setCookie("refreshToken", res.refreshToken);
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
         loginCheck = true;
       }
     });
@@ -65,7 +68,7 @@ function Login() {
         Login
       </button>
 
-      <ModalView show={show} message={"등록되지 않은 사용자입니다.\u00a0\u00a0다시 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
+      <ModalView show={show} message={`${eMessage}\u00a0\u00a0다시 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
     </Container>
   );
 }

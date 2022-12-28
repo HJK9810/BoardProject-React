@@ -25,7 +25,7 @@ function Baord() {
     const token = cookie.token;
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (cookie.refreshToken) reissueToken(cookie);
+    if (cookie.refreshToken) reissueToken(cookie, null);
 
     const email = jwtDecode(token).sub;
     setUser(email);
@@ -37,7 +37,7 @@ function Baord() {
     }
   }, [page, check]);
 
-  const reissueToken = async (cookie) => {
+  const reissueToken = async (cookie, err) => {
     const body = {
       accessToken: cookie.token,
       refreshToken: cookie.refreshToken,
@@ -46,21 +46,23 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     const remainingTime = cookie.exp - Date.now();
     // 1. 완전 만료시 만료 페이지 이동
-    if (remainingTime < 0) navigate("/expire");
+    if (remainingTime < 0 && !err) navigate("/expire", {state: err});
     // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-    else if (remainingTime < 300000) {
+    else if (remainingTime < 1000 * 60 * 5 || err) {
       // 토큰 갱신 서버통신
       await BoardService.refreshToken(body, cookie.token).then((res) => {
-        if (!res.data) navigate("/expire");
-        setCookie("refreshToken", res.data.refreshToken);
-        setCookie("exp", res.data.accessTokenExpiresIn);
-        setCookie("token", res.data.accessToken);
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+        if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+        setCookie("refreshToken", res.refreshToken);
+        setCookie("exp", res.accessTokenExpiresIn);
+        setCookie("token", res.accessToken);
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
       });
     }
   };
 
   const dataIn = (data) => {
+    if (data.hasOwnProperty("code")) navigate("/expire", {state: data});
+
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };

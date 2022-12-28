@@ -14,7 +14,7 @@ function Logout() {
 
   const logout = (e) => {
     const name = jwtDecode(cookie.token).sub;
-    Axios.get("/api/logout/" + name, name);
+    Axios.get("/api/logout/" + name, name).catch((err) => setShow(true));
 
     removeCookie("token");
     removeCookie("refreshToken");

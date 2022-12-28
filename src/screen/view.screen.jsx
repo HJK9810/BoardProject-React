@@ -24,6 +24,7 @@ function ViewOne() {
 
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
     BoardService.findOne(Number(id), token).then((res) => {
+      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
       setPost(res);
       if (res.images) setImage(res.images.split(","));
 

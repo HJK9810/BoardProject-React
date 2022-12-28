@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Axios from "../Axios";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
@@ -10,8 +10,12 @@ function ExpireLogin() {
   const navigate = useNavigate();
   const [cookie, setCookie] = useCookies("[token]");
   const [btnWork, setBtnWork] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
+    console.log(cookie);
+    console.log(location);
+    if (btnWork && location.state) location.state.code === "EXPIRED_JWT_TOKEN" ? setBtnWork(true) : setBtnWork(false);
     if (cookie.token === "undefined") setBtnWork(false);
   }, [btnWork]);
 
@@ -26,12 +30,12 @@ function ExpireLogin() {
 
     // 토큰 갱신 서버통신
     await BoardService.refreshToken(body, token).then((res) => {
-      setCookie("refreshToken", res.data.refreshToken);
-      setCookie("exp", res.data.accessTokenExpiresIn);
-      setCookie("token", res.data.accessToken);
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
+      setCookie("refreshToken", res.refreshToken);
+      setCookie("exp", res.accessTokenExpiresIn);
+      setCookie("token", res.accessToken);
+      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
 
-      if (!res.data) setBtnWork(false);
+      if (res.hasOwnProperty("code")) setBtnWork(false);
       else navigate("/board", {replace: true});
     });
   };

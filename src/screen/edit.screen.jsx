@@ -5,7 +5,8 @@ import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
-import {ModalView} from "../layout/Modal.layout";
+import {ModalConfirm, ModalView} from "../layout/Modal.layout";
+import Axios from "../Axios";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -14,20 +15,40 @@ function Edit() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie] = useCookies(["token"]);
+  const [cookie, setCookie] = useCookies(["token"]);
   const [image, setImage] = useState([]);
   const headline = "문의사항 수정";
   const [show, setShow] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+    const lastTime = cookie.exp - Date.now();
+    if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+    else if (lastTime < 1000 * 60 * 10) tokenRefresh(cookie); // 만료 10분전
 
     BoardService.findOne(Number(id), cookie.token).then((res) => {
+      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
       setTitle(res.title);
       setContents(res.contents);
       setImage(res.images ? res.images.split(",") : []);
     });
   }, []);
+
+  const tokenRefresh = async (cookie) => {
+    const body = {
+      accessToken: cookie.token,
+      refreshToken: cookie.refreshToken,
+    };
+
+    // 토큰 갱신 서버통신
+    await BoardService.refreshToken(body, cookie.token).then((res) => {
+      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+      setCookie("refreshToken", res.refreshToken);
+      setCookie("exp", res.accessTokenExpiresIn);
+      setCookie("token", res.accessToken);
+      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+    });
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -42,7 +63,13 @@ function Edit() {
 
     Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.editItem(Number(id), formData, cookie.token);
+    await BoardService.editItem(Number(id), formData, cookie.token).catch((err) => {
+      const eData = err.response.data;
+      if (eData.code === "FILE_NOT_SAVED") {
+        setFiles([]);
+        return setError(true);
+      } else return navigate("/expire", {state: eData});
+    });
     navigate(`/viewOne/${id}`, {replace: true});
   };
 
@@ -71,6 +98,7 @@ function Edit() {
       </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
+      <ModalConfirm id={id} show={error} message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"} okFunc={(e) => submit(e)} cancleFunc={() => setError(false)} />
     </Container>
   );
 }

@@ -1,5 +1,4 @@
 import {useState} from "react";
-import {Container, Form} from "react-bootstrap";
 import Axios from "../Axios";
 import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
@@ -50,26 +49,26 @@ function Login() {
   };
 
   return (
-    <Container className="pt-5" onKeyDown={enterPress}>
+    <div className="pt-5 container" onKeyDown={enterPress}>
       <Header headline={"Login"} />
       <h3 className="text-center p-3 mt-5">Login</h3>
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>User</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} autoFocus />
-        </Form.Group>
+      <form>
+        <div className="mb-3">
+          <label className="form-label">User</label>
+          <input type="email" className="form-control" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} autoFocus />
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} value={passwd} />
-        </Form.Group>
-      </Form>
+        <div className="mb-3">
+          <label className="form-label">Password</label>
+          <input type="password" className="form-control" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} value={passwd} />
+        </div>
+      </form>
       <button className="btn btn-info float-end" onClick={submit}>
         Login
       </button>
 
       <ModalView show={show} message={`${eMessage}\u00a0\u00a0다시 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
-    </Container>
+    </div>
   );
 }
 

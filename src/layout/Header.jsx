@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Navbar, Container, Nav} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import {ModalView} from "./Modal.layout";
@@ -23,21 +22,23 @@ function Header(props) {
   };
 
   return (
-    <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark" fixed="top">
-      <Container>
-        <Navbar.Brand onClick={checkLogin} className="fs-6 fw-bold">
+    <nav className="navbar navbar-expand navbar-dark bg-dark fixed-top">
+      <div className="container">
+        <span className="fs-6 fw-bold navbar-brand" onClick={checkLogin}>
           &lt; {props.headline}
-        </Navbar.Brand>
-        <Nav>
-          <Nav.Link href="/login">Login</Nav.Link>
-          <Nav.Link eventKey={2} onClick={checkLogoutAvail}>
+        </span>
+        <div className="navbar-nav">
+          <a href="/login" data-rr-ui-event-key="/login" className="nav-link">
+            Login
+          </a>
+          <a role="button" data-rr-ui-event-key={2} className="nav-link" onClick={checkLogoutAvail}>
             Logout
-          </Nav.Link>
-        </Nav>
-      </Container>
+          </a>
+        </div>
+      </div>
 
       <ModalView show={show} message={"이미 로그아웃된 상태입니다.\u00a0\u00a0로그인 해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-danger"} />
-    </Navbar>
+    </nav>
   );
 }
 

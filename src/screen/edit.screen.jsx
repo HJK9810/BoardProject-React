@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Container, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
@@ -74,32 +73,32 @@ function Edit() {
   };
 
   return (
-    <Container className="pt-5">
+    <div className="pt-5 container">
       <Header headline={headline} />
       <h3 className="p-3 pt-5 mb-1">{headline}</h3>
-      <Form>
-        <Form.Group className="p-3 mt-1">
-          <Form.Label>제목</Form.Label>
-          <Form.Control type="text" maxLength={256} value={title} onChange={(e) => setTitle(e.target.value)} />
-        </Form.Group>
-        <Form.Group className="p-3 mt-1">
-          <Form.Label>첨부파일</Form.Label>
-          <Form.Control type="file" multiple onChange={(e) => setFiles(e.target.files)} />
-        </Form.Group>
+      <form>
+        <div className="p-3 mt-1">
+          <label className="form-label">제목</label>
+          <input type="text" className="form-control" maxLength={256} value={title} onChange={(e) => setTitle(e.target.value)} />
+        </div>
+        <div className="p-3 mt-1">
+          <label className="form-label">첨부파일</label>
+          <input type="file" className="form-control" multiple onChange={(e) => setFiles(e.target.files)} />
+        </div>
         <h6 className="p-3 mb-1">기존 첨부파일</h6>
         <ImageView image={image} setImage={(p) => setImage(p)} check={true} />
-        <Form.Group className="p-3 mt-1">
-          <Form.Label>상세내용</Form.Label>
-          <Form.Control as="textarea" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
-        </Form.Group>
-      </Form>
+        <div className="p-3 mt-1">
+          <label className="form-label"></label>
+          <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
+        </div>
+      </form>
       <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         수정완료
       </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
       <ModalConfirm id={id} show={error} message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"} okFunc={(e) => submit(e)} cancleFunc={() => setError(false)} />
-    </Container>
+    </div>
   );
 }
 

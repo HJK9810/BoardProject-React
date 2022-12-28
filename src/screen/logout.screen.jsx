@@ -1,4 +1,3 @@
-import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
@@ -36,7 +35,7 @@ function Logout() {
   };
 
   return (
-    <Container className="pt-5" onKeyDown={pressKey}>
+    <div className="pt-5 container" onKeyDown={pressKey}>
       <Header headline={"Logout"} />
       <h3 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h3>
       <button className="btn btn-danger mt-5" style={{width: 100 + "%"}} onClick={logout}>
@@ -44,7 +43,7 @@ function Logout() {
       </button>
 
       <ModalView show={show} message={"로그아웃 되었습니다."} clickFunc={logoutClear} btnColor={"btn-danger"} />
-    </Container>
+    </div>
   );
 }
 

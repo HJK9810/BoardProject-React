@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Container} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
@@ -75,7 +74,7 @@ function Baord() {
   };
 
   return (
-    <Container className="pt-5">
+    <div className="pt-5 container">
       <Header headline={headline} />
       <h3 className="text-center m-4 pt-5">{headline}</h3>
       <div className="form-check float-end">
@@ -111,7 +110,7 @@ function Baord() {
       <button className={user === "admin" ? "btn btn-secondary my-4 disabled" : "btn btn-light mb-4"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
-    </Container>
+    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Container} from "react-bootstrap";
 import BoardService from "../service/BoardService";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "./answer.screen";
@@ -42,7 +41,7 @@ function ViewOne() {
   const headline = (date) => "문의내역 조회 - " + dateFormat(date);
 
   return (
-    <Container className="pt-5">
+    <div className="pt-5 container">
       <Header headline={headline(post.createdDate)} />
       <h3 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h3>
 
@@ -65,7 +64,7 @@ function ViewOne() {
       <button className="btn btn-warning my-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
-    </Container>
+    </div>
   );
 }
 

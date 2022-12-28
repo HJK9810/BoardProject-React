@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Container, Form} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
 import Axios from "../Axios";
@@ -47,21 +46,19 @@ function AddAnswer() {
   };
 
   return (
-    <Container className="pt-5">
+    <div className="pt-5 container">
       <Header headline={headline} />
       <h3 className="pt-5">{headline}</h3>
-      <Form>
-        <Form.Group>
-          <Form.Label>답변내용</Form.Label>
-          <Form.Control as="textarea" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
-        </Form.Group>
-      </Form>
+      <form>
+        <label className="form-label">답변내용</label>
+        <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
+      </form>
       <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         답변 남기기
       </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
-    </Container>
+    </div>
   );
 }
 

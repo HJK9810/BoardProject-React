@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Container} from "react-bootstrap";
 import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
 import Axios from "../Axios";
@@ -41,7 +40,7 @@ function ExpireLogin() {
   };
 
   return (
-    <Container className="text-center">
+    <div className="text-center container">
       <Header headline={"Login Please"} />
       <h3 className="p-2 pt-5 mt-5">로그인 시간이 만료되었습니다.</h3>
       <h5 className="p-1">다시 로그인 하거나 시간을 연장해 주세요.</h5>
@@ -51,7 +50,7 @@ function ExpireLogin() {
       <button className="btn btn-outline-success m-3" onClick={reissue} disabled={btnWork ? "" : "disabled"}>
         연장하기
       </button>
-    </Container>
+    </div>
   );
 }
 

@@ -53,7 +53,7 @@ function AddAnswer() {
         <label className="form-label">답변내용</label>
         <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
       </form>
-      <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning my-3 widthMax" onClick={submit}>
         답변 남기기
       </button>
 

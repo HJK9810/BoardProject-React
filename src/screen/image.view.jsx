@@ -41,8 +41,8 @@ function ImageView(props) {
         {image ? image.map((el, i) => (el ? showImage(el, i) : null)) : null}
       </div>
 
-      <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>
-      <div role="dialog" aria-modal={show} className="modal show" tabIndex="-1" style={{display: show ? "block" : "none"}}>
+      <div className={"modal-backdrop show" + (show ? "" : " hideItem")}></div>
+      <div role="dialog" aria-modal={show} className={"modal show" + (show ? "" : " hideItem")} tabIndex="-1">
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">
             아래 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?

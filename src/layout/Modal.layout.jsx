@@ -1,8 +1,8 @@
 export function ModalView(props) {
   return (
     <>
-      <div className="modal-backdrop show" style={{display: props.show ? "block" : "none"}}></div>
-      <div role="dialog" aria-modal={props.show} className="modal show" tabIndex="-1" style={{display: props.show ? "block" : "none"}}>
+      <div className={"modal-backdrop show" + (props.show ? "" : " hideItem")}></div>
+      <div role="dialog" aria-modal={props.show} className={"modal show" + (props.show ? "" : " hideItem")} tabIndex="-1">
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">{props.message}</div>
           <div className="modal-footer">
@@ -19,8 +19,8 @@ export function ModalView(props) {
 export function ModalConfirm(props) {
   return (
     <>
-      <div className="modal-backdrop show" style={{display: props.show ? "block" : "none"}}></div>
-      <div role="dialog" aria-modal={props.show} className="modal show" tabIndex="-1" style={{display: props.show ? "block" : "none"}}>
+      <div className={"modal-backdrop show" + (props.show ? "" : " hideItem")}></div>
+      <div role="dialog" aria-modal={props.show} className={"modal show" + (props.show ? "" : " hideItem")} tabIndex="-1">
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">
             {props.message.split("\n").map((line, i) => (

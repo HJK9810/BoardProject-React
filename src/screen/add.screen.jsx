@@ -79,7 +79,7 @@ function Add() {
           <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </div>
       </form>
-      <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning my-3 widthMax" onClick={submit}>
         문의 남기기
       </button>
 

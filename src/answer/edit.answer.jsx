@@ -54,7 +54,7 @@ function EditAnswer() {
       <form>
         <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
       </form>
-      <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
+      <button className="btn btn-warning my-3 widthMax" onClick={submit}>
         수정하기
       </button>
 

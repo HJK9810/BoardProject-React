@@ -31,7 +31,7 @@ function Answer(props) {
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
                 </p>
                 <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={(e) => setBtnShow(false)}>
-                  <div className="btn-group float-end" role="group" style={{display: btnShow ? "block" : "none"}}>
+                  <div className={"btn-group float-end" + (btnShow ? "" : " hideItem")} role="group">
                     <button type="button" className="btn btn-outline-info" id={el.id} onClick={(e) => navigate(`/editAnswer/${e.target.id}`, {state: viewId})}>
                       수정
                     </button>

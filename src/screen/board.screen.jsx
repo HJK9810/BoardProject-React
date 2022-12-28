@@ -94,7 +94,7 @@ function Baord() {
               {el.title}
             </h4>
             <span className="p-2" id={el.id} onClick={moveView}>
-              작성자 : {email === user || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
+              작성자 : {email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
             </span>
             <p className="p-2 mb-2 text-muted" id={el.id} onClick={moveView}>
               <Moment date={el.createdDate} format="YYYY.MM.DD" id={el.id} onClick={moveView} />

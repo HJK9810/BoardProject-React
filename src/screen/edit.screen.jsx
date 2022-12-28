@@ -19,6 +19,7 @@ function Edit() {
   const headline = "문의사항 수정";
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
+  const [del, setDel] = useState(false);
 
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
@@ -72,6 +73,13 @@ function Edit() {
     navigate(`/viewOne/${id}`, {replace: true});
   };
 
+  const deleteQ = async (e) => {
+    e.preventDefault();
+
+    await BoardService.delItem(Number(id), cookie.token).catch((err) => navigate("/expire", {state: err.response.data}));
+    navigate("/board", {replace: true});
+  };
+
   return (
     <div className="pt-5 container">
       <Header headline={headline} />
@@ -95,9 +103,13 @@ function Edit() {
       <button className="btn btn-warning my-3" style={{width: 100 + "%"}} onClick={submit}>
         수정완료
       </button>
+      <button className="btn btn-danger my-3" style={{width: 100 + "%"}} onClick={(e) => setDel(true)}>
+        문의 삭제하기
+      </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
       <ModalConfirm id={id} show={error} message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"} okFunc={(e) => submit(e)} cancleFunc={() => setError(false)} />
+      <ModalConfirm id={id} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} okFunc={(e) => deleteQ(e)} cancleFunc={() => setDel(false)} />
     </div>
   );
 }

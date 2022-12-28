@@ -23,7 +23,7 @@ function ViewOne() {
 
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
     BoardService.findOne(Number(id), token).then((res) => {
-      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+      if (res.hasOwnProperty("data")) navigate("/expire", {state: res.data});
       setPost(res);
       if (res.images) setImage(res.images.split(","));
 
@@ -61,7 +61,10 @@ function ViewOne() {
       <button className={"btn btn-warning my-4"} style={{width: 100 + "%", display: user.sub === email ? "block" : "none"}} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className="btn btn-warning my-4" style={{width: 100 + "%", display: user.sub === "admin" ? "block" : "none"}} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button
+        className="btn btn-warning my-4"
+        style={{width: 100 + "%", display: user.hasOwnProperty("auth") && user.auth.includes("ADMIN") ? "block" : "none"}}
+        onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </div>

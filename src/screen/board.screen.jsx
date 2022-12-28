@@ -16,7 +16,7 @@ function Baord() {
   const navigate = useNavigate();
 
   const [cookie, setCookie] = useCookies(["token"]);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const headline = "문의사항";
   const emails = {};
 
@@ -26,11 +26,11 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     if (cookie.refreshToken) reissueToken(cookie, null);
 
-    const email = jwtDecode(token).sub;
-    setUser(email);
+    const decodeToken = jwtDecode(token);
+    setUser(decodeToken);
 
     if (check) {
-      BoardService.findByUser(email, page, 6, token).then(dataIn);
+      BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn);
     } else {
       BoardService.findAll(page, 6, token).then(dataIn);
     }
@@ -68,7 +68,7 @@ function Baord() {
 
   const moveView = (e) => {
     e.preventDefault();
-    if (emails[e.target.id] === user || user === "admin") {
+    if (emails[e.target.id] === user.sub || user.auth.includes("ADMIN")) {
       if (e.target.id) navigate(`/viewOne/${e.target.id}`);
     }
   };
@@ -94,7 +94,7 @@ function Baord() {
               {el.title}
             </h4>
             <span className="p-2" id={el.id} onClick={moveView}>
-              작성자 : {email === user || user === "admin" ? name : name.charAt(0) + "*" + name.substring(2)}
+              작성자 : {email === user || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
             </span>
             <p className="p-2 mb-2 text-muted" id={el.id} onClick={moveView}>
               <Moment date={el.createdDate} format="YYYY.MM.DD" id={el.id} onClick={moveView} />
@@ -107,7 +107,7 @@ function Baord() {
       <div className="d-flex justify-content-center mt-5">
         <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
       </div>
-      <button className={user === "admin" ? "btn btn-secondary my-4 disabled" : "btn btn-light mb-4"} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
+      <button className={"btn btn-secondary my-4 " + (user.hasOwnProperty("auth") && user.auth.includes("ADMIN") ? "disabled" : "")} style={{width: 100 + "%"}} onClick={(e) => navigate("/add")}>
         문의하기
       </button>
     </div>

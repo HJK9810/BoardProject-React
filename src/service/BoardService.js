@@ -33,7 +33,7 @@ class BoardService {
   findOne(id = 1, token) {
     return Axios.get(`/question/viewOne/${id}`, setHeader(jsonHeader, token))
       .then((res) => res.data)
-      .catch((err) => err.response.data);
+      .catch((err) => err.response);
   }
 
   async addItem(form, token) {

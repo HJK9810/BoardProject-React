@@ -42,22 +42,20 @@ function ImageView(props) {
       </div>
 
       <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>
-      <div role="dialog" aria-modal={show} className="modal show" tabindex="-1" style={{display: show ? "block" : "none"}}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="text-center modal-body">
-              아래 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?
-              <br /> 한번 삭제한 이미지는 저장시 되돌릴수 없습니다.
-              <img alt="name" src={clickURL} width={widthSize} className="m-3 img-thumbnail" />
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-danger" onClick={delImage}>
-                Delete
-              </button>
-              <button className="btn btn-info" onClick={() => setShow(false)}>
-                Cancle
-              </button>
-            </div>
+      <div role="dialog" aria-modal={show} className="modal show" tabIndex="-1" style={{display: show ? "block" : "none"}}>
+        <div className="modal-dialog modal-content">
+          <div className="text-center modal-body">
+            아래 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?
+            <br /> 한번 삭제한 이미지는 저장시 되돌릴수 없습니다.
+            <img alt="name" src={clickURL} width={widthSize} className="m-3 img-thumbnail" />
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-danger" onClick={delImage}>
+              Delete
+            </button>
+            <button className="btn btn-info" onClick={() => setShow(false)}>
+              Cancle
+            </button>
           </div>
         </div>
       </div>

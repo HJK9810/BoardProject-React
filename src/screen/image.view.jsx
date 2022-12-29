@@ -22,6 +22,7 @@ function ImageView(props) {
 
   const handleShow = (e) => {
     setShow(true);
+    console.log(e);
     setName(e.target.name);
     setId(e.target.id);
     setClickURL(e.target.src);
@@ -42,7 +43,7 @@ function ImageView(props) {
       </div>
 
       <div className={"modal-backdrop show" + (show ? "" : " hideItem")}></div>
-      <div role="dialog" aria-modal={show} className={"modal show" + (show ? "" : " hideItem")} tabIndex="-1">
+      <div role="dialog" aria-modal={show} className="modal show" tabIndex="-1" style={{display: show ? "block" : "none"}}>
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">
             아래 이미지 <span className="text-warning">" {name} "</span>를 삭제하시겠습니까?

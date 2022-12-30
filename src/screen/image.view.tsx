@@ -42,8 +42,8 @@ function ImageView({image, check, setImage}: props) {
 
   return (
     <>
-      <div className="p-3 m-2 bg-dark scroll-image rounded" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
-        {image ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}
+      <div className="p-3 m-2 bg-dark rounded" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
+        <div className="scroll-image">{image ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}</div>
       </div>
 
       <div className={"modal-backdrop show" + (show ? "" : " d-none")}></div>

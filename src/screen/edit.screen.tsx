@@ -96,7 +96,7 @@ function Edit() {
         <h6 className="p-3 mb-1">기존 첨부파일</h6>
         <ImageView image={image} setImage={(p: any) => setImage(p)} check={true} />
         <div className="p-3 mt-1">
-          <label className="form-label"></label>
+          <label className="form-label">문의사항</label>
           <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
         </div>
       </form>

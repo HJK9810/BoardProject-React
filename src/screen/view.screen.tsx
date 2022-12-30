@@ -54,14 +54,14 @@ function ViewOne() {
       <h5 className="p-3 mb-1">상세내용</h5>
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
-      <div className={post.answers ? "" : "hideItem"}>
+      <div className={post.answers ? "" : "d-none"}>
         <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: any) => setACount(c)} />
       </div>
 
-      <button className={"btn btn-warning my-4 widthMax" + (user.sub === email ? "" : " hideItem")} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className={"btn btn-warning my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className={"btn btn-warning my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " hideItem")} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className={"btn btn-warning my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " d-none")} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </div>

@@ -46,7 +46,7 @@ function ImageView({image, check, setImage}: props) {
         {image ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}
       </div>
 
-      <div className={"modal-backdrop show" + (show ? "" : " hideItem")}></div>
+      <div className={"modal-backdrop show" + (show ? "" : " d-none")}></div>
       <div role="dialog" aria-modal={show} className="modal show" tabIndex={-1} style={{display: show ? "block" : "none"}}>
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">

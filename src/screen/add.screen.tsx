@@ -75,7 +75,7 @@ function Add() {
           <input type="file" className="form-control" multiple onChange={(e) => setFiles(e.target.files)} />
         </div>
         <div className="p-3 mt-1">
-          <label className="form-label"></label>
+          <label className="form-label">문의사항</label>
           <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
         </div>
       </form>

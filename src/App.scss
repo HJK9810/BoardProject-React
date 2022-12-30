@@ -1,7 +1,10 @@
-@import "./style/variables";
-@import "~bootstrap/scss/bootstrap";
-
-@import "./style/bootswatch";
+@import "./style/Basic.scss";
+@import "./style/space.scss";
+@import "./style/navbar.scss";
+@import "./style/buttons.scss";
+@import "./style/form.scss";
+@import "./style/pagination.scss";
+@import "./style/modal.scss";
 
 @import "./style/imagescroll";
 @import "./style/customStyle.scss";

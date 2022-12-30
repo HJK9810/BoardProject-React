@@ -1,0 +1,31 @@
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+
+  .page-item {
+    .page-link {
+      position: relative;
+      display: block;
+      padding: 0.375rem 0.75rem;
+      margin-right: 1rem;
+      margin-left: 1rem;
+      text-decoration: none;
+      border: 1px solid #303030;
+      border-radius: 0.375rem;
+      background-color: #303030;
+      color: whitesmoke;
+    }
+
+    .disabled {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .active {
+      z-index: 3;
+      color: black;
+      background-color: whitesmoke;
+    }
+  }
+}

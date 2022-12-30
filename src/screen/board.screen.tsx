@@ -76,7 +76,7 @@ function Baord() {
   return (
     <div className="pt-5 container">
       <Header headline={headline} />
-      <h3 className="text-center m-4 pt-5">{headline}</h3>
+      <h2 className="text-center m-4 pt-5">{headline}</h2>
       <div className="form-check float-end">
         <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={(e) => setCheck(e.target.checked)} checked={check ? true : false} />
         <label className="form-check-label" htmlFor="checkBox">
@@ -90,9 +90,9 @@ function Baord() {
 
         return (
           <div className="pt-3" key={el.id} id={el.id} onClick={moveView}>
-            <h4 className="p-2 pt-3" id={el.id} onClick={moveView}>
+            <h3 className="p-2 pt-3" id={el.id} onClick={moveView}>
               {el.title}
-            </h4>
+            </h3>
             <span className="p-2" id={el.id} onClick={moveView}>
               작성자 : {email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
             </span>

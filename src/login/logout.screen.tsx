@@ -37,7 +37,7 @@ function Logout() {
   return (
     <div className="pt-5 container" onKeyDown={pressKey}>
       <Header headline={"Logout"} />
-      <h3 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h3>
+      <h2 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h2>
       <button className="btn btn-danger mt-5 widthMax" onClick={logout}>
         로그아웃
       </button>

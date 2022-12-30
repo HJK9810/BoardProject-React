@@ -51,7 +51,7 @@ function Login() {
   return (
     <div className="pt-5 container" onKeyDown={enterPress}>
       <Header headline={"Login"} />
-      <h3 className="text-center p-3 mt-5">Login</h3>
+      <h2 className="text-center p-3 mt-5">Login</h2>
       <form>
         <div className="mb-3">
           <label className="form-label">User</label>

@@ -43,15 +43,15 @@ function ViewOne() {
   return (
     <div className="pt-5 container">
       <Header headline={headline(post.createdDate)} />
-      <h3 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h3>
+      <h2 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h2>
 
-      <h5 className="p-3 mb-1">제목</h5>
+      <h3 className="p-3 mb-1">제목</h3>
       <div className="p-3 m-2 bg-dark rounded">{post.title}</div>
 
-      <h5 className="p-3 mb-1">첨부파일</h5>
+      <h3 className="p-3 mb-1">첨부파일</h3>
       <ImageView image={image} setImage={(p: any) => setImage(p)} check={false} />
 
-      <h5 className="p-3 mb-1">상세내용</h5>
+      <h3 className="p-3 mb-1">상세내용</h3>
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
       <div className={post.answers ? "" : "d-none"}>

@@ -64,7 +64,7 @@ function Add() {
   return (
     <div className="pt-5 container">
       <Header headline={headline} />
-      <h3 className="p-3 pt-5 mb-1">{headline}</h3>
+      <h2 className="p-3 pt-5 mb-1">{headline}</h2>
       <form>
         <div className="p-3 mt-1">
           <label className="form-label">제목</label>

@@ -32,7 +32,7 @@ function Answer({answers, viewId, token, setACount}: props) {
 
   return (
     <>
-      <h5 className="p-3 pb-0 mb-0">답변내용</h5>
+      <h3 className="p-3 pb-0 mb-0">답변내용</h3>
       {answers
         ? answers.map((el: any, i: number) => {
             return (

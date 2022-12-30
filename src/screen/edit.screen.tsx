@@ -83,7 +83,7 @@ function Edit() {
   return (
     <div className="pt-5 container">
       <Header headline={headline} />
-      <h3 className="p-3 pt-5 mb-1">{headline}</h3>
+      <h2 className="p-3 pt-5 mb-1">{headline}</h2>
       <form>
         <div className="p-3 mt-1">
           <label className="form-label">제목</label>
@@ -93,7 +93,7 @@ function Edit() {
           <label className="form-label">첨부파일</label>
           <input type="file" className="form-control" multiple onChange={(e) => setFiles(e.target.files)} />
         </div>
-        <h6 className="p-3 mb-1">기존 첨부파일</h6>
+        <h4 className="p-3 mb-1">기존 첨부파일</h4>
         <ImageView image={image} setImage={(p: any) => setImage(p)} check={true} />
         <div className="p-3 mt-1">
           <label className="form-label">문의사항</label>

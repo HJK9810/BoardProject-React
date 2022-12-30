@@ -8,19 +8,25 @@ form {
 
   .form-control {
     display: block;
-    width: 98%;
+    width: 96%;
     font-size: 1rem;
     padding: 0.375rem 0.75rem;
-    border: 1px solid #ced4da;
     appearance: none;
     border-radius: 0.375rem;
-
-    :focus {
-      border: rgba(0, 191, 255);
-      box-shadow: 0 0 0 40px rgba(0, 191, 255);
-    }
   }
 }
+
+input[type="text"] {
+  padding: 1rem;
+  background-color: rgb(48, 48, 48);
+  color: whitesmoke;
+}
+textarea {
+  padding: 1rem;
+  background-color: rgb(48, 48, 48);
+  color: whitesmoke;
+}
+
 .form-check {
   display: block;
   min-height: 1.5rem;

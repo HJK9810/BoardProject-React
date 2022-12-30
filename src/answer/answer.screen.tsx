@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import {useEffect, useState} from "react";
 import Moment from "react-moment";
 import {useNavigate} from "react-router-dom";
@@ -15,6 +16,7 @@ function Answer({answers, viewId, token, setACount}: props) {
   const [btnShow, setBtnShow] = useState(false);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const [auth, setAuth] = useState("");
 
   useEffect(() => {}, []);
 
@@ -24,6 +26,8 @@ function Answer({answers, viewId, token, setACount}: props) {
     await BoardService.delAnswer(Number(viewId), Number(e.target.getAttribute("editid")), token);
     setShow(false);
     setACount(answers.length - 1);
+    const decode: any = jwtDecode(token);
+    setAuth(decode.auth);
   };
 
   return (
@@ -37,7 +41,7 @@ function Answer({answers, viewId, token, setACount}: props) {
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
                 </p>
                 <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={(e) => setBtnShow(false)}>
-                  <div className={"btn-group float-end" + (btnShow ? "" : " hideItem")} role="group">
+                  <div className={"btn-group float-end" + (btnShow && auth.includes("ADMIN") ? "" : " d-none")} role="group">
                     <button type="button" className="btn btn-outline-info" id={el.id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
                       수정
                     </button>

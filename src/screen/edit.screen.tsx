@@ -100,14 +100,14 @@ function Edit() {
           <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />
         </div>
       </form>
-      <button className="btn btn-warning my-3 widthMax" onClick={submit}>
+      <button className="btn btn-save my-3 widthMax" onClick={submit}>
         수정완료
       </button>
       <button className="btn btn-danger my-3 widthMax" onClick={(e) => setDel(true)}>
         문의 삭제하기
       </button>
 
-      <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
+      <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
       <ModalConfirm
         id={`${id}`}
         show={error}

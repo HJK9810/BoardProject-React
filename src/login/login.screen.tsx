@@ -63,11 +63,11 @@ function Login() {
           <input type="password" className="form-control" placeholder="Password" onChange={(e) => setPasswd(e.target.value)} value={passwd} />
         </div>
       </form>
-      <button className="btn btn-info float-end" onClick={submit}>
+      <button className="btn btn-ok float-end" onClick={submit}>
         Login
       </button>
 
-      <ModalView show={show} message={`${eMessage}\u00a0\u00a0다시 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-warning"} />
+      <ModalView show={show} message={`${eMessage}\u00a0\u00a0다시 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
     </div>
   );
 }

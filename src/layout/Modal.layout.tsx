@@ -50,7 +50,7 @@ export function ModalConfirm({show, message, cancleFunc, okFunc, id}: confirmPro
             <button className="btn btn-danger" onClick={cancleFunc}>
               취소
             </button>
-            <button className="btn btn-info" id={id} onClick={okFunc}>
+            <button className="btn btn-ok" id={id} onClick={okFunc}>
               확인
             </button>
           </div>

@@ -58,10 +58,10 @@ function ViewOne() {
         <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: any) => setACount(c)} />
       </div>
 
-      <button className={"btn btn-warning my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className={"btn btn-ask my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={(e) => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className={"btn btn-warning my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " d-none")} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className={"btn btn-ask my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " d-none")} onClick={(e) => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </div>

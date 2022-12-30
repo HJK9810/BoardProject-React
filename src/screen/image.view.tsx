@@ -58,7 +58,7 @@ function ImageView({image, check, setImage}: props) {
             <button className="btn btn-danger" onClick={delImage}>
               Delete
             </button>
-            <button className="btn btn-info" onClick={() => setShow(false)}>
+            <button className="btn btn-ok" onClick={() => setShow(false)}>
               Cancle
             </button>
           </div>

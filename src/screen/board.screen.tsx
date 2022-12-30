@@ -107,7 +107,7 @@ function Baord() {
       <div className="d-flex justify-content-center mt-5">
         <Pagination pagination={pagination} setPage={(p: any) => setPage(p)} />
       </div>
-      <button className="btn btn-secondary my-4 widthMax " onClick={(e) => navigate("/add")} disabled={user.auth.includes("ADMIN") ? true : false}>
+      <button className="btn btn-ask my-4 widthMax " onClick={(e) => navigate("/add")} disabled={user.auth.includes("ADMIN") ? true : false}>
         문의하기
       </button>
     </div>

@@ -1,10 +1,23 @@
 import React from "react";
 
-function Pagination(props) {
-  const {number, totalPages, first, last} = props.pagination;
-  const handleClick = (p) => {
-    props.setPage(p);
+type pagination = {
+  number: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+};
+
+interface props {
+  pagination?: pagination;
+  setPage: any;
+}
+
+function Pagination({pagination, setPage}: props) {
+  const {number, totalPages, first, last}: any = pagination;
+  const handleClick = (p: number) => {
+    setPage(p);
   };
+  const pages = [0, 1, 2, 3, 4];
 
   return (
     <nav aria-label="Page navigation example">
@@ -14,7 +27,7 @@ function Pagination(props) {
             ‹
           </button>
         </li>
-        {[...Array(5).keys()]
+        {[...pages]
           .map((k) => k + number - 1)
           .filter((k) => k > 0 && k <= totalPages)
           .map((el) => {

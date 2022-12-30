@@ -5,20 +5,24 @@ import Axios from "../Axios";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
 
+type basic = {
+  token: string;
+  refreshToken: string;
+  exp: number;
+};
+
 function ExpireLogin() {
   const navigate = useNavigate();
-  const [cookie, setCookie] = useCookies("[token]");
+  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [btnWork, setBtnWork] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    console.log(cookie);
-    console.log(location);
     if (btnWork && location.state) location.state.code === "EXPIRED_JWT_TOKEN" ? setBtnWork(true) : setBtnWork(false);
     if (cookie.token === "undefined") setBtnWork(false);
   }, [btnWork]);
 
-  const reissue = async (e) => {
+  const reissue = async (e: any) => {
     e.preventDefault();
     const token = cookie.token;
 
@@ -47,7 +51,7 @@ function ExpireLogin() {
       <button className="btn btn-outline-success m-3" onClick={(e) => navigate("/login", {replace: true})}>
         로그인 하기
       </button>
-      <button className="btn btn-outline-success m-3" onClick={reissue} disabled={btnWork ? "" : "disabled"}>
+      <button className="btn btn-outline-success m-3" onClick={reissue} disabled={btnWork}>
         연장하기
       </button>
     </div>

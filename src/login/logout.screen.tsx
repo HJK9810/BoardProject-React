@@ -7,13 +7,13 @@ import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 
 function Logout() {
-  const [cookie, , removeCookie] = useCookies([]);
+  const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  const logout = (e) => {
-    const name = jwtDecode(cookie.token).sub;
-    Axios.get("/api/logout/" + name, name).catch((err) => setShow(true));
+  const logout = (e: any) => {
+    const decode: any = jwtDecode(cookie.token);
+    Axios.get("/api/logout/" + decode.sub, decode.sub).catch((err) => setShow(true));
 
     removeCookie("token");
     removeCookie("refreshToken");
@@ -27,10 +27,10 @@ function Logout() {
     window.location.reload();
   };
 
-  const pressKey = (e) => {
+  const pressKey = (e: any) => {
     if (e.key === "Enter") {
       if (show) logoutClear();
-      else logout();
+      else logout(e);
     }
   };
 

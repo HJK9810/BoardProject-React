@@ -10,15 +10,15 @@ import Axios from "../Axios";
 
 function Baord() {
   const [post, setPost] = useState([]);
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({number: 0, totalPages: 0, first: false, last: false});
   const [page, setPage] = useState(0);
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(["token"]);
-  const [user, setUser] = useState({});
+  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [user, setUser] = useState({sub: "", auth: "", exp: ""});
   const headline = "문의사항";
-  const emails = {};
+  const emails: any = {};
 
   useEffect(() => {
     const token = cookie.token;
@@ -26,7 +26,7 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     if (cookie.refreshToken) reissueToken(cookie, null);
 
-    const decodeToken = jwtDecode(token);
+    const decodeToken: any = jwtDecode(token);
     setUser(decodeToken);
 
     if (check) {
@@ -36,7 +36,7 @@ function Baord() {
     }
   }, [page, check]);
 
-  const reissueToken = async (cookie, err) => {
+  const reissueToken = async (cookie: any, err: any) => {
     const body = {
       accessToken: cookie.token,
       refreshToken: cookie.refreshToken,
@@ -59,14 +59,14 @@ function Baord() {
     }
   };
 
-  const dataIn = (data) => {
+  const dataIn = (data: any) => {
     if (data.hasOwnProperty("code")) navigate("/expire", {state: data});
 
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };
 
-  const moveView = (e) => {
+  const moveView = (e: any) => {
     e.preventDefault();
     if (emails[e.target.id] === user.sub || user.auth.includes("ADMIN")) {
       if (e.target.id) navigate(`/viewOne/${e.target.id}`);
@@ -83,7 +83,7 @@ function Baord() {
           나만보기
         </label>
       </div>
-      {post.map((el) => {
+      {post.map((el: any) => {
         const name = el.users.name;
         const email = el.users.email;
         emails[el.id] = email;
@@ -97,7 +97,7 @@ function Baord() {
               작성자 : {email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
             </span>
             <p className="p-2 mb-2 text-muted" id={el.id} onClick={moveView}>
-              <Moment date={el.createdDate} format="YYYY.MM.DD" id={el.id} onClick={moveView} />
+              <Moment date={el.createdDate} format="YYYY.MM.DD" />
             </p>
             <hr className="m-0 opacity-100" id={el.id} onClick={moveView} />
           </div>
@@ -105,9 +105,9 @@ function Baord() {
       })}
 
       <div className="d-flex justify-content-center mt-5">
-        <Pagination pagination={pagination} setPage={(p) => setPage(p)} />
+        <Pagination pagination={pagination} setPage={(p: any) => setPage(p)} />
       </div>
-      <button className={"btn btn-secondary my-4 widthMax " + (user.hasOwnProperty("auth") && user.auth.includes("ADMIN") ? "disabled" : "")} onClick={(e) => navigate("/add")}>
+      <button className="btn btn-secondary my-4 widthMax " onClick={(e) => navigate("/add")} disabled={user.auth.includes("ADMIN") ? true : false}>
         문의하기
       </button>
     </div>

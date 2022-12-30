@@ -5,9 +5,9 @@ import "./App.scss";
 import Add from "./screen/add.screen";
 import Baord from "./screen/board.screen";
 import Edit from "./screen/edit.screen";
-import ExpireLogin from "./screen/expire.screen";
-import Login from "./screen/login.screen";
-import Logout from "./screen/logout.screen";
+import ExpireLogin from "./login/expire.screen";
+import Login from "./login/login.screen";
+import Logout from "./login/logout.screen";
 import ViewOne from "./screen/view.screen";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login />}></Route>
+          <Route path="/" element={<Login />}></Route>
           <Route path="/board" element={<Baord />}></Route>
           <Route path="/add" element={<Add />}></Route>
           <Route path="/viewOne/:id" element={<ViewOne />}></Route>

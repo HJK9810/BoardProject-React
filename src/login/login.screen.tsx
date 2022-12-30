@@ -8,12 +8,12 @@ import BoardService from "../service/BoardService";
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const [, setCookie] = useCookies([]);
+  const [, setCookie] = useCookies(["token", "refreshToken", "exp"]);
 
   const [show, setShow] = useState(false);
   const [eMessage, setEMessage] = useState("");
 
-  const submit = async (e) => {
+  const submit = async (e: any) => {
     e.preventDefault();
     let loginCheck = false;
 
@@ -41,7 +41,7 @@ function Login() {
     if (loginCheck) window.location.replace("/board");
   };
 
-  const enterPress = async (e) => {
+  const enterPress = async (e: any) => {
     if (e.key === "Enter") {
       if (!show) await submit(e);
       else setShow(false);

@@ -30,6 +30,19 @@ function Answer({answers, viewId, token, setACount}: props) {
     setAuth(decode.auth);
   };
 
+  const printBtns = (id: string) => {
+    return (
+      <div className={"btn-group float-end" + (btnShow && auth.includes("ADMIN") ? "" : " d-none")} role="group">
+        <button type="button" className="btn btn-outline-info" id={id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
+          수정
+        </button>
+        <button type="button" className="btn btn-outline-danger" onClick={(e) => setShow(true)}>
+          삭제
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
       <h3 className="p-3 pb-0 mb-0">답변내용</h3>
@@ -41,14 +54,7 @@ function Answer({answers, viewId, token, setACount}: props) {
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
                 </p>
                 <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={(e) => setBtnShow(false)}>
-                  <div className={"btn-group float-end" + (btnShow && auth.includes("ADMIN") ? "" : " d-none")} role="group">
-                    <button type="button" className="btn btn-outline-info" id={el.id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
-                      수정
-                    </button>
-                    <button type="button" className="btn btn-outline-danger" onClick={(e) => setShow(true)}>
-                      삭제
-                    </button>
-                  </div>
+                  {printBtns(el.id)}
                   <div>
                     {el.contents.split("\n").map((line: string, i: number) => (
                       <span key={i}>

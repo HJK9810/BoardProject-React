@@ -76,7 +76,7 @@ function Add() {
         </div>
         <div className="p-3 mt-1">
           <label className="form-label">문의사항</label>
-          <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />
+          <textarea className="form-control" rows={5} style={{resize: "none"}} placeholder="내용을 입력해주세요." onChange={(e) => setContents(e.target.value)} />
         </div>
       </form>
       <button className="btn btn-save my-3 widthMax" onClick={submit}>

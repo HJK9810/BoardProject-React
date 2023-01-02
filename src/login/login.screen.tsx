@@ -1,14 +1,12 @@
 import {useState} from "react";
-import Axios from "../Axios";
-import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import SetCookies from "../service/SetCookies";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-  const [, setCookie] = useCookies(["token", "refreshToken", "exp"]);
 
   const [show, setShow] = useState(false);
   const [eMessage, setEMessage] = useState("");
@@ -25,10 +23,7 @@ function Login() {
         setPasswd("");
         setShow(true);
       } else {
-        setCookie("token", res.accessToken);
-        setCookie("exp", res.accessTokenExpiresIn);
-        setCookie("refreshToken", res.refreshToken);
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+        SetCookies.refreshCookie(res);
         loginCheck = true;
       }
     });

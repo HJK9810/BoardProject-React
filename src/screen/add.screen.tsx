@@ -4,7 +4,7 @@ import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
-import Axios from "../Axios";
+import SetCookies from "../service/SetCookies";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -12,7 +12,7 @@ function Add() {
   const [files, setFiles] = useState<FileList | null>(null);
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const headline = "문의하기";
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
@@ -28,10 +28,7 @@ function Add() {
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
 
-      setCookie("refreshToken", res.refreshToken);
-      setCookie("exp", res.accessTokenExpiresIn);
-      setCookie("token", res.accessToken);
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+      SetCookies.refreshCookie(res);
     });
   };
 

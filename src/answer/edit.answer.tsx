@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import Axios from "../Axios";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import SetCookies from "../service/SetCookies";
 
 function EditAnswer() {
   const [contents, setContents] = useState("");
@@ -12,7 +12,7 @@ function EditAnswer() {
   const {id} = useParams();
   const location = useLocation();
 
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const headline = "답변수정하기";
   const [show, setShow] = useState(false);
 
@@ -28,11 +28,7 @@ function EditAnswer() {
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
 
-      setCookie("refreshToken", res.refreshToken);
-      setCookie("exp", res.accessTokenExpiresIn);
-      setCookie("token", res.accessToken);
-
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+      SetCookies.refreshCookie(res);
     });
   };
 

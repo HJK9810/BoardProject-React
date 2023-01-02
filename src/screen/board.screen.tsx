@@ -6,7 +6,7 @@ import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
-import Axios from "../Axios";
+import SetCookies from "../service/SetCookies";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -15,7 +15,7 @@ function Baord() {
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [user, setUser] = useState({sub: "", auth: "", exp: ""});
   const headline = "문의사항";
   const emails: any = {};
@@ -35,13 +35,9 @@ function Baord() {
   }, [page, check]);
 
   const reissueToken = async (cookie: any) => {
-    const body = {
-      accessToken: cookie.token,
-      refreshToken: cookie.refreshToken,
-    };
-
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     const remainingTime = cookie.exp - Date.now();
+
     // 1. 완전 만료시 만료 페이지 이동
     if (remainingTime < 0) {
       move = true;
@@ -49,12 +45,10 @@ function Baord() {
     } else if (remainingTime < 1000 * 60 * 5) {
       // 2. 완전 만료까지 시간이 남았을경우 자동 연장
       // 토큰 갱신 서버통신
-      await BoardService.refreshToken(body).then((res) => {
+      await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
         if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
-        setCookie("refreshToken", res.refreshToken);
-        setCookie("exp", res.accessTokenExpiresIn);
-        setCookie("token", res.accessToken);
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+
+        SetCookies.refreshCookie(res);
       });
     }
   };

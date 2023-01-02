@@ -5,7 +5,7 @@ import {useCookies} from "react-cookie";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
-import Axios from "../Axios";
+import SetCookies from "../service/SetCookies";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -14,7 +14,7 @@ function Edit() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [image, setImage] = useState([]);
   const headline = "문의사항 수정";
   const [show, setShow] = useState(false);
@@ -39,10 +39,7 @@ function Edit() {
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
 
-      setCookie("refreshToken", res.refreshToken);
-      setCookie("exp", res.accessTokenExpiresIn);
-      setCookie("token", res.accessToken);
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+      SetCookies.refreshCookie(res);
     });
   };
 

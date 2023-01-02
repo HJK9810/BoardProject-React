@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
-import Axios from "../Axios";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
+import SetCookies from "../service/SetCookies";
 
 function ExpireLogin() {
   const navigate = useNavigate();
@@ -21,16 +21,12 @@ function ExpireLogin() {
 
     // 토큰 갱신 서버통신
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
-      console.log(res);
       if (res.hasOwnProperty("code")) {
         setCookie("token", "undefined");
         return setBtnWork(false);
       }
 
-      setCookie("refreshToken", res.refreshToken);
-      setCookie("exp", res.accessTokenExpiresIn);
-      setCookie("token", res.accessToken);
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+      SetCookies.refreshCookie(res);
 
       navigate("/board", {replace: true});
     });
@@ -39,7 +35,7 @@ function ExpireLogin() {
   return (
     <div className="text-center container">
       <Header headline={"Login Please"} />
-      <h2 className="p-2 pt-5 mt-5">로그인 시간이 만료되었습니다.</h2>
+      <h2 className="p-2 pt-5 mt-5">{location.state ? location.state.message : "로그인 시간이 만료되었습니다."}</h2>
       <h3 className="p-1">다시 로그인 하거나 시간을 연장해 주세요.</h3>
       <button className="btn btn-outline-success m-3" onClick={(e) => navigate("/login", {replace: true})}>
         로그인 하기

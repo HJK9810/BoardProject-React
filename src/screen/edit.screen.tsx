@@ -35,14 +35,10 @@ function Edit() {
   }, []);
 
   const tokenRefresh = async (cookie: any) => {
-    const body = {
-      accessToken: cookie.token,
-      refreshToken: cookie.refreshToken,
-    };
-
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body).then((res) => {
+    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);
       setCookie("token", res.accessToken);
@@ -112,10 +108,10 @@ function Edit() {
         id={`${id}`}
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"}
-        okFunc={(e: any) => submit(e)}
+        clickFunc={(e: any) => submit(e)}
         cancleFunc={() => setError(false)}
       />
-      <ModalConfirm id={`${id}`} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} okFunc={(e: any) => deleteQ(e)} cancleFunc={() => setDel(false)} />
+      <ModalConfirm id={`${id}`} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: any) => deleteQ(e)} cancleFunc={() => setDel(false)} />
     </div>
   );
 }

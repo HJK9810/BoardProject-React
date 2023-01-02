@@ -1,21 +1,15 @@
 import React from "react";
 
-type viewProps = {
+type props = {
   show: boolean;
   message: string;
-  btnColor: string;
+  btnColor?: string;
   clickFunc: any;
+  cancleFunc?: any;
+  id?: string;
 };
 
-type confirmProps = {
-  show: boolean;
-  message: string;
-  okFunc: any;
-  cancleFunc: any;
-  id: string;
-};
-
-export function ModalView({show, message, btnColor, clickFunc}: viewProps) {
+export function ModalView({show, message, btnColor, clickFunc}: props) {
   return (
     <>
       <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>
@@ -33,7 +27,7 @@ export function ModalView({show, message, btnColor, clickFunc}: viewProps) {
   );
 }
 
-export function ModalConfirm({show, message, cancleFunc, okFunc, id}: confirmProps) {
+export function ModalConfirm({show, message, cancleFunc, clickFunc, id}: props) {
   return (
     <>
       <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>
@@ -50,7 +44,7 @@ export function ModalConfirm({show, message, cancleFunc, okFunc, id}: confirmPro
             <button className="btn btn-danger" onClick={cancleFunc}>
               취소
             </button>
-            <button className="btn btn-ok" id={id} onClick={okFunc}>
+            <button className="btn btn-ok" id={id} onClick={clickFunc}>
               확인
             </button>
           </div>

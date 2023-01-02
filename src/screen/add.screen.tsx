@@ -24,14 +24,10 @@ function Add() {
   }, []);
 
   const tokenRefresh = async (cookie: any) => {
-    const body = {
-      accessToken: cookie.token,
-      refreshToken: cookie.refreshToken,
-    };
-
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body).then((res) => {
+    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);
       setCookie("token", res.accessToken);
@@ -84,7 +80,13 @@ function Add() {
       </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
-      <ModalConfirm id="0" show={error} message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 등록하시겠습니까?"} okFunc={(e: any) => submit(e)} cancleFunc={() => setError(false)} />
+      <ModalConfirm
+        id="0"
+        show={error}
+        message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 등록하시겠습니까?"}
+        clickFunc={(e: any) => submit(e)}
+        cancleFunc={() => setError(false)}
+      />
     </div>
   );
 }

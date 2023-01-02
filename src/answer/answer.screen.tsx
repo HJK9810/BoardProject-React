@@ -64,7 +64,7 @@ function Answer({answers, viewId, token, setACount}: props) {
                   </div>
                 </div>
 
-                <ModalConfirm id={el.id} show={show} message={"해당 답변을 삭제하시겠습니까?"} okFunc={delAnswer} cancleFunc={() => setShow(false)} />
+                <ModalConfirm id={el.id} show={show} message={"해당 답변을 삭제하시겠습니까?"} clickFunc={delAnswer} cancleFunc={() => setShow(false)} />
               </div>
             );
           })

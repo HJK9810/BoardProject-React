@@ -30,7 +30,7 @@ function EditAnswer() {
     };
 
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body, cookie.token).then((res) => {
+    await BoardService.refreshToken(body).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);

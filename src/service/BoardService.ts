@@ -70,8 +70,8 @@ class BoardService {
       .catch((error) => error.response.data);
   }
 
-  async refreshToken(form: Object, token: string) {
-    return await Axios.post("/api/reissue", form, setHeader(jsonHeader, token))
+  async refreshToken(form: Object) {
+    return await Axios.post("/api/reissue", form)
       .then((res) => res.data)
       .catch((error) => error.response.data);
   }

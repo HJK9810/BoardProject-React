@@ -32,14 +32,19 @@ function ExpireLogin() {
     };
 
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body, token).then((res) => {
+    await BoardService.refreshToken(body).then((res) => {
+      console.log(res);
+      if (res.hasOwnProperty("code")) {
+        setCookie("token", null);
+        return setBtnWork(false);
+      }
+
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);
       setCookie("token", res.accessToken);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
 
-      if (res.hasOwnProperty("code")) setBtnWork(false);
-      else navigate("/board", {replace: true});
+      navigate("/board", {replace: true});
     });
   };
 

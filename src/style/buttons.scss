@@ -1,8 +1,5 @@
-button {
-  .disabled,
-  :disabled {
-    opacity: 0.2;
-  }
+button:disabled {
+  opacity: 0.5;
 }
 
 .btn {

@@ -41,10 +41,10 @@ export function ModalConfirm({show, message, cancleFunc, clickFunc, id}: props) 
             ))}
           </div>
           <div className="modal-footer">
-            <button className="btn btn-danger" onClick={cancleFunc}>
+            <button className="btn btn-danger m-2" onClick={cancleFunc}>
               취소
             </button>
-            <button className="btn btn-ok" id={id} onClick={clickFunc}>
+            <button className="btn btn-ok m-2" id={id} onClick={clickFunc}>
               확인
             </button>
           </div>

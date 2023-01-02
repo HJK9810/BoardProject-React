@@ -23,7 +23,7 @@ function Login() {
     };
 
     await BoardService.login(axiosBody).then((res) => {
-      if (res.hasOwnProperty("code")) {
+      if (!res || res.hasOwnProperty("code")) {
         // user 존재X
         setEMessage(res.message);
         setEmail("");

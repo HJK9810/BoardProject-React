@@ -7,7 +7,7 @@ button {
 
 .btn {
   display: inline-block;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 0.8rem 0.75rem;
   line-height: 1.5;
@@ -63,6 +63,7 @@ button {
   border: 1px solid #009933;
   color: #009933;
   background-color: transparent;
+  font-size: 1rem;
 
   :hover :focus {
     background-color: #009933;

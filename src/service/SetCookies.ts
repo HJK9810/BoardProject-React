@@ -12,14 +12,14 @@ class SetCookies {
 
   tokenRefresh = async (token: string, refreshToken: string) => {
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken({accessToken: token, refreshToken: refreshToken}).then((res) => {
+    return await BoardService.refreshToken({accessToken: token, refreshToken: refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) return {state: res};
 
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);
       setCookie("token", res.accessToken);
       Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
-      return null;
+      return {state: null};
     });
   };
 }

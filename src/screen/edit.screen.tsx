@@ -27,7 +27,7 @@ function Edit() {
     else if (lastTime < 1000 * 60 * 10) {
       // 만료 10분전
       const error: any = SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (error) navigate("/expire", {state: error});
+      if (error.state) navigate("/expire", {state: error});
     }
 
     BoardService.findOne(Number(id), cookie.token).then((res) => {

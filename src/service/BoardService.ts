@@ -73,7 +73,7 @@ class BoardService {
   async refreshToken(form: Object) {
     return await Axios.post("/api/reissue", form)
       .then((res) => res.data)
-      .catch((error) => error.response.data);
+      .catch((error) => error);
   }
 }
 

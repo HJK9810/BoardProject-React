@@ -5,12 +5,6 @@ import Axios from "../Axios";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
 
-type basic = {
-  token: string;
-  refreshToken: string;
-  exp: number;
-};
-
 function ExpireLogin() {
   const navigate = useNavigate();
   const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
@@ -24,18 +18,12 @@ function ExpireLogin() {
 
   const reissue = async (e: any) => {
     e.preventDefault();
-    const token = cookie.token;
-
-    const body = {
-      accessToken: token,
-      refreshToken: cookie.refreshToken,
-    };
 
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body).then((res) => {
+    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       console.log(res);
       if (res.hasOwnProperty("code")) {
-        setCookie("token", null);
+        setCookie("token", "undefined");
         return setBtnWork(false);
       }
 

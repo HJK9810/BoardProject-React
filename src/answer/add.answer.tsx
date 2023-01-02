@@ -22,14 +22,10 @@ function AddAnswer() {
   }, []);
 
   const tokenRefresh = async (cookie: any) => {
-    const body = {
-      accessToken: cookie.token,
-      refreshToken: cookie.refreshToken,
-    };
-
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken(body).then((res) => {
+    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
+
       setCookie("refreshToken", res.refreshToken);
       setCookie("exp", res.accessTokenExpiresIn);
       setCookie("token", res.accessToken);

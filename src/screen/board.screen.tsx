@@ -19,24 +19,22 @@ function Baord() {
   const [user, setUser] = useState({sub: "", auth: "", exp: ""});
   const headline = "문의사항";
   const emails: any = {};
+  let move = false;
 
   useEffect(() => {
     const token = cookie.token;
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (cookie.refreshToken) reissueToken(cookie, null);
+    if (cookie.refreshToken) reissueToken(cookie);
 
     const decodeToken: any = jwtDecode(token);
     setUser(decodeToken);
 
-    if (check) {
-      BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn);
-    } else {
-      BoardService.findAll(page, 6, token).then(dataIn);
-    }
+    if (check && !move) BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn);
+    else if (!move) BoardService.findAll(page, 6, token).then(dataIn);
   }, [page, check]);
 
-  const reissueToken = async (cookie: any, err: any) => {
+  const reissueToken = async (cookie: any) => {
     const body = {
       accessToken: cookie.token,
       refreshToken: cookie.refreshToken,
@@ -45,9 +43,11 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     const remainingTime = cookie.exp - Date.now();
     // 1. 완전 만료시 만료 페이지 이동
-    if (remainingTime < 0 && !err) navigate("/expire", {state: err});
-    // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-    else if (remainingTime < 1000 * 60 * 5 || err) {
+    if (remainingTime < 0) {
+      move = true;
+      navigate("/expire");
+    } else if (remainingTime < 1000 * 60 * 5) {
+      // 2. 완전 만료까지 시간이 남았을경우 자동 연장
       // 토큰 갱신 서버통신
       await BoardService.refreshToken(body).then((res) => {
         if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
@@ -68,9 +68,7 @@ function Baord() {
 
   const moveView = (e: any) => {
     e.preventDefault();
-    if (emails[e.target.id] === user.sub || user.auth.includes("ADMIN")) {
-      if (e.target.id) navigate(`/viewOne/${e.target.id}`);
-    }
+    if (e.target.id && (emails[e.target.id] === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.target.id}`);
   };
 
   return (

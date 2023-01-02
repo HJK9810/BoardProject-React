@@ -17,12 +17,7 @@ function Login() {
     e.preventDefault();
     let loginCheck = false;
 
-    const axiosBody = {
-      email: email,
-      password: passwd,
-    };
-
-    await BoardService.login(axiosBody).then((res) => {
+    await BoardService.login({email: email, password: passwd}).then((res) => {
       if (!res || res.hasOwnProperty("code")) {
         // user 존재X
         setEMessage(res.message);

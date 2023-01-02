@@ -20,17 +20,12 @@ function Add() {
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
-    else if (lastTime < 1000 * 60 * 10) tokenRefresh(cookie); // 만료 10분전
+    else if (lastTime < 1000 * 60 * 10) {
+      // 만료 10분전
+      const error: any = SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      if (error) navigate("/expire", {state: error});
+    }
   }, []);
-
-  const tokenRefresh = async (cookie: any) => {
-    // 토큰 갱신 서버통신
-    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
-      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
-
-      SetCookies.refreshCookie(res);
-    });
-  };
 
   const submit = async (e: any) => {
     e.preventDefault();

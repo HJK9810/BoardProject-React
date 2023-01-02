@@ -44,12 +44,8 @@ function Baord() {
       navigate("/expire");
     } else if (remainingTime < 1000 * 60 * 5) {
       // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-      // 토큰 갱신 서버통신
-      await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
-        if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
-
-        SetCookies.refreshCookie(res);
-      });
+      const error: any = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      if (error) navigate("/expire", {state: error});
     }
   };
 

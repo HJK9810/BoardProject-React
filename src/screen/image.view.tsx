@@ -55,10 +55,10 @@ function ImageView({image, check, setImage}: props) {
             <img alt="name" src={clickURL} width={widthSize} className="m-3 img-thumbnail" />
           </div>
           <div className="modal-footer">
-            <button className="btn btn-danger" onClick={delImage}>
+            <button className="btn btn-danger m-2" onClick={delImage}>
               Delete
             </button>
-            <button className="btn btn-ok" onClick={() => setShow(false)}>
+            <button className="btn btn-ok m-2" onClick={() => setShow(false)}>
               Cancle
             </button>
           </div>

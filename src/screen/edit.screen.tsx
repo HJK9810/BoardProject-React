@@ -20,6 +20,7 @@ function Edit() {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [del, setDel] = useState(false);
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
@@ -40,8 +41,14 @@ function Edit() {
 
   const submit = async (e: any) => {
     e.preventDefault();
-    if (title.length < 3) return setShow(true);
-    if (contents.length < 10) return setShow(true);
+    if (title.length < 3) {
+      setMsg("제목");
+      return setShow(true);
+    }
+    if (contents.length < 10) {
+      setMsg("문의사항");
+      return setShow(true);
+    }
 
     const formData = new FormData();
 
@@ -95,9 +102,9 @@ function Edit() {
         문의 삭제하기
       </button>
 
-      <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
+      <ModalView show={show} message={`글자수가 모자랍니다.\u00a0\u00a0${msg}을 더 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
       <ModalConfirm
-        id={`${id}`}
+        id={id}
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"}
         clickFunc={(e: any) => submit(e)}

@@ -23,7 +23,9 @@ function ViewOne() {
 
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
     BoardService.findOne(Number(id), token).then((res) => {
-      if (res.hasOwnProperty("data")) navigate("/expire", {state: res.data});
+      if (res.hasOwnProperty("code")) {
+        res.code === "MEMBER_NOT_ALLOWED" ? navigate(-1) : navigate("/expire", {state: res.data});
+      }
       setPost(res);
       if (res.images) setImage(res.images.split(","));
 

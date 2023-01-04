@@ -33,7 +33,7 @@ class BoardService {
   findOne(id = 1, token: string) {
     return Axios.get(`/question/viewOne/${id}`, setHeader(jsonHeader, token))
       .then((res) => res.data)
-      .catch((err) => err.response);
+      .catch((err) => err.response.data);
   }
 
   async addItem(form: FormData, token: string) {
@@ -73,7 +73,7 @@ class BoardService {
   async refreshToken(form: Object) {
     return await Axios.post("/api/reissue", form)
       .then((res) => res.data)
-      .catch((error) => error);
+      .catch((error) => error.response.data);
   }
 }
 

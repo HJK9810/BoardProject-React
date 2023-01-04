@@ -8,12 +8,12 @@ import SetCookies from "../service/SetCookies";
 function ExpireLogin() {
   const navigate = useNavigate();
   const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
-  const [btnWork, setBtnWork] = useState(true);
+  const [btnWork, setBtnWork] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (btnWork && location.state) location.state.code === "EXPIRED_JWT_TOKEN" ? setBtnWork(true) : setBtnWork(false);
-    if (cookie.token === "undefined") setBtnWork(false);
+    if (btnWork && location.state) location.state.code === "EXPIRED_JWT_TOKEN" ? setBtnWork(false) : setBtnWork(true);
+    if (cookie.token === "undefined") setBtnWork(true);
   }, [btnWork]);
 
   const reissue = async (e: any) => {
@@ -23,7 +23,7 @@ function ExpireLogin() {
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) {
         setCookie("token", "undefined");
-        return setBtnWork(false);
+        return setBtnWork(true);
       }
 
       SetCookies.refreshCookie(res);

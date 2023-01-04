@@ -7,7 +7,7 @@ import SetCookies from "../service/SetCookies";
 
 function ExpireLogin() {
   const navigate = useNavigate();
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [btnWork, setBtnWork] = useState(false);
   const location = useLocation();
 
@@ -21,13 +21,9 @@ function ExpireLogin() {
 
     // 토큰 갱신 서버통신
     await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
-      if (res.hasOwnProperty("code")) {
-        setCookie("token", "undefined");
-        return setBtnWork(true);
-      }
+      if (res.hasOwnProperty("code")) return setBtnWork(true);
 
       SetCookies.refreshCookie(res);
-
       navigate("/board", {replace: true});
     });
   };
@@ -35,7 +31,7 @@ function ExpireLogin() {
   return (
     <div className="text-center container">
       <Header headline={"Login Please"} />
-      <h2 className="p-2 pt-5 mt-5">{location.state ? location.state.message : "로그인 시간이 만료되었습니다."}</h2>
+      <h2 className="p-2 pt-5 mt-5">{location.state && location.state.code !== "EXPIRED_JWT_TOKEN" ? location.state.message : "로그인 시간이 만료되었습니다."}</h2>
       <h3 className="p-1">다시 로그인 하거나 시간을 연장해 주세요.</h3>
       <button className="btn btn-outline-success m-3" onClick={(e) => navigate("/login", {replace: true})}>
         로그인 하기

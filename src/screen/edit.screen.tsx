@@ -110,7 +110,7 @@ function Edit() {
         clickFunc={(e: any) => submit(e)}
         cancleFunc={() => setError(false)}
       />
-      <ModalConfirm id={`${id}`} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: any) => deleteQ(e)} cancleFunc={() => setDel(false)} />
+      <ModalConfirm id={id} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: any) => deleteQ(e)} cancleFunc={() => setDel(false)} />
     </div>
   );
 }

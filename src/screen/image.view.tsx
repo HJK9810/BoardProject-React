@@ -1,13 +1,8 @@
 import {useEffect, useState} from "react";
 import BoardService from "../service/BoardService";
+import {imageProps} from "../service/Props";
 
-type props = {
-  image: any;
-  check: boolean;
-  setImage: any;
-};
-
-function ImageView({image, check, setImage}: props) {
+function ImageView({image, check, setImage}: imageProps) {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [clickURL, setClickURL] = useState("");

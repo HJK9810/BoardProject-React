@@ -1,13 +1,10 @@
 import React, {useState} from "react";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
+import {navProps} from "../service/Props";
 import {ModalView} from "./Modal.layout";
 
-type props = {
-  headline: string;
-};
-
-function Header({headline}: props) {
+function Header({headline}: navProps) {
   const navigate = useNavigate();
   const [cookie] = useCookies([]);
   const [show, setShow] = useState(false);

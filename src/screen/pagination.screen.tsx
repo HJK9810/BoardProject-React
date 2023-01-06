@@ -1,18 +1,7 @@
 import React from "react";
+import {pageProps} from "../service/Props";
 
-type pagination = {
-  number: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-};
-
-interface props {
-  pagination?: pagination;
-  setPage: any;
-}
-
-function Pagination({pagination, setPage}: props) {
+function Pagination({pagination, setPage}: pageProps) {
   const {number, totalPages, first, last}: any = pagination;
   const handleClick = (p: number) => {
     setPage(p);

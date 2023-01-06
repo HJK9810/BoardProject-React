@@ -4,15 +4,9 @@ import Moment from "react-moment";
 import {useNavigate} from "react-router-dom";
 import {ModalConfirm} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import {answerProps} from "../service/Props";
 
-type props = {
-  answers: any;
-  viewId: string;
-  token: string;
-  setACount: any;
-};
-
-function Answer({answers, viewId, token, setACount}: props) {
+function Answer({answers, viewId, token, setACount}: answerProps) {
   const [btnShow, setBtnShow] = useState(false);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();

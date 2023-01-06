@@ -1,15 +1,7 @@
 import React from "react";
+import {modalProps} from "../service/Props";
 
-type props = {
-  show: boolean;
-  message: string;
-  btnColor?: string;
-  clickFunc: any;
-  cancleFunc?: any;
-  id?: string;
-};
-
-export function ModalView({show, message, btnColor, clickFunc}: props) {
+export function ModalView({show, message, btnColor, clickFunc}: modalProps) {
   return (
     <>
       <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>
@@ -27,7 +19,7 @@ export function ModalView({show, message, btnColor, clickFunc}: props) {
   );
 }
 
-export function ModalConfirm({show, message, cancleFunc, clickFunc, id}: props) {
+export function ModalConfirm({show, message, cancleFunc, clickFunc, id}: modalProps) {
   return (
     <>
       <div className="modal-backdrop show" style={{display: show ? "block" : "none"}}></div>

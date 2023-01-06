@@ -7,21 +7,24 @@ import SetCookies from "../service/SetCookies";
 
 function ExpireLogin() {
   const navigate = useNavigate();
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
+  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [btnWork, setBtnWork] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (btnWork && location.state) location.state.code === "EXPIRED_JWT_TOKEN" ? setBtnWork(false) : setBtnWork(true);
-    if (cookie.token === "undefined") setBtnWork(true);
+    if (btnWork && location.state) location.state.code === "REFRESH_TOKEN_NOT_FOUND" ? setBtnWork(true) : setBtnWork(false);
+    if (cookie.token === "error") setBtnWork(true);
   }, [btnWork]);
 
   const reissue = async (e: any) => {
     e.preventDefault();
 
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken}).then((res) => {
-      if (res.hasOwnProperty("code")) return setBtnWork(true);
+    await BoardService.refreshToken({form: {accessToken: cookie.token, refreshToken: cookie.refreshToken}}).then((res) => {
+      if (res.hasOwnProperty("code")) {
+        setCookie("token", "error");
+        return setBtnWork(true);
+      }
 
       SetCookies.refreshCookie(res);
       navigate("/board", {replace: true});

@@ -15,10 +15,7 @@ class SetCookies {
     return await BoardService.refreshToken({accessToken: token, refreshToken: refreshToken}).then((res) => {
       if (res.hasOwnProperty("code")) return {state: res};
 
-      setCookie("refreshToken", res.refreshToken);
-      setCookie("exp", res.accessTokenExpiresIn);
-      setCookie("token", res.accessToken);
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${res.accessToken}`;
+      this.refreshCookie(res);
       return {state: null};
     });
   };

@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
+import {Headlines} from "../service/Headlines";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
@@ -36,7 +37,7 @@ function Logout() {
 
   return (
     <div className="pt-5 container" onKeyDown={pressKey}>
-      <Header headline={"Logout"} />
+      <Header headline={Headlines.logout} />
       <h2 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h2>
       <button className="btn btn-danger mt-5 widthMax" onClick={logout}>
         로그아웃

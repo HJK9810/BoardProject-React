@@ -5,6 +5,7 @@ import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
 import SetCookies from "../service/SetCookies";
+import {Headlines} from "../service/Headlines";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -13,7 +14,6 @@ function Add() {
   const navigate = useNavigate();
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
-  const headline = "문의하기";
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
 
@@ -51,8 +51,8 @@ function Add() {
 
   return (
     <div className="pt-5 container">
-      <Header headline={headline} />
-      <h2 className="p-3 pt-5 mb-1">{headline}</h2>
+      <Header headline={Headlines.add} />
+      <h2 className="p-3 pt-5 mb-1">{Headlines.add}</h2>
       <form>
         <div className="p-3 mt-1">
           <label className="form-label">제목</label>

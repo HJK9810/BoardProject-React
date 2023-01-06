@@ -6,6 +6,7 @@ import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
+import {Headlines} from "../service/Headlines";
 
 function ViewOne() {
   const [post, setPost] = useState({title: "", contents: "", createdDate: "", answers: []});
@@ -35,17 +36,10 @@ function ViewOne() {
     setUser(jwtDecode(token));
   }, [aCount]);
 
-  const dateFormat = (inputDate: any) => {
-    const date = new Date(inputDate);
-    return `${date.getFullYear()}.${(date.getMonth() + 1 + "").padStart(2, "0")}.${(date.getDate() + "").padStart(2, "0")}`;
-  };
-
-  const headline = (date: any) => "문의내역 조회 - " + dateFormat(date);
-
   return (
     <div className="pt-5 container">
-      <Header headline={headline(post.createdDate)} />
-      <h2 className="p-3 pt-5 mb-1">{headline(post.createdDate)}</h2>
+      <Header headline={Headlines.view(post.createdDate)} />
+      <h2 className="p-3 pt-5 mb-1">{Headlines.view(post.createdDate)}</h2>
 
       <h3 className="p-3 mb-1">제목</h3>
       <div className="p-3 m-2 bg-dark rounded">{post.title}</div>

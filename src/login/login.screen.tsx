@@ -2,6 +2,7 @@ import {useState} from "react";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
 function Login() {
@@ -40,8 +41,8 @@ function Login() {
 
   return (
     <div className="pt-5 container" onKeyDown={enterPress}>
-      <Header headline={"Login"} />
-      <h2 className="text-center p-3 mt-5">Login</h2>
+      <Header headline={Headlines.login} />
+      <h2 className="text-center p-3 mt-5">{Headlines.login}</h2>
       <form>
         <div className="mb-3">
           <label className="form-label">User</label>

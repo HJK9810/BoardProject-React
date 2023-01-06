@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
 function AddAnswer() {
@@ -12,7 +13,6 @@ function AddAnswer() {
   const {id} = useParams();
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
-  const headline = "답변하기";
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ function AddAnswer() {
 
   return (
     <div className="pt-5 container">
-      <Header headline={headline} />
-      <h3 className="pt-5">{headline}</h3>
+      <Header headline={Headlines.addAnswer} />
+      <h3 className="pt-5">{Headlines.addAnswer}</h3>
       <form>
         <label className="form-label">답변내용</label>
         <textarea className="form-control" rows={5} style={{resize: "none"}} onChange={(e) => setContents(e.target.value)} />

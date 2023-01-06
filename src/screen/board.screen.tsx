@@ -7,6 +7,7 @@ import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetCookies from "../service/SetCookies";
+import {Headlines} from "../service/Headlines";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -17,7 +18,6 @@ function Baord() {
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [user, setUser] = useState({sub: "", auth: "", exp: ""});
-  const headline = "문의사항";
   const emails: any = {};
   let move = false;
 
@@ -66,8 +66,8 @@ function Baord() {
 
   return (
     <div className="pt-5 container">
-      <Header headline={headline} />
-      <h2 className="text-center m-4 pt-5">{headline}</h2>
+      <Header headline={Headlines.board} />
+      <h2 className="text-center m-4 pt-5">{Headlines.board}</h2>
       <div className="form-check float-end">
         <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={(e) => setCheck(e.target.checked)} checked={check ? true : false} />
         <label className="form-check-label" htmlFor="checkBox">

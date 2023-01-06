@@ -3,6 +3,7 @@ import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 import BoardService from "../service/BoardService";
+import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
 function ExpireLogin() {
@@ -33,7 +34,7 @@ function ExpireLogin() {
 
   return (
     <div className="text-center container">
-      <Header headline={"Login Please"} />
+      <Header headline={Headlines.expire} />
       <h2 className="p-2 pt-5 mt-5">{location.state && location.state.code !== "EXPIRED_JWT_TOKEN" ? location.state.message : "로그인 시간이 만료되었습니다."}</h2>
       <h3 className="p-1">다시 로그인 하거나 시간을 연장해 주세요.</h3>
       <button className="btn btn-outline-success m-3" onClick={(e) => navigate("/login", {replace: true})}>

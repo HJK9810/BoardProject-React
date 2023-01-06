@@ -6,6 +6,7 @@ import ImageView from "./image.view";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
 import SetCookies from "../service/SetCookies";
+import {Headlines} from "../service/Headlines";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -16,7 +17,6 @@ function Edit() {
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [image, setImage] = useState([]);
-  const headline = "문의사항 수정";
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [del, setDel] = useState(false);
@@ -77,8 +77,8 @@ function Edit() {
 
   return (
     <div className="pt-5 container">
-      <Header headline={headline} />
-      <h2 className="p-3 pt-5 mb-1">{headline}</h2>
+      <Header headline={Headlines.edit} />
+      <h2 className="p-3 pt-5 mb-1">{Headlines.edit}</h2>
       <form>
         <div className="p-3 mt-1">
           <label className="form-label">제목</label>

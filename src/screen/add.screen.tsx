@@ -6,6 +6,7 @@ import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
+import {errorForm} from "../service/Form";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -19,13 +20,17 @@ function Add() {
 
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
+    checkExpire(lastTime);
+  }, [cookie.exp]);
+
+  const checkExpire = async (lastTime: number) => {
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
     else if (lastTime < 1000 * 60 * 10) {
       // 만료 10분전
-      const error: any = SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (error.state) navigate("/expire", {state: error});
+      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      if (error) navigate("/expire", {state: error});
     }
-  }, []);
+  };
 
   const submit = async (e: any) => {
     e.preventDefault();

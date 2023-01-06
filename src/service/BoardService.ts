@@ -1,4 +1,5 @@
 import Axios from "../Axios";
+import {answerForm, cookieForm} from "./Form";
 
 const setHeader = (header: string, auth: string) => {
   return {
@@ -18,13 +19,13 @@ class BoardService {
     return "http://localhost:8080/image/" + fileName;
   }
 
-  findAll(page = 0, size: Number, token: string) {
+  findAll(page = 0, size: number, token: string) {
     return Axios.get(`/question/list?page=${page}&size=${size}&sort=id,desc`, setHeader(jsonHeader, token))
       .then((res) => res.data)
       .catch((err) => err.response.data);
   }
 
-  findByUser(email: string, page = 0, size: Number, token: string) {
+  findByUser(email: string, page = 0, size: number, token: string) {
     return Axios.get(`/question/list/${email}?page=${page}&&size=${size}&sort=id,desc`, setHeader(jsonHeader, token))
       .then((res) => res.data)
       .catch((err) => err.response.data);
@@ -48,7 +49,7 @@ class BoardService {
     return await Axios.delete(`/question/del/${id}`, setHeader(jsonHeader, token));
   }
 
-  async addAnswer(id = 1, form: Object, token: string) {
+  async addAnswer(id = 1, form: answerForm, token: string) {
     return await Axios.post(`/answer/add/${id}`, form, setHeader(jsonHeader, token));
   }
 
@@ -56,7 +57,7 @@ class BoardService {
     return Axios.get(`/answer/edit/${id}`, setHeader(jsonHeader, token)).then((res) => res.data);
   }
 
-  async editAnswer(id = 1, form: Object, token: string) {
+  async editAnswer(id = 1, form: answerForm, token: string) {
     return await Axios.post(`/answer/edit/${id}`, form, setHeader(jsonHeader, token));
   }
 
@@ -64,16 +65,14 @@ class BoardService {
     return await Axios.delete(`/answer/del/${id}?aId=${aid}`, setHeader(jsonHeader, token));
   }
 
-  async login(form: Object) {
+  async login(form: object) {
     return await Axios.post("/api/login", form)
       .then((res) => res.data)
       .catch((error) => error.response.data);
   }
 
-  async refreshToken(form: Object) {
-    return await Axios.post("/api/reissue", form)
-      .then((res) => res.data)
-      .catch((error) => error.response.data);
+  async refreshToken(form: cookieForm) {
+    return await Axios.post("/api/reissue", form).then((res) => res.data);
   }
 }
 

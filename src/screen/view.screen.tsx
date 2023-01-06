@@ -51,13 +51,13 @@ function ViewOne() {
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
       <div className={post.answers ? "" : "d-none"}>
-        <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: any) => setACount(c)} />
+        <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: number) => setACount(c)} />
       </div>
 
-      <button className={"btn btn-ask my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={(e) => navigate(`/edit/${id}`)}>
+      <button className={"btn btn-ask my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={() => navigate(`/edit/${id}`)}>
         수정하기
       </button>
-      <button className={"btn btn-ask my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " d-none")} onClick={(e) => navigate(`/addAnswer/${id}`)}>
+      <button className={"btn btn-ask my-4 widthMax" + (user.auth.includes("ADMIN") ? "" : " d-none")} onClick={() => navigate(`/addAnswer/${id}`)}>
         답변하기
       </button>
     </div>

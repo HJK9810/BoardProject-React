@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import {errorForm} from "../service/Form";
 import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
@@ -17,15 +18,19 @@ function AddAnswer() {
 
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
+    checkExpire(lastTime);
+  }, [cookie.exp]);
+
+  const checkExpire = async (lastTime: number) => {
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
     else if (lastTime < 1000 * 60 * 10) {
       // 만료 10분전
-      const error: any = SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (error.state) navigate("/expire", {state: error});
+      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      if (error) navigate("/expire", {state: error});
     }
-  }, []);
+  };
 
-  const submit = async (e: any) => {
+  const submit = async (e: MouseEvent) => {
     e.preventDefault();
     if (contents.length < 10) return setShow(true);
 

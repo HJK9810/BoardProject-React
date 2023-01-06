@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
@@ -68,7 +68,7 @@ function Edit() {
     navigate(`/viewOne/${id}`, {replace: true});
   };
 
-  const deleteQ = async (e: any) => {
+  const deleteQ = async (e: MouseEvent) => {
     e.preventDefault();
 
     await BoardService.delItem(Number(id), cookie.token).catch((err) => navigate("/expire", {state: err.response.data}));
@@ -98,7 +98,7 @@ function Edit() {
       <button className="btn btn-save my-3 widthMax" onClick={submit}>
         수정완료
       </button>
-      <button className="btn btn-danger my-3 widthMax" onClick={(e) => setDel(true)}>
+      <button className="btn btn-danger my-3 widthMax" onClick={() => setDel(true)}>
         문의 삭제하기
       </button>
 
@@ -110,7 +110,7 @@ function Edit() {
         clickFunc={(e: any) => submit(e)}
         cancleFunc={() => setError(false)}
       />
-      <ModalConfirm id={id} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: any) => deleteQ(e)} cancleFunc={() => setDel(false)} />
+      <ModalConfirm id={id} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: MouseEvent) => deleteQ(e)} cancleFunc={() => setDel(false)} />
     </div>
   );
 }

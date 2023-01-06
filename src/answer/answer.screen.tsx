@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Moment from "react-moment";
 import {useNavigate} from "react-router-dom";
 import {ModalConfirm} from "../layout/Modal.layout";
@@ -11,8 +11,6 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [auth, setAuth] = useState("");
-
-  useEffect(() => {}, []);
 
   const delAnswer = async (e: any) => {
     e.preventDefault();
@@ -30,7 +28,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
         <button type="button" className="btn btn-outline-info" id={id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
           수정
         </button>
-        <button type="button" className="btn btn-outline-danger" onClick={(e) => setShow(true)}>
+        <button type="button" className="btn btn-outline-danger" onClick={() => setShow(true)}>
           삭제
         </button>
       </div>
@@ -47,7 +45,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                 <p className="p-2 m-1 mb-0">
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
                 </p>
-                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={(e) => setBtnShow(false)}>
+                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   {printBtns(el.id)}
                   <div>
                     {el.contents.split("\n").map((line: string, i: number) => (

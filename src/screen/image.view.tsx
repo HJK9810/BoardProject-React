@@ -28,7 +28,7 @@ function ImageView({image, check, setImage}: imageProps) {
   };
 
   const delImage = (e: any) => {
-    e.preventDefault();
+    e.e.preventDefault();
 
     image.splice(id, 1);
     setImage(image);

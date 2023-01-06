@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {KeyboardEvent, useState} from "react";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
@@ -32,7 +32,7 @@ function Login() {
     if (loginCheck) window.location.replace("/board");
   };
 
-  const enterPress = async (e: any) => {
+  const enterPress = async (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       if (!show) await submit(e);
       else setShow(false);

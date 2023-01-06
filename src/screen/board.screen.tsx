@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
@@ -8,6 +8,7 @@ import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
+import {decodeForm, errorForm, webCookie} from "../service/Form";
 
 function Baord() {
   const [post, setPost] = useState([]);
@@ -17,7 +18,7 @@ function Baord() {
   const navigate = useNavigate();
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
-  const [user, setUser] = useState({sub: "", auth: "", exp: ""});
+  const [user, setUser] = useState<decodeForm>();
   const emails: any = {};
   let move = false;
 
@@ -27,14 +28,17 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     if (cookie.refreshToken) reissueToken(cookie);
 
-    const decodeToken: any = jwtDecode(token);
+    const decodeToken: decodeForm = jwtDecode(token);
     setUser(decodeToken);
 
-    if (check && !move) BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn);
-    else if (!move) BoardService.findAll(page, 6, token).then(dataIn);
+    if (check && !move) {
+      BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn).catch(errorCheck);
+    } else if (!move) {
+      BoardService.findAll(page, 6, token).then(dataIn).catch(errorCheck);
+    }
   }, [page, check]);
 
-  const reissueToken = async (cookie: any) => {
+  const reissueToken = async (cookie: webCookie) => {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     const remainingTime = cookie.exp - Date.now();
 
@@ -44,7 +48,7 @@ function Baord() {
       navigate("/expire");
     } else if (remainingTime < 1000 * 60 * 5) {
       // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-      const error: any = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
       if (!error) {
         move = true;
         navigate("/expire", {state: error});
@@ -53,14 +57,18 @@ function Baord() {
   };
 
   const dataIn = (data: any) => {
-    if (data.hasOwnProperty("code")) navigate("/expire", {state: data});
-
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };
 
-  const moveView = (e: any) => {
+  const errorCheck = (res: any) => {
+    const data: errorForm = res.response.data;
+    navigate("/expire", {state: data});
+  };
+
+  const moveView = (e: MouseEvent) => {
     e.preventDefault();
+
     if (e.target.id && (emails[e.target.id] === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.target.id}`);
   };
 
@@ -96,9 +104,9 @@ function Baord() {
       })}
 
       <div className="d-flex justify-content-center mt-5">
-        <Pagination pagination={pagination} setPage={(p: any) => setPage(p)} />
+        <Pagination pagination={pagination} setPage={(p: number) => setPage(p)} />
       </div>
-      <button className="btn btn-ask my-4 widthMax " onClick={(e) => navigate("/add")} disabled={user.auth.includes("ADMIN") ? true : false}>
+      <button className="btn btn-ask my-4 widthMax " onClick={() => navigate("/add")} disabled={user.auth.includes("ADMIN") ? true : false}>
         문의하기
       </button>
     </div>

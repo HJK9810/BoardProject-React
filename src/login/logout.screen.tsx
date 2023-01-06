@@ -1,20 +1,21 @@
 import {useCookies} from "react-cookie";
 import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
-import {useState} from "react";
+import {KeyboardEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import {Headlines} from "../service/Headlines";
+import {decodeForm} from "../service/Form";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  const logout = (e: any) => {
-    const decode: any = jwtDecode(cookie.token);
-    Axios.get("/api/logout/" + decode.sub, decode.sub).catch((err) => setShow(true));
+  const logout = () => {
+    const decode: decodeForm = jwtDecode(cookie.token);
+    Axios.get("/api/logout/" + decode.sub).catch(() => setShow(true));
 
     removeCookie("token");
     removeCookie("refreshToken");
@@ -28,10 +29,10 @@ function Logout() {
     window.location.reload();
   };
 
-  const pressKey = (e: any) => {
+  const pressKey = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       if (show) logoutClear();
-      else logout(e);
+      else logout();
     }
   };
 

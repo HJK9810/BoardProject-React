@@ -23,6 +23,10 @@ function Baord() {
 
   useEffect(() => {
     const token = cookie.token;
+    if (!token || token === "undefined") {
+      navigate("/login", {replace: true});
+      window.location.reload();
+    }
 
     const reissueToken = async (cookie: webCookie) => {
       const remainingTime = cookie.exp - Date.now();
@@ -54,7 +58,6 @@ function Baord() {
   }, [page, check, cookie.token, cookie.refreshToken, cookie.exp, navigate]);
 
   const dataIn = (data: BoardForm) => {
-    console.log(data);
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };

@@ -13,6 +13,11 @@ function ExpireLogin() {
   const location = useLocation();
 
   useEffect(() => {
+    if (!cookie.token || cookie.token === "undefined") {
+      navigate("/login", {replace: true});
+      window.location.reload();
+    }
+
     if (btnWork && location.state) location.state.code === "REFRESH_TOKEN_NOT_FOUND" ? setBtnWork(true) : setBtnWork(false);
     if (cookie.token === "error") setBtnWork(true);
   }, [btnWork, cookie.token, location.state]);

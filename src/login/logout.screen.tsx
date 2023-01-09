@@ -1,7 +1,7 @@
 import {useCookies} from "react-cookie";
 import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
-import {KeyboardEvent, useState} from "react";
+import {KeyboardEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
@@ -12,6 +12,13 @@ function Logout() {
   const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!cookie.token || cookie.token === "undefined") {
+      navigate("/login", {replace: true});
+      window.location.reload();
+    }
+  }, [cookie.token, navigate]);
 
   const logout = () => {
     const decode: decodeForm = jwtDecode(cookie.token);

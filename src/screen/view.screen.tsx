@@ -25,6 +25,10 @@ function ViewOne() {
 
   useEffect(() => {
     const token = cookie.token;
+    if (!token || token === "undefined") {
+      navigate("/login", {replace: true});
+      window.location.reload();
+    }
 
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
     BoardService.findOne(Number(id), token)

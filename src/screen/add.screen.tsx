@@ -19,6 +19,11 @@ function Add() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (!cookie.token || cookie.token === "undefined") {
+      navigate("/login", {replace: true});
+      window.location.reload();
+    }
+
     const checkExpire = async (lastTime: number) => {
       if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {

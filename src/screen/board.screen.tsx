@@ -29,9 +29,8 @@ function Baord() {
       window.location.reload();
     }
 
+    const remainingTime = cookie.exp - Date.now();
     const reissueToken = async (cookie: webCookie) => {
-      const remainingTime = cookie.exp - Date.now();
-
       // 1. 완전 만료시 만료 페이지 이동
       if (remainingTime < 0) navigate("/expire");
       else if (remainingTime < 1000 * 60 * 5) {
@@ -47,11 +46,11 @@ function Baord() {
     const decodeToken: decodeForm = jwtDecode(token);
     setUser(decodeToken);
 
-    if (check) {
+    if (check && remainingTime > 0) {
       BoardService.findByUser(decodeToken.sub, page, 6, token)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
-    } else {
+    } else if (remainingTime > 0) {
       BoardService.findAll(page, 6, token)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));

@@ -8,9 +8,7 @@ import ImageView from "./image.view";
 import Header from "../layout/Header";
 import {Headlines} from "../service/Headlines";
 import {decodeForm, errorForm, questionForm} from "../service/Form";
-
-const basicUser = {createdDate: "", modifiedDate: "", id: 0, name: "", email: ""};
-const basicPost = {createdDate: "", modifiedDate: "", id: 0, title: "", contents: "", answers: [], users: basicUser, images: ""};
+import {basicPayload, basicPost} from "../service/BasicValue";
 
 function ViewOne() {
   const [post, setPost] = useState<questionForm>(basicPost);
@@ -19,7 +17,7 @@ function ViewOne() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
 
-  const [user, setUser] = useState<decodeForm>({exp: 0, sub: "", auth: ""});
+  const [user, setUser] = useState<decodeForm>(basicPayload);
   const [email, setEmail] = useState("");
   const [aCount, setACount] = useState(0);
 

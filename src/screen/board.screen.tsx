@@ -10,6 +10,7 @@ import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
 import {decodeForm, errorForm, questionForm, userForm, webCookie} from "../service/Form";
 import {BoardForm} from "../service/BoardForm";
+import {basicPayload} from "../service/BasicValue";
 
 function Baord() {
   const [post, setPost] = useState<questionForm[]>([]);
@@ -19,7 +20,7 @@ function Baord() {
   const navigate = useNavigate();
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
-  const [user, setUser] = useState({exp: 0, sub: "", auth: ""});
+  const [user, setUser] = useState(basicPayload);
 
   useEffect(() => {
     const token = cookie.token;

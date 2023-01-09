@@ -20,7 +20,7 @@ function ExpireLogin() {
 
     if (btnWork && location.state) location.state.code === "REFRESH_TOKEN_NOT_FOUND" ? setBtnWork(true) : setBtnWork(false);
     if (cookie.token === "error") setBtnWork(true);
-  }, [btnWork, cookie.token, location.state]);
+  }, [btnWork, cookie.token, location.state, navigate]);
 
   const reissue = async (e: MouseEvent) => {
     e.preventDefault();

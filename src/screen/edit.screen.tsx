@@ -24,7 +24,7 @@ function Edit() {
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "undefined") {
+    if (!cookie.token || cookie.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }

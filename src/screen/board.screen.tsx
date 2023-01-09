@@ -24,7 +24,7 @@ function Baord() {
 
   useEffect(() => {
     const token = cookie.token;
-    if (!token || token === "undefined") {
+    if (!token || token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }

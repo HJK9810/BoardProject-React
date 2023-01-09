@@ -23,7 +23,7 @@ function ViewOne() {
 
   useEffect(() => {
     const token = cookie.token;
-    if (!token || token === "undefined") {
+    if (!cookie.exp || token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }

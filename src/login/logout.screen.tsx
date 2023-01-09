@@ -26,6 +26,7 @@ function Logout() {
 
     removeCookie("token");
     removeCookie("refreshToken");
+    removeCookie("exp");
 
     setShow(true);
   };

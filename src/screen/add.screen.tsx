@@ -19,7 +19,7 @@ function Add() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "undefined") {
+    if (!cookie.token || cookie.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }

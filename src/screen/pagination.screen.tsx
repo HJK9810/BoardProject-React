@@ -11,8 +11,8 @@ function Pagination({pagination, setPage}: pageProps) {
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination">
-        <li className={"page-item " + (first ? "disabled" : "")}>
-          <button className="page-link " onClick={() => handleClick(number - 1)}>
+        <li className="page-item ">
+          <button className={"page-link " + (first ? "disabled" : "")} onClick={() => handleClick(number - 1)}>
             ‹
           </button>
         </li>
@@ -21,15 +21,15 @@ function Pagination({pagination, setPage}: pageProps) {
           .filter((k) => k > 0 && k <= totalPages)
           .map((el) => {
             return (
-              <li className={"page-item " + (number + 1 === el ? "active" : "")} key={el}>
-                <button className="page-link " onClick={() => handleClick(el - 1)}>
+              <li className="page-item " key={el}>
+                <button className={"page-link " + (number + 1 === el ? "active" : "")} onClick={() => handleClick(el - 1)}>
                   {el}
                 </button>
               </li>
             );
           })}
-        <li className={"page-item " + (last ? "disabled" : "")}>
-          <button className="page-link " onClick={() => handleClick(number + 1)}>
+        <li className="page-item ">
+          <button className={"page-link " + (last ? "disabled" : "")} onClick={() => handleClick(number + 1)}>
             ›
           </button>
         </li>

@@ -18,14 +18,15 @@
     }
 
     .disabled {
-      opacity: 0.7;
+      opacity: 0.6;
       pointer-events: none;
+      background-color: darkgray;
     }
 
     .active {
       z-index: 3;
       color: black;
-      background-color: whitesmoke;
+      background-color: lightgrey;
     }
   }
 }

@@ -3,10 +3,7 @@ import {pageProps, pagination} from "../service/Props";
 
 function Pagination({pagination, setPage}: pageProps) {
   const {number, totalPages, first, last}: pagination = pagination;
-  const handleClick = (p: number) => {
-    setPage(p);
-  };
-  const pages = [0, 1, 2, 3, 4];
+  const handleClick = (p: number) => setPage(p);
 
   return (
     <nav aria-label="Page navigation example">
@@ -16,7 +13,7 @@ function Pagination({pagination, setPage}: pageProps) {
             ‹
           </button>
         </li>
-        {[...pages]
+        {[0, 1, 2, 3, 4]
           .map((k) => k + number - 1)
           .filter((k) => k > 0 && k <= totalPages)
           .map((el) => {

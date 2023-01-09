@@ -15,7 +15,6 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
 
   useEffect(() => {
     const decode: decodeForm = jwtDecode(token);
-    console.log(decode);
     setAuth(decode.auth);
   }, [token]);
 

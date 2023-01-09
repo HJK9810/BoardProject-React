@@ -82,7 +82,6 @@ function Add() {
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
       <ModalConfirm
-        id="0"
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 등록하시겠습니까?"}
         clickFunc={(e: MouseEvent) => submit(e)}

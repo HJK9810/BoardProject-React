@@ -14,7 +14,7 @@ function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "undefined") {
+    if (!cookie.token || cookie.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }

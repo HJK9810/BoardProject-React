@@ -7,6 +7,7 @@ import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
+import {errorForm} from "../service/Form";
 
 function Edit() {
   const [title, setTitle] = useState("");
@@ -24,22 +25,29 @@ function Edit() {
 
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
+    checkExpire(lastTime);
+
+    BoardService.findOne(Number(id), cookie.token)
+      .then((res) => {
+        setTitle(res.title);
+        setContents(res.contents);
+        setImage(res.images ? res.images.split(",") : []);
+      })
+      .catch((res) => {
+        navigate("/expire", {state: res.response.data});
+      });
+  });
+
+  const checkExpire = async (lastTime: number) => {
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
     else if (lastTime < 1000 * 60 * 10) {
       // 만료 10분전
-      const error: any = SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (error.state) navigate("/expire", {state: error});
+      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+      if (error) navigate("/expire", {state: error});
     }
+  };
 
-    BoardService.findOne(Number(id), cookie.token).then((res) => {
-      if (res.hasOwnProperty("code")) navigate("/expire", {state: res});
-      setTitle(res.title);
-      setContents(res.contents);
-      setImage(res.images ? res.images.split(",") : []);
-    });
-  }, []);
-
-  const submit = async (e: any) => {
+  const submit = async (e: MouseEvent) => {
     e.preventDefault();
     if (title.length < 3) {
       setMsg("제목");
@@ -107,7 +115,7 @@ function Edit() {
         id={id}
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 수정하시겠습니까?"}
-        clickFunc={(e: any) => submit(e)}
+        clickFunc={(e: MouseEvent) => submit(e)}
         cancleFunc={() => setError(false)}
       />
       <ModalConfirm id={id} show={del} message={"해당 질문을 삭제하시겠습니까?\n질문 삭제시 답변 또한 모두 삭제됩니다."} clickFunc={(e: MouseEvent) => deleteQ(e)} cancleFunc={() => setDel(false)} />

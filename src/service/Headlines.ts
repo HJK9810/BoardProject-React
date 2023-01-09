@@ -9,10 +9,10 @@ export const Headlines = {
   add: "문의하기",
   edit: "문의사항 수정",
   board: "문의사항",
-  view: (date: any) => "문의내역 조회 - " + dateFormat(date),
+  view: (date: string) => "문의내역 조회 - " + dateFormat(date),
 };
 
-const dateFormat = (inputDate: any) => {
+const dateFormat = (inputDate: string): string => {
   const date = new Date(inputDate);
   return `${date.getFullYear()}.${(date.getMonth() + 1 + "").padStart(2, "0")}.${(date.getDate() + "").padStart(2, "0")}`;
 };

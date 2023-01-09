@@ -10,13 +10,13 @@ function Header({headline}: navProps) {
   const [show, setShow] = useState(false);
 
   const checkLogin = () => {
-    if (cookie.hasOwnProperty("token")) {
+    if ("token" in cookie) {
       headline.includes("Log") ? navigate("/board") : navigate(-1);
     }
   };
 
   const checkLogoutAvail = () => {
-    if (cookie.hasOwnProperty("token")) {
+    if ("token" in cookie) {
       navigate("/logout");
       window.location.reload();
     } else setShow(true);

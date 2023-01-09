@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {MouseEvent, useState} from "react";
 import BoardService from "../service/BoardService";
 import {imageProps} from "../service/Props";
 
@@ -10,25 +10,23 @@ function ImageView({image, check, setImage}: imageProps) {
 
   const widthSize = 200 + "px";
 
-  useEffect(() => {}, [image]);
-
   const showImage = (root: string, idx: number) => {
     const lastIndex: number = root.lastIndexOf(")");
     const url: string = BoardService.fullFileURL(root.substring(lastIndex + 1));
     const fileName: string = root.substring(1, lastIndex);
 
-    return <img id={`${idx}`} alt={fileName} key={idx} src={url} className="m-1" width={widthSize} onClick={check ? handleShow : () => {}} />;
+    return <img id={`${idx}`} alt={fileName} key={idx} src={url} className="m-1" width={widthSize} onClick={check ? handleShow : undefined} />;
   };
 
-  const handleShow = (e: any) => {
+  const handleShow = (e: MouseEvent) => {
     setShow(true);
-    setName(e.target.alt);
-    setId(e.target.id);
-    setClickURL(e.target.src);
+    setName((e.target as HTMLImageElement).alt);
+    setId(Number(e.currentTarget.id));
+    setClickURL((e.target as HTMLImageElement).src);
   };
 
-  const delImage = (e: any) => {
-    e.e.preventDefault();
+  const delImage = (e: MouseEvent) => {
+    e.preventDefault();
 
     image.splice(id, 1);
     setImage(image);
@@ -38,7 +36,7 @@ function ImageView({image, check, setImage}: imageProps) {
   return (
     <>
       <div className="p-3 m-2 bg-dark rounded" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
-        <div className="scroll-image">{image ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}</div>
+        <div className="scroll-image">{image.length ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}</div>
       </div>
 
       <div className={"modal-backdrop show" + (show ? "" : " d-none")}></div>

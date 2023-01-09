@@ -19,7 +19,7 @@ function AddAnswer() {
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
     checkExpire(lastTime);
-  }, [cookie.exp]);
+  });
 
   const checkExpire = async (lastTime: number) => {
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");

@@ -1,4 +1,4 @@
-import {KeyboardEvent, useState} from "react";
+import {KeyboardEvent, MouseEvent, useState} from "react";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
@@ -12,24 +12,21 @@ function Login() {
   const [show, setShow] = useState(false);
   const [eMessage, setEMessage] = useState("");
 
-  const submit = async (e: any) => {
+  const submit = async (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
-    let loginCheck = false;
 
-    await BoardService.login({email: email, password: passwd}).then((res) => {
-      if (!res || res.hasOwnProperty("code")) {
+    await BoardService.login({email: email, password: passwd})
+      .then((res) => {
+        SetCookies.refreshCookie(res);
+        window.location.replace("/board");
+      })
+      .catch((res) => {
         // user 존재X
-        setEMessage(res.message);
+        setEMessage(res.response.data.message);
         setEmail("");
         setPasswd("");
         setShow(true);
-      } else {
-        SetCookies.refreshCookie(res);
-        loginCheck = true;
-      }
-    });
-
-    if (loginCheck) window.location.replace("/board");
+      });
   };
 
   const enterPress = async (e: KeyboardEvent) => {

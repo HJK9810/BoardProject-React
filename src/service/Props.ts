@@ -1,16 +1,18 @@
+import {answerForm} from "./Form";
+
 export interface navProps {
   headline: string;
 }
 
 export interface answerProps {
-  answers: any;
+  answers: answerForm[];
   viewId: string;
   token: string;
   setACount: any;
 }
 
 export interface imageProps {
-  image: any;
+  image: string[];
   check: boolean;
   setImage: any;
 }

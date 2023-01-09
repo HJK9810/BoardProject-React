@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import {useCookies} from "react-cookie";
@@ -21,7 +21,7 @@ function Add() {
   useEffect(() => {
     const lastTime = cookie.exp - Date.now();
     checkExpire(lastTime);
-  }, [cookie.exp]);
+  });
 
   const checkExpire = async (lastTime: number) => {
     if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
@@ -32,7 +32,7 @@ function Add() {
     }
   };
 
-  const submit = async (e: any) => {
+  const submit = async (e: MouseEvent) => {
     e.preventDefault();
     if (title.length < 3) return setShow(true);
     if (contents.length < 10) return setShow(true);
@@ -81,7 +81,7 @@ function Add() {
         id="0"
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 등록하시겠습니까?"}
-        clickFunc={(e: any) => submit(e)}
+        clickFunc={(e: MouseEvent) => submit(e)}
         cancleFunc={() => setError(false)}
       />
     </div>

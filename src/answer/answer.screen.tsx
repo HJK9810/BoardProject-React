@@ -1,9 +1,10 @@
 import jwtDecode from "jwt-decode";
-import {useState} from "react";
+import {MouseEvent, useState} from "react";
 import Moment from "react-moment";
 import {useNavigate} from "react-router-dom";
 import {ModalConfirm} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
+import {answerForm, decodeForm} from "../service/Form";
 import {answerProps} from "../service/Props";
 
 function Answer({answers, viewId, token, setACount}: answerProps) {
@@ -12,13 +13,13 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   const navigate = useNavigate();
   const [auth, setAuth] = useState("");
 
-  const delAnswer = async (e: any) => {
+  const delAnswer = async (e: MouseEvent) => {
     e.preventDefault();
 
-    await BoardService.delAnswer(Number(viewId), Number(e.target.getAttribute("editid")), token);
+    await BoardService.delAnswer(Number(viewId), Number(e.currentTarget.getAttribute("editid")), token);
     setShow(false);
     setACount(answers.length - 1);
-    const decode: any = jwtDecode(token);
+    const decode: decodeForm = jwtDecode(token);
     setAuth(decode.auth);
   };
 
@@ -38,15 +39,15 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   return (
     <>
       <h3 className="p-3 pb-0 mb-0">답변내용</h3>
-      {answers
-        ? answers.map((el: any, i: number) => {
+      {answers.length
+        ? answers.map((el: answerForm, i: number) => {
             return (
               <div key={i} className="mt-3">
                 <p className="p-2 m-1 mb-0">
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
                 </p>
-                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={(e) => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
-                  {printBtns(el.id)}
+                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
+                  {printBtns(el.id + "")}
                   <div>
                     {el.contents.split("\n").map((line: string, i: number) => (
                       <span key={i}>
@@ -56,7 +57,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                   </div>
                 </div>
 
-                <ModalConfirm id={el.id} show={show} message={"해당 답변을 삭제하시겠습니까?"} clickFunc={delAnswer} cancleFunc={() => setShow(false)} />
+                <ModalConfirm id={el.id + ""} show={show} message={"해당 답변을 삭제하시겠습니까?"} clickFunc={delAnswer} cancleFunc={() => setShow(false)} />
               </div>
             );
           })

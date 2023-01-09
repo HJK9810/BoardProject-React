@@ -7,15 +7,19 @@ import jwtDecode from "jwt-decode";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
 import {Headlines} from "../service/Headlines";
+import {decodeForm, errorForm, questionForm} from "../service/Form";
+
+const basicUser = {createdDate: "", modifiedDate: "", id: 0, name: "", email: ""};
+const basicPost = {createdDate: "", modifiedDate: "", id: 0, title: "", contents: "", answers: [], users: basicUser, images: ""};
 
 function ViewOne() {
-  const [post, setPost] = useState({title: "", contents: "", createdDate: "", answers: []});
+  const [post, setPost] = useState<questionForm>(basicPost);
   const [image, setImage] = useState([]);
   const {id} = useParams();
   const navigate = useNavigate();
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
 
-  const [user, setUser] = useState({sub: "", auth: "", exp: ""});
+  const [user, setUser] = useState<decodeForm>({exp: 0, sub: "", auth: ""});
   const [email, setEmail] = useState("");
   const [aCount, setACount] = useState(0);
 
@@ -23,16 +27,18 @@ function ViewOne() {
     const token = cookie.token;
 
     if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
-    BoardService.findOne(Number(id), token).then((res) => {
-      if (res.hasOwnProperty("code")) {
-        res.code === "MEMBER_NOT_ALLOWED" ? navigate(-1) : navigate("/expire", {state: res.data});
-      }
-      setPost(res);
-      if (res.images) setImage(res.images.split(","));
+    BoardService.findOne(Number(id), token)
+      .then((res) => {
+        setPost(res);
+        if (res.images) setImage(res.images.split(","));
 
-      setEmail(res.users.email);
-      setACount(res.answers.length);
-    });
+        setEmail(res.users.email);
+        setACount(res.answers.length);
+      })
+      .catch((res) => {
+        const data: errorForm = res.response.data;
+        data.code === "MEMBER_NOT_ALLOWED" ? navigate(-1) : navigate("/expire", {state: data});
+      });
     setUser(jwtDecode(token));
   }, [aCount]);
 
@@ -50,7 +56,7 @@ function ViewOne() {
       <h3 className="p-3 mb-1">상세내용</h3>
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
-      <div className={post.answers ? "" : "d-none"}>
+      <div className={post.answers.length ? "" : "d-none"}>
         <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: number) => setACount(c)} />
       </div>
 

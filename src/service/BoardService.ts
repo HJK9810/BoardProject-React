@@ -63,6 +63,10 @@ class BoardService {
     return await Axios.post("/api/login", form).then((res) => res.data);
   }
 
+  logout(email: string) {
+    return Axios.get(`/api/logout/${email}`);
+  }
+
   async refreshToken(form: cookieForm) {
     return await Axios.post("/api/reissue", form).then((res) => res.data);
   }

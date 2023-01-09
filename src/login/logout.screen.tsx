@@ -1,5 +1,4 @@
 import {useCookies} from "react-cookie";
-import Axios from "../Axios";
 import jwtDecode from "jwt-decode";
 import {KeyboardEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -7,6 +6,7 @@ import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import {Headlines} from "../service/Headlines";
 import {decodeForm} from "../service/Form";
+import BoardService from "../service/BoardService";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
@@ -22,7 +22,7 @@ function Logout() {
 
   const logout = () => {
     const decode: decodeForm = jwtDecode(cookie.token);
-    Axios.get("/api/logout/" + decode.sub).catch(() => setShow(true));
+    BoardService.logout(decode.sub).catch(() => setShow(true));
 
     removeCookie("token");
     removeCookie("refreshToken");

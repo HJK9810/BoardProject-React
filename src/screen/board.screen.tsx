@@ -71,6 +71,26 @@ function Baord() {
     if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
   };
 
+  const printOne = (el: questionForm) => {
+    const name = el.users.name;
+    const email = el.users.email;
+
+    return (
+      <div className="pt-3" key={el.id} id={el.id + ""} onClick={moveView}>
+        <h3 className="p-2 pt-3" id={el.id + ""} onClick={moveView}>
+          {el.title}
+        </h3>
+        <span className="p-2" id={el.id + ""} onClick={moveView}>
+          작성자 : {email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
+        </span>
+        <p className="p-2 mb-2 text-muted" id={el.id + ""} onClick={moveView}>
+          <Moment date={el.createdDate} format="YYYY.MM.DD" />
+        </p>
+        <hr className="m-0 opacity-100" id={el.id + ""} onClick={moveView} />
+      </div>
+    );
+  };
+
   return (
     <div className="pt-5 container">
       <Header headline={Headlines.board} />
@@ -81,25 +101,7 @@ function Baord() {
           나만보기
         </label>
       </div>
-      {post.map((el: questionForm) => {
-        const name = el.users.name;
-        const email = el.users.email;
-
-        return (
-          <div className="pt-3" key={el.id} id={el.id + ""} onClick={moveView}>
-            <h3 className="p-2 pt-3" id={el.id + ""} onClick={moveView}>
-              {el.title}
-            </h3>
-            <span className="p-2" id={el.id + ""} onClick={moveView}>
-              작성자 : {email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
-            </span>
-            <p className="p-2 mb-2 text-muted" id={el.id + ""} onClick={moveView}>
-              <Moment date={el.createdDate} format="YYYY.MM.DD" />
-            </p>
-            <hr className="m-0 opacity-100" id={el.id + ""} onClick={moveView} />
-          </div>
-        );
-      })}
+      {post.map((el: questionForm) => printOne(el))}
 
       <div className="d-flex justify-content-center mt-5">
         <Pagination pagination={pagination} setPage={(p: number) => setPage(p)} />

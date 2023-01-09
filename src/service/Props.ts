@@ -1,3 +1,4 @@
+import {MouseEvent} from "react";
 import {answerForm} from "./Form";
 
 export interface navProps {
@@ -8,16 +9,16 @@ export interface answerProps {
   answers: answerForm[];
   viewId: string;
   token: string;
-  setACount: any;
+  setACount: (value: number) => void;
 }
 
 export interface imageProps {
   image: string[];
   check: boolean;
-  setImage: any;
+  setImage: (vlaue: string[]) => void;
 }
 
-interface pagination {
+export interface pagination {
   number: number;
   totalPages: number;
   first: boolean;
@@ -26,14 +27,14 @@ interface pagination {
 
 export interface pageProps {
   pagination: pagination;
-  setPage: any;
+  setPage: (value: number) => void;
 }
 
 export interface modalProps {
   show: boolean;
   message: string;
   btnColor?: string;
-  clickFunc: any;
-  cancleFunc?: any;
+  clickFunc: (value: MouseEvent) => void | Promise<void>;
+  cancleFunc?: (value: undefined | MouseEvent) => void;
   id?: string;
 }

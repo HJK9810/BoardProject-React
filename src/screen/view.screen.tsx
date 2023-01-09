@@ -14,7 +14,7 @@ const basicPost = {createdDate: "", modifiedDate: "", id: 0, title: "", contents
 
 function ViewOne() {
   const [post, setPost] = useState<questionForm>(basicPost);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState([""]);
   const {id} = useParams();
   const navigate = useNavigate();
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
@@ -51,7 +51,7 @@ function ViewOne() {
       <div className="p-3 m-2 bg-dark rounded">{post.title}</div>
 
       <h3 className="p-3 mb-1">첨부파일</h3>
-      <ImageView image={image} setImage={(p: any) => setImage(p)} check={false} />
+      <ImageView image={image} setImage={(p: string[]) => setImage(p)} check={false} />
 
       <h3 className="p-3 mb-1">상세내용</h3>
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>

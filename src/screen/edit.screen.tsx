@@ -17,7 +17,7 @@ function Edit() {
   const {id} = useParams();
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState([""]);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [del, setDel] = useState(false);
@@ -97,7 +97,7 @@ function Edit() {
           <input type="file" className="form-control" multiple onChange={(e) => setFiles(e.target.files)} />
         </div>
         <h4 className="p-3 mb-1">기존 첨부파일</h4>
-        <ImageView image={image} setImage={(p: any) => setImage(p)} check={true} />
+        <ImageView image={image} setImage={(p: string[]) => setImage(p)} check={true} />
         <div className="p-3 mt-1">
           <label className="form-label">문의사항</label>
           <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />

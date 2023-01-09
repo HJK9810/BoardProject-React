@@ -32,9 +32,9 @@ function Header({headline}: navProps) {
           <a href="/login" data-rr-ui-event-key="/login" className="nav-link">
             Login
           </a>
-          <a role="button" data-rr-ui-event-key={2} className="nav-link" onClick={checkLogoutAvail}>
+          <div role="button" data-rr-ui-event-key={2} className="nav-link" onClick={checkLogoutAvail}>
             Logout
-          </a>
+          </div>
         </div>
       </div>
 

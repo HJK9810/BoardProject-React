@@ -8,14 +8,11 @@ import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
-import {decodeForm, errorForm, questionForm, webCookie} from "../service/Form";
-
-interface emailObject {
-  [key: string]: string;
-}
+import {decodeForm, errorForm, questionForm, userForm, webCookie} from "../service/Form";
+import {BoardForm} from "../service/BoardForm";
 
 function Baord() {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState<questionForm[]>([]);
   const [pagination, setPagination] = useState({number: 0, totalPages: 0, first: false, last: false});
   const [page, setPage] = useState(0);
   const [check, setCheck] = useState(false);
@@ -23,7 +20,6 @@ function Baord() {
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [user, setUser] = useState({exp: 0, sub: "", auth: ""});
-  const emails: emailObject = {};
   let move = false;
 
   useEffect(() => {
@@ -34,12 +30,15 @@ function Baord() {
 
     const decodeToken: decodeForm = jwtDecode(token);
     setUser(decodeToken);
-    console.log(decodeToken);
 
     if (check && !move) {
-      BoardService.findByUser(decodeToken.sub, page, 6, token).then(dataIn).catch(errorCheck);
+      BoardService.findByUser(decodeToken.sub, page, 6, token)
+        .then(dataIn)
+        .catch((res) => navigate("/expire", {state: res.response.data}));
     } else if (!move) {
-      BoardService.findAll(page, 6, token).then(dataIn).catch(errorCheck);
+      BoardService.findAll(page, 6, token)
+        .then(dataIn)
+        .catch((res) => navigate("/expire", {state: res.response.data}));
     }
   }, [page, check]);
 
@@ -61,20 +60,18 @@ function Baord() {
     }
   };
 
-  const dataIn = (data: any) => {
+  const dataIn = (data: BoardForm) => {
+    console.log(data);
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };
 
-  const errorCheck = (res: any) => {
-    const data: errorForm = res.response.data;
-    navigate("/expire", {state: data});
-  };
-
   const moveView = (e: MouseEvent) => {
     e.preventDefault();
+    const findOne: questionForm | undefined = post.find((el: questionForm) => e.currentTarget.id === el.id + "");
+    const choiceOne: userForm | null = findOne ? findOne.users : null;
 
-    if (e.currentTarget.id && (emails[e.currentTarget.id] === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
+    if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
   };
 
   return (
@@ -90,7 +87,6 @@ function Baord() {
       {post.map((el: questionForm) => {
         const name = el.users.name;
         const email = el.users.email;
-        emails[el.id] = email;
 
         return (
           <div className="pt-3" key={el.id} id={el.id + ""} onClick={moveView}>

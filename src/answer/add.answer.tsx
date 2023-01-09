@@ -17,18 +17,17 @@ function AddAnswer() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const lastTime = cookie.exp - Date.now();
-    checkExpire(lastTime);
-  });
+    const checkExpire = async (lastTime: number) => {
+      if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+      else if (lastTime < 1000 * 60 * 10) {
+        // 만료 10분전
+        const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+        if (error) navigate("/expire", {state: error});
+      }
+    };
 
-  const checkExpire = async (lastTime: number) => {
-    if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
-    else if (lastTime < 1000 * 60 * 10) {
-      // 만료 10분전
-      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (error) navigate("/expire", {state: error});
-    }
-  };
+    checkExpire(cookie.exp - Date.now());
+  }, [cookie.exp, cookie.refreshToken, cookie.token, navigate]);
 
   const submit = async (e: MouseEvent) => {
     e.preventDefault();

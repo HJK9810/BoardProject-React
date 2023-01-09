@@ -35,7 +35,7 @@ function ImageView({image, check, setImage}: imageProps) {
 
   return (
     <>
-      <div className="p-3 m-2 bg-dark rounded" style={{height: image.length > 0 ? widthSize : 40 + "px"}}>
+      <div className="p-3 m-2 bg-dark rounded" style={{height: image.length > 1 ? widthSize : 40 + "px"}}>
         <div className="scroll-image">{image.length ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}</div>
       </div>
 

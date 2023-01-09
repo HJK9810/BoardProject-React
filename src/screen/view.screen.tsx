@@ -40,7 +40,7 @@ function ViewOne() {
         data.code === "MEMBER_NOT_ALLOWED" ? navigate(-1) : navigate("/expire", {state: data});
       });
     setUser(jwtDecode(token));
-  }, [aCount]);
+  }, [aCount, cookie.exp, cookie.refreshToken, cookie.token, id, navigate]);
 
   return (
     <div className="pt-5 container">

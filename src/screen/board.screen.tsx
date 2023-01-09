@@ -20,10 +20,21 @@ function Baord() {
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [user, setUser] = useState({exp: 0, sub: "", auth: ""});
-  let move = false;
 
   useEffect(() => {
     const token = cookie.token;
+
+    const reissueToken = async (cookie: webCookie) => {
+      const remainingTime = cookie.exp - Date.now();
+
+      // 1. 완전 만료시 만료 페이지 이동
+      if (remainingTime < 0) navigate("/expire");
+      else if (remainingTime < 1000 * 60 * 5) {
+        // 2. 완전 만료까지 시간이 남았을경우 자동 연장
+        const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+        if (!error) navigate("/expire", {state: error});
+      }
+    };
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     if (cookie.refreshToken) reissueToken({token: token, refreshToken: cookie.refreshToken, exp: cookie.exp});
@@ -31,34 +42,16 @@ function Baord() {
     const decodeToken: decodeForm = jwtDecode(token);
     setUser(decodeToken);
 
-    if (check && !move) {
+    if (check) {
       BoardService.findByUser(decodeToken.sub, page, 6, token)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
-    } else if (!move) {
+    } else {
       BoardService.findAll(page, 6, token)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
     }
-  }, [page, check]);
-
-  const reissueToken = async (cookie: webCookie) => {
-    // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    const remainingTime = cookie.exp - Date.now();
-
-    // 1. 완전 만료시 만료 페이지 이동
-    if (remainingTime < 0) {
-      move = true;
-      navigate("/expire");
-    } else if (remainingTime < 1000 * 60 * 5) {
-      // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-      const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-      if (!error) {
-        move = true;
-        navigate("/expire", {state: error});
-      }
-    }
-  };
+  }, [page, check, cookie.token, cookie.refreshToken, cookie.exp, navigate]);
 
   const dataIn = (data: BoardForm) => {
     console.log(data);

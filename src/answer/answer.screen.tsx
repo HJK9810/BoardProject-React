@@ -35,10 +35,8 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
 
             return (
               <div key={i} className="mt-3">
-                <p className="p-2 m-1 mb-0">
+                <div className="p-2 m-1 mb-0" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   <Moment date={el.createdDate} format="YYYY.MM.DD" />
-                </p>
-                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   <div className={"btn-group float-end " + (btnShow && auth.includes("ADMIN") ? "" : "d-none")} role="group">
                     <button type="button" className="btn btn-outline-info" id={id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
                       수정
@@ -47,6 +45,8 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                       삭제
                     </button>
                   </div>
+                </div>
+                <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   <div>
                     {el.contents.split("\n").map((line: string, i: number) => (
                       <span key={i}>

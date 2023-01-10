@@ -42,6 +42,7 @@ button:disabled {
   border: 1px solid aqua;
   color: aqua;
   background-color: transparent;
+  padding: 0.5rem;
 
   :hover :focus {
     background-color: aqua;
@@ -52,6 +53,7 @@ button:disabled {
   border: 1px solid red;
   color: red;
   background-color: transparent;
+  padding: 0.5rem;
 
   :hover :focus {
     background-color: red;

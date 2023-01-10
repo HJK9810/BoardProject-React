@@ -99,9 +99,9 @@ function Baord() {
       <Header headline={Headlines.board} />
       <h2 className="text-center m-4 pt-5">{Headlines.board}</h2>
       <div className="form-check float-end">
-        <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={checkControll} checked={check} />
+        <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={checkControll} checked={check} disabled={user.auth.includes("ADMIN")} />
         <label className="form-check-label" htmlFor="checkBox">
-          나만보기
+          {user.auth.includes("ADMIN") ? "관리자계정" : "나만보기"}
         </label>
       </div>
       {post.map(printOne)}

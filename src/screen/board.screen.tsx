@@ -35,7 +35,7 @@ function Baord() {
       else if (remainingTime < 1000 * 60 * 5) {
         // 2. 완전 만료까지 시간이 남았을경우 자동 연장
         const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
-        if (!error) navigate("/expire", {state: error});
+        if (error) navigate("/expire", {state: error});
       }
     };
 

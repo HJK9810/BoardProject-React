@@ -1,3 +1,13 @@
+export interface BoardForm {
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  totalElements: number;
+  totalPages: number;
+  content: questionForm[];
+}
+
 export interface questionForm {
   id: number;
   title: string;
@@ -10,14 +20,10 @@ export interface questionForm {
 }
 
 export interface answerForm {
-  id: number;
+  id?: number;
   contents: string;
   createdDate?: string;
   modifiedDate?: string;
-}
-
-export interface answerDTO {
-  contents: string;
 }
 
 export interface userForm {
@@ -44,8 +50,4 @@ export interface cookieForm {
 export interface errorForm {
   code: string;
   message: string;
-}
-
-export interface refreshCookieForm {
-  state: errorForm | null;
 }

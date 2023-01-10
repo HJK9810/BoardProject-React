@@ -31,6 +31,8 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
       <h3 className="p-3 pb-0 mb-0">답변내용</h3>
       {answers.length
         ? answers.map((el: answerForm, i: number) => {
+            const id: string = el.id + "";
+
             return (
               <div key={i} className="mt-3">
                 <p className="p-2 m-1 mb-0">
@@ -38,7 +40,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                 </p>
                 <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   <div className={"btn-group float-end " + (btnShow && auth.includes("ADMIN") ? "" : "d-none")} role="group">
-                    <button type="button" className="btn btn-outline-info" id={el.id + ""} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
+                    <button type="button" className="btn btn-outline-info" id={id} onClick={(e) => navigate(`/editAnswer/${e.currentTarget.id}`, {state: viewId})}>
                       수정
                     </button>
                     <button type="button" className="btn btn-outline-danger" onClick={() => setShow(true)}>
@@ -54,7 +56,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                   </div>
                 </div>
 
-                <ModalConfirm id={el.id + ""} show={show} message={"해당 답변을 삭제하시겠습니까?"} clickFunc={delAnswer} cancleFunc={() => setShow(false)} />
+                <ModalConfirm id={id} show={show} message={"해당 답변을 삭제하시겠습니까?"} clickFunc={delAnswer} cancleFunc={() => setShow(false)} />
               </div>
             );
           })

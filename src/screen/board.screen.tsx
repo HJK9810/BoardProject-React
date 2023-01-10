@@ -8,8 +8,7 @@ import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
-import {decodeForm, errorForm, questionForm, userForm} from "../service/Form";
-import {BoardForm} from "../service/BoardForm";
+import {BoardForm, decodeForm, errorForm, questionForm, userForm} from "../service/Form";
 import {basicPayload} from "../service/BasicValue";
 
 function Baord() {

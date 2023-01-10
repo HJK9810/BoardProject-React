@@ -1,4 +1,4 @@
-import {MouseEvent, useEffect, useState} from "react";
+import {ChangeEvent, MouseEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
@@ -70,6 +70,11 @@ function Baord() {
     if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
   };
 
+  const checkControll = (e: ChangeEvent) => {
+    setPage(0);
+    setCheck((e.target as HTMLInputElement).checked);
+  };
+
   const printOne = (el: questionForm) => {
     const name: string = el.users.name;
     const id: string = el.id + "";
@@ -95,7 +100,7 @@ function Baord() {
       <Header headline={Headlines.board} />
       <h2 className="text-center m-4 pt-5">{Headlines.board}</h2>
       <div className="form-check float-end">
-        <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={(e) => setCheck(e.target.checked)} checked={check ? true : false} />
+        <input className="form-check-input" type="checkbox" value="" id="checkBox" onChange={checkControll} checked={check} />
         <label className="form-check-label" htmlFor="checkBox">
           나만보기
         </label>

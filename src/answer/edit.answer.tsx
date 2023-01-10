@@ -4,7 +4,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
-import {errorForm} from "../service/Form";
+import {answerForm, errorForm} from "../service/Form";
 import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
@@ -34,7 +34,10 @@ function EditAnswer() {
     };
 
     checkExpire(cookie.exp - Date.now());
-  }, [cookie.exp, cookie.refreshToken, cookie.token, navigate]);
+    BoardService.viewAnswerOne(Number(id), cookie.token)
+      .then((res: answerForm) => setContents(res.contents))
+      .catch((res) => navigate("/expire", {state: res.response.data}));
+  }, [cookie.exp, cookie.refreshToken, cookie.token, id, navigate]);
 
   const submit = async (e: MouseEvent) => {
     e.preventDefault();

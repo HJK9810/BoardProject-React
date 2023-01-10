@@ -16,12 +16,12 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   useEffect(() => {
     const decode: decodeForm = jwtDecode(token);
     setAuth(decode.auth);
-  }, [token]);
+  }, [token, answers.length]);
 
   const delAnswer = async (e: MouseEvent) => {
     e.preventDefault();
 
-    await BoardService.delAnswer(Number(viewId), Number(e.currentTarget.getAttribute("editid")), token);
+    await BoardService.delAnswer(Number(viewId), Number(e.currentTarget.id), token);
     setShow(false);
     setACount(answers.length - 1);
   };

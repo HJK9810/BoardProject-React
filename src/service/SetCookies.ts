@@ -1,6 +1,5 @@
 import {setCookie} from "typescript-cookie";
 import Axios from "../Axios";
-import BoardService from "./BoardService";
 import {cookieForm, errorForm} from "./Form";
 
 class SetCookies {
@@ -13,7 +12,7 @@ class SetCookies {
 
   tokenRefresh = async (token: string, refreshToken: string) => {
     // 토큰 갱신 서버통신
-    return await BoardService.refreshToken({accessToken: token, refreshToken: refreshToken})
+    return await this.refreshToken({accessToken: token, refreshToken: refreshToken})
       .then((res: cookieForm): null => {
         this.refreshCookie(res);
         return null;
@@ -22,6 +21,18 @@ class SetCookies {
         return res.response.data;
       });
   };
+
+  async refreshToken(form: cookieForm) {
+    return await Axios.post("/api/reissue", form).then((res) => res.data);
+  }
+
+  async login(form: object) {
+    return await Axios.post("/api/login", form).then((res) => res.data);
+  }
+
+  logout(email: string) {
+    return Axios.get(`/api/logout/${email}`);
+  }
 }
 
 export default new SetCookies();

@@ -1,7 +1,6 @@
 import {KeyboardEvent, MouseEvent, useState} from "react";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
-import BoardService from "../service/BoardService";
 import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
@@ -15,7 +14,7 @@ function Login() {
   const submit = async (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
 
-    await BoardService.login({email: email, password: passwd})
+    await SetCookies.login({email: email, password: passwd})
       .then((res) => {
         SetCookies.refreshCookie(res);
         window.location.replace("/board");

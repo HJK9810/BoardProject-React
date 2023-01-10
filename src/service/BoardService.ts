@@ -1,5 +1,5 @@
 import Axios from "../Axios";
-import {answerForm, cookieForm} from "./Form";
+import {answerForm} from "./Form";
 
 const setHeader = (header: string, auth: string) => {
   return {
@@ -57,18 +57,6 @@ class BoardService {
 
   async delAnswer(id = 1, aid = 1, token: string) {
     return await Axios.delete(`/answer/del/${id}?aId=${aid}`, setHeader(jsonHeader, token));
-  }
-
-  async login(form: object) {
-    return await Axios.post("/api/login", form).then((res) => res.data);
-  }
-
-  logout(email: string) {
-    return Axios.get(`/api/logout/${email}`);
-  }
-
-  async refreshToken(form: cookieForm) {
-    return await Axios.post("/api/reissue", form).then((res) => res.data);
   }
 }
 

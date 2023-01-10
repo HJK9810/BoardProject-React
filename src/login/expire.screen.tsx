@@ -2,7 +2,6 @@ import {MouseEvent, useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
-import BoardService from "../service/BoardService";
 import {Headlines} from "../service/Headlines";
 import SetCookies from "../service/SetCookies";
 
@@ -26,7 +25,7 @@ function ExpireLogin() {
     e.preventDefault();
 
     // 토큰 갱신 서버통신
-    await BoardService.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken})
+    await SetCookies.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken})
       .then((res) => {
         SetCookies.refreshCookie(res);
         navigate("/board", {replace: true});

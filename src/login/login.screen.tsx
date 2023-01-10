@@ -2,7 +2,7 @@ import {KeyboardEvent, MouseEvent, useState} from "react";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import {Headlines} from "../service/Headlines";
-import SetCookies from "../service/SetCookies";
+import SetTokens from "../service/SetTokens";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,9 +14,9 @@ function Login() {
   const submit = async (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
 
-    await SetCookies.login({email: email, password: passwd})
+    await SetTokens.login({email: email, password: passwd})
       .then((res) => {
-        SetCookies.refreshCookie(res);
+        SetTokens.refreshCookie(res);
         window.location.replace("/board");
       })
       .catch((res) => {

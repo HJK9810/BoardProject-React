@@ -3,7 +3,7 @@ import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
 import {Headlines} from "../service/Headlines";
-import SetCookies from "../service/SetCookies";
+import SetTokens from "../service/SetTokens";
 
 function ExpireLogin() {
   const navigate = useNavigate();
@@ -25,9 +25,9 @@ function ExpireLogin() {
     e.preventDefault();
 
     // 토큰 갱신 서버통신
-    await SetCookies.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken})
+    await SetTokens.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken})
       .then((res) => {
-        SetCookies.refreshCookie(res);
+        SetTokens.refreshCookie(res);
         navigate("/board", {replace: true});
       })
       .catch(() => {

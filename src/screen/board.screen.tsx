@@ -6,7 +6,7 @@ import Pagination from "./pagination.screen";
 import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
-import SetCookies from "../service/SetCookies";
+import SetTokens from "../service/SetTokens";
 import {Headlines} from "../service/Headlines";
 import {BoardForm, decodeForm, errorForm, questionForm, userForm} from "../service/Form";
 import {basicPayload} from "../service/BasicValue";
@@ -34,7 +34,7 @@ function Baord() {
       if (remainingTime < 0) navigate("/expire");
       else if (remainingTime < 1000 * 60 * 5) {
         // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-        const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(cookie.token, cookie.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };

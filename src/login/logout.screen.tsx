@@ -6,7 +6,7 @@ import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import {Headlines} from "../service/Headlines";
 import {decodeForm} from "../service/Form";
-import SetCookies from "../service/SetCookies";
+import SetToknes from "../service/SetTokens";
 
 function Logout() {
   const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
@@ -22,7 +22,7 @@ function Logout() {
 
   const logout = () => {
     const decode: Readonly<decodeForm> = jwtDecode(cookie.token);
-    SetCookies.logout(decode.sub).catch(() => setShow(true));
+    SetToknes.logout(decode.sub).catch(() => setShow(true));
 
     removeCookie("token");
     removeCookie("refreshToken");

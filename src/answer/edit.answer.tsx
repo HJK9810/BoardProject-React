@@ -6,7 +6,7 @@ import {ModalView} from "../layout/Modal.layout";
 import BoardService from "../service/BoardService";
 import {answerForm, errorForm} from "../service/Form";
 import {Headlines} from "../service/Headlines";
-import SetCookies from "../service/SetCookies";
+import SetTokens from "../service/SetTokens";
 
 function EditAnswer() {
   const [contents, setContents] = useState("");
@@ -28,7 +28,7 @@ function EditAnswer() {
       if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {
         // 만료 10분전
-        const error: errorForm | null = await SetCookies.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(cookie.token, cookie.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };

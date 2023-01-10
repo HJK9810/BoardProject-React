@@ -2,7 +2,7 @@ import {setCookie} from "typescript-cookie";
 import Axios from "../Axios";
 import {cookieForm, errorForm, loginForm} from "./Form";
 
-class SetCookies {
+class SetTokens {
   refreshCookie(data: Readonly<cookieForm>) {
     setCookie("refreshToken", data.refreshToken);
     setCookie("exp", data.accessTokenExpiresIn);
@@ -35,4 +35,4 @@ class SetCookies {
   }
 }
 
-export default new SetCookies();
+export default new SetTokens();

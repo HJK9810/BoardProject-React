@@ -14,13 +14,12 @@ class SetCookies {
   tokenRefresh = async (token: string, refreshToken: string) => {
     // 토큰 갱신 서버통신
     return await BoardService.refreshToken({accessToken: token, refreshToken: refreshToken})
-      .then((res: cookieForm) => {
+      .then((res: cookieForm): null => {
         this.refreshCookie(res);
         return null;
       })
-      .catch((res) => {
-        const error: errorForm = res.response.data;
-        return error;
+      .catch((res): errorForm => {
+        return res.response.data;
       });
   };
 }

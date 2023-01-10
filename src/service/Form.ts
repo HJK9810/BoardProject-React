@@ -41,12 +41,6 @@ export interface cookieForm {
   grantType?: string;
 }
 
-export interface webCookie {
-  token: string;
-  refreshToken: string;
-  exp: number;
-}
-
 export interface errorForm {
   code: string;
   message: string;

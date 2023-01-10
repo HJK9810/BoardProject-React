@@ -8,7 +8,7 @@ import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetCookies from "../service/SetCookies";
 import {Headlines} from "../service/Headlines";
-import {decodeForm, errorForm, questionForm, userForm, webCookie} from "../service/Form";
+import {decodeForm, errorForm, questionForm, userForm} from "../service/Form";
 import {BoardForm} from "../service/BoardForm";
 import {basicPayload} from "../service/BasicValue";
 
@@ -30,7 +30,7 @@ function Baord() {
     }
 
     const remainingTime = cookie.exp - Date.now();
-    const reissueToken = async (cookie: webCookie) => {
+    const reissueToken = async () => {
       // 1. 완전 만료시 만료 페이지 이동
       if (remainingTime < 0) navigate("/expire");
       else if (remainingTime < 1000 * 60 * 5) {
@@ -41,7 +41,7 @@ function Baord() {
     };
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (cookie.refreshToken) reissueToken({token: token, refreshToken: cookie.refreshToken, exp: cookie.exp});
+    if (cookie.refreshToken) reissueToken();
 
     const decodeToken: decodeForm = jwtDecode(token);
     setUser(decodeToken);

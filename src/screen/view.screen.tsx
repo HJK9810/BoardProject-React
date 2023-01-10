@@ -12,7 +12,7 @@ import {basicPayload, basicPost} from "../service/BasicValue";
 
 function ViewOne() {
   const [post, setPost] = useState<questionForm>(basicPost);
-  const [image, setImage] = useState([""]);
+  const [image, setImage] = useState<string[]>([]);
   const {id} = useParams();
   const navigate = useNavigate();
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);

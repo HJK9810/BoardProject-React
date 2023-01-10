@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {navProps} from "../service/Props";
 import {ModalView} from "./Modal.layout";
 
-function Header({headline}: navProps) {
+function Header({headline}: Readonly<navProps>) {
   const navigate = useNavigate();
   const [cookie] = useCookies([]);
   const [show, setShow] = useState(false);

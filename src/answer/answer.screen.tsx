@@ -14,7 +14,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   const [auth, setAuth] = useState("");
 
   useEffect(() => {
-    const decode: decodeForm = jwtDecode(token);
+    const decode: Readonly<decodeForm> = jwtDecode(token);
     setAuth(decode.auth);
   }, [token, answers.length]);
 
@@ -30,7 +30,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
     <>
       <h3 className="p-3 pb-0 mb-0">답변내용</h3>
       {answers.length
-        ? answers.map((el: answerForm, i: number) => {
+        ? answers.map((el: Readonly<answerForm>, i: number) => {
             const id: string = el.id + "";
 
             return (

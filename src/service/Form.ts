@@ -47,7 +47,12 @@ export interface cookieForm {
   grantType?: string;
 }
 
+export interface loginForm {
+  email: string;
+  password: string;
+}
+
 export interface errorForm {
-  code: string;
-  message: string;
+  readonly code: string;
+  readonly message: string;
 }

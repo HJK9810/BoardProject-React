@@ -42,7 +42,7 @@ function Baord() {
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
     if (cookie.refreshToken) reissueToken();
 
-    const decodeToken: decodeForm = jwtDecode(token);
+    const decodeToken: Readonly<decodeForm> = jwtDecode(token);
     setUser(decodeToken);
 
     if (check && remainingTime > 0) {
@@ -56,15 +56,15 @@ function Baord() {
     }
   }, [page, check, cookie.token, cookie.refreshToken, cookie.exp, navigate]);
 
-  const dataIn = (data: BoardForm) => {
+  const dataIn = (data: Readonly<BoardForm>) => {
     setPost(data.content);
     setPagination({number: data.number, totalPages: data.totalPages, first: data.first, last: data.last});
   };
 
   const moveView = (e: MouseEvent) => {
     e.preventDefault();
-    const findOne: questionForm | undefined = post.find((el: questionForm) => e.currentTarget.id === el.id + "");
-    const choiceOne: userForm | null = findOne ? findOne.users : null;
+    const findOne: Readonly<questionForm> | undefined = post.find((el: Readonly<questionForm>) => e.currentTarget.id === el.id + "");
+    const choiceOne: Readonly<userForm> | null = findOne ? findOne.users : null;
 
     if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
   };
@@ -74,7 +74,7 @@ function Baord() {
     setCheck((e.target as HTMLInputElement).checked);
   };
 
-  const printOne = (el: questionForm) => {
+  const printOne = (el: Readonly<questionForm>) => {
     const name: string = el.users.name;
     const id: string = el.id + "";
 

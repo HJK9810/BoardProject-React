@@ -21,7 +21,7 @@ function Logout() {
   }, [cookie.token, navigate]);
 
   const logout = () => {
-    const decode: decodeForm = jwtDecode(cookie.token);
+    const decode: Readonly<decodeForm> = jwtDecode(cookie.token);
     SetCookies.logout(decode.sub).catch(() => setShow(true));
 
     removeCookie("token");

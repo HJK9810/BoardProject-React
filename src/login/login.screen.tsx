@@ -16,7 +16,7 @@ function Login() {
 
     await SetTokens.login({email: email, password: passwd})
       .then((res) => {
-        SetTokens.refreshCookie(res);
+        SetTokens.refreshStorage(res);
         window.location.replace("/board");
       })
       .catch((res) => {

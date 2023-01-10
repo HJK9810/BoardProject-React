@@ -1,5 +1,4 @@
 import {MouseEvent, useEffect, useState} from "react";
-import {useCookies} from "react-cookie";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
@@ -13,34 +12,33 @@ function AddAnswer() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const [over, setOver] = useState(false);
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "error") {
+    if (!localStorage.token || localStorage.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
     const checkExpire = async (lastTime: number) => {
-      if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+      if (lastTime < 0 && localStorage.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {
         // 만료 10분전
-        const error: errorForm | null = await SetTokens.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(localStorage.token, localStorage.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };
 
-    checkExpire(cookie.exp - Date.now());
-  }, [cookie.exp, cookie.refreshToken, cookie.token, navigate]);
+    checkExpire(localStorage.exp - Date.now());
+  }, [navigate]);
 
   const submit = async (e: MouseEvent) => {
     e.preventDefault();
     if (contents.length < 10) return setShow(true);
     else if (contents.length > 255) return setOver(true);
 
-    await BoardService.addAnswer(Number(id), {contents: contents}, cookie.token);
+    await BoardService.addAnswer(Number(id), {contents: contents}, localStorage.token);
     navigate(`/viewOne/${id}`, {replace: true});
   };
 

@@ -1,7 +1,6 @@
 import {MouseEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
-import {useCookies} from "react-cookie";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
 import SetToknes from "../service/SetTokens";
@@ -14,29 +13,28 @@ function Add() {
   const [files, setFiles] = useState<FileList | null>(null);
   const navigate = useNavigate();
 
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const [over, setOver] = useState(false);
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "error") {
+    if (!localStorage.token || localStorage.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
     const checkExpire = async (lastTime: number) => {
-      if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+      if (lastTime < 0 && localStorage.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {
         // 만료 10분전
-        const error: errorForm | null = await SetToknes.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetToknes.tokenRefresh(localStorage.token, localStorage.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };
 
-    checkExpire(cookie.exp - Date.now());
-  }, [cookie.exp, cookie.refreshToken, cookie.token, navigate]);
+    checkExpire(localStorage.exp - Date.now());
+  }, [navigate]);
 
   const submit = async (e: MouseEvent) => {
     e.preventDefault();
@@ -59,7 +57,7 @@ function Add() {
 
     if (files) Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.addItem(formData, cookie.token).catch((err) => {
+    await BoardService.addItem(formData, localStorage.token).catch((err) => {
       const eData = err.response.data;
       if (eData.code === "FILE_NOT_SAVED") {
         setFiles(null);

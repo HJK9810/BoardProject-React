@@ -1,7 +1,6 @@
 import {MouseEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BoardService from "../service/BoardService";
-import {useCookies} from "react-cookie";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
@@ -16,7 +15,6 @@ function Edit() {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [image, setImage] = useState([""]);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
@@ -25,23 +23,23 @@ function Edit() {
   const [over, setOver] = useState(false);
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "error") {
+    if (!localStorage.token || localStorage.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
     const checkExpire = async (lastTime: number) => {
-      if (lastTime < 0 && cookie.refreshToken) navigate("/expire");
+      if (lastTime < 0 && localStorage.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {
         // 만료 10분전
-        const error: errorForm | null = await SetTokens.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(localStorage.token, localStorage.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };
 
-    checkExpire(cookie.exp - Date.now());
+    checkExpire(localStorage.exp - Date.now());
 
-    BoardService.findOne(Number(id), cookie.token)
+    BoardService.findOne(Number(id), localStorage.token)
       .then((res) => {
         setTitle(res.title);
         setContents(res.contents);
@@ -50,7 +48,7 @@ function Edit() {
       .catch((res) => {
         navigate("/expire", {state: res.response.data});
       });
-  }, [cookie.exp, cookie.refreshToken, cookie.token, id, navigate]);
+  }, [id, navigate]);
 
   const submit = async (e: MouseEvent) => {
     e.preventDefault();
@@ -74,7 +72,7 @@ function Edit() {
 
     if (files) Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.editItem(Number(id), formData, cookie.token).catch((err) => {
+    await BoardService.editItem(Number(id), formData, localStorage.token).catch((err) => {
       const eData = err.response.data;
       if (eData.code === "FILE_NOT_SAVED") {
         setFiles(null);
@@ -87,7 +85,7 @@ function Edit() {
   const deleteQ = async (e: MouseEvent) => {
     e.preventDefault();
 
-    await BoardService.delItem(Number(id), cookie.token).catch((err) => navigate("/expire", {state: err.response.data}));
+    await BoardService.delItem(Number(id), localStorage.token).catch((err) => navigate("/expire", {state: err.response.data}));
     navigate("/board", {replace: true});
   };
 

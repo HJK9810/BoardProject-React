@@ -1,22 +1,20 @@
 import React, {useState} from "react";
-import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import {navProps} from "../service/Props";
 import {ModalView} from "./Modal.layout";
 
 function Header({headline}: Readonly<navProps>) {
   const navigate = useNavigate();
-  const [cookie] = useCookies([]);
   const [show, setShow] = useState(false);
 
   const checkLogin = () => {
-    if ("token" in cookie) {
+    if ("token" in localStorage) {
       headline.includes("Log") ? navigate("/board") : navigate(-1);
     }
   };
 
   const checkLogoutAvail = () => {
-    if ("token" in cookie) {
+    if ("token" in localStorage) {
       navigate("/logout");
       window.location.reload();
     } else setShow(true);

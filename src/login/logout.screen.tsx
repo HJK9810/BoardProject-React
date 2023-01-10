@@ -1,4 +1,3 @@
-import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import {KeyboardEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -9,24 +8,23 @@ import {decodeForm} from "../service/Form";
 import SetToknes from "../service/SetTokens";
 
 function Logout() {
-  const [cookie, , removeCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "error") {
+    if (!localStorage.token || localStorage.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
-  }, [cookie.token, navigate]);
+  }, [navigate]);
 
   const logout = () => {
-    const decode: Readonly<decodeForm> = jwtDecode(cookie.token);
+    const decode: Readonly<decodeForm> = jwtDecode(localStorage.token);
     SetToknes.logout(decode.sub).catch(() => setShow(true));
 
-    removeCookie("token");
-    removeCookie("refreshToken");
-    removeCookie("exp");
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("exp");
 
     setShow(true);
   };

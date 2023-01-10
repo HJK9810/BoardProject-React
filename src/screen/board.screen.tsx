@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Moment from "react-moment";
 import Pagination from "./pagination.screen";
-import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetTokens from "../service/SetTokens";
@@ -18,29 +17,28 @@ function Baord() {
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [user, setUser] = useState(basicPayload);
 
   useEffect(() => {
-    const token = cookie.token;
+    const token = localStorage.token;
     if (!token || token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
-    const remainingTime = cookie.exp - Date.now();
+    const remainingTime = localStorage.exp - Date.now();
     const reissueToken = async () => {
       // 1. 완전 만료시 만료 페이지 이동
       if (remainingTime < 0) navigate("/expire");
       else if (remainingTime < 1000 * 60 * 5) {
         // 2. 완전 만료까지 시간이 남았을경우 자동 연장
-        const error: errorForm | null = await SetTokens.tokenRefresh(cookie.token, cookie.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(localStorage.token, localStorage.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (cookie.refreshToken) reissueToken();
+    if (localStorage.refreshToken) reissueToken();
 
     const decodeToken: Readonly<decodeForm> = jwtDecode(token);
     setUser(decodeToken);
@@ -54,7 +52,7 @@ function Baord() {
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
     }
-  }, [page, check, cookie.token, cookie.refreshToken, cookie.exp, navigate]);
+  }, [page, check, navigate]);
 
   const dataIn = (data: Readonly<BoardForm>) => {
     setPost(data.content);

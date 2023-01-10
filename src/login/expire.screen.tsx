@@ -1,37 +1,36 @@
 import {MouseEvent, useEffect, useState} from "react";
-import {useCookies} from "react-cookie";
 import {useLocation, useNavigate} from "react-router-dom";
 import Header from "../layout/Header";
+import {cookieForm} from "../service/Form";
 import {Headlines} from "../service/Headlines";
 import SetTokens from "../service/SetTokens";
 
 function ExpireLogin() {
   const navigate = useNavigate();
-  const [cookie, setCookie] = useCookies(["token", "refreshToken", "exp"]);
   const [btnWork, setBtnWork] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (!cookie.token || cookie.token === "error") {
+    if (!localStorage.token || localStorage.token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
     if (btnWork && location.state) location.state.code === "REFRESH_TOKEN_NOT_FOUND" ? setBtnWork(true) : setBtnWork(false);
-    if (cookie.token === "error") setBtnWork(true);
-  }, [btnWork, cookie.token, location.state, navigate]);
+    if (localStorage.token === "error") setBtnWork(true);
+  }, [btnWork, location.state, navigate]);
 
   const reissue = async (e: MouseEvent) => {
     e.preventDefault();
 
     // 토큰 갱신 서버통신
-    await SetTokens.refreshToken({accessToken: cookie.token, refreshToken: cookie.refreshToken})
-      .then((res) => {
-        SetTokens.refreshCookie(res);
+    await SetTokens.refreshToken({accessToken: localStorage.token, refreshToken: localStorage.refreshToken})
+      .then((res: cookieForm) => {
+        SetTokens.refreshStorage(res);
         navigate("/board", {replace: true});
       })
       .catch(() => {
-        setCookie("token", "error");
+        localStorage.setItem("token", "error");
         return setBtnWork(true);
       });
   };

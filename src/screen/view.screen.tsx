@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import BoardService from "../service/BoardService";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "../answer/answer.screen";
-import {useCookies} from "react-cookie";
 import jwtDecode from "jwt-decode";
 import ImageView from "./image.view";
 import Header from "../layout/Header";
@@ -15,20 +14,19 @@ function ViewOne() {
   const [image, setImage] = useState<string[]>([]);
   const {id} = useParams();
   const navigate = useNavigate();
-  const [cookie] = useCookies(["token", "refreshToken", "exp"]);
 
   const [user, setUser] = useState<decodeForm>(basicPayload);
   const [email, setEmail] = useState("");
   const [aCount, setACount] = useState(0);
 
   useEffect(() => {
-    const token = cookie.token;
-    if (!cookie.exp || token === "error") {
+    const token = localStorage.token;
+    if (!localStorage.exp || token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
     }
 
-    if (cookie.exp - Date.now() < 0 && cookie.refreshToken) navigate("/expire");
+    if (localStorage.exp - Date.now() < 0 && localStorage.refreshToken) navigate("/expire");
     BoardService.findOne(Number(id), token)
       .then((res) => {
         setPost(res);
@@ -42,7 +40,7 @@ function ViewOne() {
         data.code === "MEMBER_NOT_ALLOWED" ? navigate(-1) : navigate("/expire", {state: data});
       });
     setUser(jwtDecode(token));
-  }, [aCount, cookie.exp, cookie.refreshToken, cookie.token, id, navigate]);
+  }, [aCount, id, navigate]);
 
   return (
     <div className="pt-5 container">
@@ -59,7 +57,7 @@ function ViewOne() {
       <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
 
       <div className={post.answers.length ? "" : "d-none"}>
-        <Answer answers={post.answers} viewId={`${id}`} token={cookie.token} setACount={(c: number) => setACount(c)} />
+        <Answer answers={post.answers} viewId={`${id}`} token={localStorage.token} setACount={(c: number) => setACount(c)} />
       </div>
 
       <button className={"btn btn-ask my-4 widthMax" + (user.sub === email ? "" : " d-none")} onClick={() => navigate(`/edit/${id}`)}>

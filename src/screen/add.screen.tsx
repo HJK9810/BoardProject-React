@@ -18,6 +18,7 @@ function Add() {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  const [over, setOver] = useState(false);
 
   useEffect(() => {
     if (!cookie.token || cookie.token === "error") {
@@ -46,6 +47,9 @@ function Add() {
     if (contents.length < 10) {
       setMsg("문의사항");
       return setShow(true);
+    } else if (contents.length > 255) {
+      setMsg("문의사항");
+      return setOver(true);
     }
 
     const formData = new FormData();
@@ -88,6 +92,7 @@ function Add() {
       </button>
 
       <ModalView show={show} message={`글자수가 모자랍니다.\u00a0\u00a0${msg}을 더 입력해 주세요.`} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
+      <ModalView show={over} message={`글자수가 입력 가능한 수를 넘었습니다.\u00a0\u00a0${msg}을 줄여주세요.`} clickFunc={() => setOver(false)} btnColor={"btn-ok"} />
       <ModalConfirm
         show={error}
         message={"해당 파일을 저장할수 없습니다.\n파일을 저장하지 않고 질문을 등록하시겠습니까?"}

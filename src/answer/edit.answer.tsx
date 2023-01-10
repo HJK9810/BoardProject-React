@@ -16,6 +16,7 @@ function EditAnswer() {
 
   const [cookie] = useCookies(["token", "refreshToken", "exp"]);
   const [show, setShow] = useState(false);
+  const [over, setOver] = useState(false);
 
   useEffect(() => {
     if (!cookie.token || cookie.token === "error") {
@@ -38,6 +39,7 @@ function EditAnswer() {
   const submit = async (e: MouseEvent) => {
     e.preventDefault();
     if (contents.length < 10) return setShow(true);
+    else if (contents.length > 255) return setOver(true);
 
     await BoardService.editAnswer(Number(id), {contents: contents}, cookie.token);
     navigate(`/viewOne/${location.state}`, {replace: true});
@@ -55,6 +57,7 @@ function EditAnswer() {
       </button>
 
       <ModalView show={show} message={"글자수가 모자랍니다.\u00a0\u00a0더 입력해 주세요."} clickFunc={() => setShow(false)} btnColor={"btn-ok"} />
+      <ModalView show={over} message={`글자수가 입력 가능한 수를 넘었습니다.\u00a0\u00a0글자수를 줄여주세요.`} clickFunc={() => setOver(false)} btnColor={"btn-ok"} />
     </div>
   );
 }

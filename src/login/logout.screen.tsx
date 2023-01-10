@@ -5,7 +5,7 @@ import Header from "../layout/Header";
 import {ModalView} from "../layout/Modal.layout";
 import {Headlines} from "../service/Headlines";
 import {decodeForm} from "../service/Form";
-import SetToknes from "../service/SetTokens";
+import SetTokens from "../service/SetTokens";
 
 function Logout() {
   const [show, setShow] = useState(false);
@@ -20,7 +20,7 @@ function Logout() {
 
   const logout = () => {
     const decode: Readonly<decodeForm> = jwtDecode(localStorage.token);
-    SetToknes.logout(decode.sub).catch(() => setShow(true));
+    SetTokens.logout(decode.sub).catch(() => setShow(true));
 
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");

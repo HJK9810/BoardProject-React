@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import BoardService from "../service/BoardService";
 import Header from "../layout/Header";
 import {ModalConfirm, ModalView} from "../layout/Modal.layout";
-import SetToknes from "../service/SetTokens";
+import SetTokens from "../service/SetTokens";
 import {Headlines} from "../service/Headlines";
 import {errorForm} from "../service/Form";
 
@@ -28,7 +28,7 @@ function Add() {
       if (lastTime < 0 && localStorage.refreshToken) navigate("/expire");
       else if (lastTime < 1000 * 60 * 10) {
         // 만료 10분전
-        const error: errorForm | null = await SetToknes.tokenRefresh(localStorage.token, localStorage.refreshToken);
+        const error: errorForm | null = await SetTokens.tokenRefresh(localStorage.token, localStorage.refreshToken);
         if (error) navigate("/expire", {state: error});
       }
     };

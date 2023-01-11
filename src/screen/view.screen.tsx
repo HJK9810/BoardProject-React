@@ -43,7 +43,7 @@ function ViewOne() {
   }, [aCount, id, navigate]);
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.view(post.createdDate)} />
       <h2 className="p-3 pt-5 mb-1">{Headlines.view(post.createdDate)}</h2>
 

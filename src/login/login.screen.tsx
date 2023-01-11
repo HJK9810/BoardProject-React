@@ -32,13 +32,12 @@ function Login() {
 
   const enterPress = async (e: KeyboardEvent) => {
     if (e.key === "Enter") {
-      if (!show) await submit(e);
-      else setShow(false);
+      !show ? await submit(e) : setShow(false);
     }
   };
 
   return (
-    <div className="pt-5 container" onKeyDown={enterPress}>
+    <div className="container" onKeyDown={enterPress}>
       <Header headline={Headlines.login} />
       <h2 className="text-center p-3 mt-5">{Headlines.login}</h2>
       <form>

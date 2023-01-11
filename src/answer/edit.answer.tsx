@@ -47,7 +47,7 @@ function EditAnswer() {
   };
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.editAnswer} />
       <h3 className="pt-5">{Headlines.editAnswer}</h3>
       <form>

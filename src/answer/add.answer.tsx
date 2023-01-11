@@ -43,7 +43,7 @@ function AddAnswer() {
   };
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.addAnswer} />
       <h3 className="pt-5">{Headlines.addAnswer}</h3>
       <form>

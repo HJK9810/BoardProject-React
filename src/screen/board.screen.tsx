@@ -20,7 +20,7 @@ function Baord() {
   const [user, setUser] = useState(basicPayload);
 
   useEffect(() => {
-    const token = localStorage.token;
+    const token: string = localStorage.token;
     if (!token || token === "error") {
       navigate("/login", {replace: true});
       window.location.reload();
@@ -86,13 +86,13 @@ function Baord() {
         <p className="p-2 mb-2 text-muted" id={id} onClick={moveView}>
           <Moment date={question.createdDate} format="YYYY.MM.DD" />
         </p>
-        <hr className="m-0 opacity-100" id={id} onClick={moveView} />
+        <hr className="m-0" id={id} onClick={moveView} />
       </div>
     );
   };
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.board} />
       <h2 className="text-center m-4 pt-5">{Headlines.board}</h2>
       <div className="form-check float-end">

@@ -90,7 +90,7 @@ function Edit() {
   };
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.edit} />
       <h2 className="p-3 pt-5 mb-1">{Headlines.edit}</h2>
       <form>

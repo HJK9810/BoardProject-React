@@ -33,13 +33,12 @@ function Logout() {
 
   const pressKey = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
-      if (show) logoutClear();
-      else logout();
+      show ? logoutClear() : logout();
     }
   };
 
   return (
-    <div className="pt-5 container" onKeyDown={pressKey}>
+    <div className="container" onKeyDown={pressKey}>
       <Header headline={Headlines.logout} />
       <h2 className="text-center p-3 mt-5">로그아웃 하시겠습니까?</h2>
       <button className="btn btn-danger mt-5 widthMax" onClick={logout}>

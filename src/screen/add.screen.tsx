@@ -68,7 +68,7 @@ function Add() {
   };
 
   return (
-    <div className="pt-5 container">
+    <div className="container">
       <Header headline={Headlines.add} />
       <h2 className="p-3 pt-5 mb-1">{Headlines.add}</h2>
       <form>

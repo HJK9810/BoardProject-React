@@ -9,7 +9,10 @@ function Header({headline}: Readonly<navProps>) {
 
   const checkLogin = () => {
     if ("token" in localStorage) {
-      headline.includes("Log") ? navigate("/board") : navigate(-1);
+      if (headline.includes("Log")) navigate("/board");
+      else {
+        headline.includes("조회") ? navigate("/board") : navigate(-1);
+      }
     }
   };
 

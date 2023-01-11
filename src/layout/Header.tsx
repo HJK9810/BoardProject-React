@@ -16,12 +16,7 @@ function Header({headline}: Readonly<navProps>) {
     }
   };
 
-  const checkLogoutAvail = () => {
-    if ("token" in localStorage) {
-      navigate("/logout");
-      window.location.reload();
-    } else setShow(true);
-  };
+  const checkLogoutAvail = () => ("token" in localStorage ? navigate("/logout") : setShow(true));
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark fixed-top">

@@ -20,7 +20,6 @@ function Login() {
       .then((res) => {
         SetTokens.refreshStorage(res);
         navigate("/board", {replace: true});
-        // window.location.replace("/board");
       })
       .catch((res) => {
         // user 존재X

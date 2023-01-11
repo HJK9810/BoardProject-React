@@ -29,7 +29,6 @@ function Logout() {
   const logoutClear = () => {
     setShow(false);
     navigate("/login", {replace: true});
-    window.location.reload();
   };
 
   const pressKey = (e: KeyboardEvent) => {

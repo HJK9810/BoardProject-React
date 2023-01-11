@@ -57,7 +57,7 @@ function Add() {
 
     if (files) Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.addItem(formData, localStorage.token).catch((err) => {
+    await BoardService.addItem(formData).catch((err) => {
       const eData = err.response.data;
       if (eData.code === "FILE_NOT_SAVED") {
         setFiles(null);

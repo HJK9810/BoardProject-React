@@ -32,7 +32,7 @@ function EditAnswer() {
     };
 
     checkExpire(localStorage.exp - Date.now());
-    BoardService.viewAnswerOne(Number(id), localStorage.token)
+    BoardService.viewAnswerOne(Number(id))
       .then((res: answerForm) => setContents(res.contents))
       .catch((res) => navigate("/expire", {state: res.response.data}));
   }, [id, navigate]);
@@ -42,7 +42,7 @@ function EditAnswer() {
     if (contents.length < 10) return setShow(true);
     else if (contents.length > 255) return setOver(true);
 
-    await BoardService.editAnswer(Number(id), {contents: contents}, localStorage.token);
+    await BoardService.editAnswer(Number(id), {contents: contents});
     navigate(`/viewOne/${location.state}`, {replace: true});
   };
 

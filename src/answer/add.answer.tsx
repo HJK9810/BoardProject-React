@@ -38,7 +38,7 @@ function AddAnswer() {
     if (contents.length < 10) return setShow(true);
     else if (contents.length > 255) return setOver(true);
 
-    await BoardService.addAnswer(Number(id), {contents: contents}, localStorage.token);
+    await BoardService.addAnswer(Number(id), {contents: contents});
     navigate(`/viewOne/${id}`, {replace: true});
   };
 

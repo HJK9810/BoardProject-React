@@ -21,7 +21,7 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
   const delAnswer = async (e: MouseEvent) => {
     e.preventDefault();
 
-    await BoardService.delAnswer(Number(viewId), Number(e.currentTarget.id), token);
+    await BoardService.delAnswer(Number(viewId), Number(e.currentTarget.id));
     setShow(false);
     setACount(answers.length - 1);
   };

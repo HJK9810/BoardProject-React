@@ -39,7 +39,7 @@ function Edit() {
 
     checkExpire(localStorage.exp - Date.now());
 
-    BoardService.findOne(Number(id), localStorage.token)
+    BoardService.findOne(Number(id))
       .then((res) => {
         setTitle(res.title);
         setContents(res.contents);
@@ -72,7 +72,7 @@ function Edit() {
 
     if (files) Object.values(files).map((file) => formData.append("images", file));
 
-    await BoardService.editItem(Number(id), formData, localStorage.token).catch((err) => {
+    await BoardService.editItem(Number(id), formData).catch((err) => {
       const eData = err.response.data;
       if (eData.code === "FILE_NOT_SAVED") {
         setFiles(null);
@@ -85,7 +85,7 @@ function Edit() {
   const deleteQ = async (e: MouseEvent) => {
     e.preventDefault();
 
-    await BoardService.delItem(Number(id), localStorage.token).catch((err) => navigate("/expire", {state: err.response.data}));
+    await BoardService.delItem(Number(id)).catch((err) => navigate("/expire", {state: err.response.data}));
     navigate("/board", {replace: true});
   };
 

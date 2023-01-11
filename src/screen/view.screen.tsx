@@ -27,7 +27,7 @@ function ViewOne() {
     }
 
     if (localStorage.exp - Date.now() < 0 && localStorage.refreshToken) navigate("/expire");
-    BoardService.findOne(Number(id), token)
+    BoardService.findOne(Number(id))
       .then((res) => {
         setPost(res);
         if (res.images) setImage(res.images.split(","));

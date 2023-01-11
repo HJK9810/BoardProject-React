@@ -7,7 +7,7 @@ import jwtDecode from "jwt-decode";
 import Header from "../layout/Header";
 import SetTokens from "../service/SetTokens";
 import {Headlines} from "../service/Headlines";
-import {BoardForm, decodeForm, errorForm, questionForm, userForm} from "../service/Form";
+import {BoardForm, decodeForm, errorForm, questionForm} from "../service/Form";
 import {basicPayload} from "../service/BasicValue";
 
 function Baord() {
@@ -44,11 +44,11 @@ function Baord() {
     setUser(decodeToken);
 
     if (check && remainingTime > 0) {
-      BoardService.findByUser(decodeToken.sub, page, 6, token)
+      BoardService.findByUser(decodeToken.sub, page, 6)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
     } else if (remainingTime > 0) {
-      BoardService.findAll(page, 6, token)
+      BoardService.findAll(page, 6)
         .then(dataIn)
         .catch((res) => navigate("/expire", {state: res.response.data}));
     }
@@ -62,9 +62,8 @@ function Baord() {
   const moveView = (e: MouseEvent) => {
     e.preventDefault();
     const findOne: Readonly<questionForm> | undefined = post.find((question: Readonly<questionForm>) => e.currentTarget.id === question.id + "");
-    const choiceOne: Readonly<userForm> | null = findOne ? findOne.users : null;
 
-    if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
+    if (findOne && (findOne.users.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
   };
 
   const checkControll = (e: ChangeEvent) => {

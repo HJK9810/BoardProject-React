@@ -11,10 +11,7 @@ function ExpireLogin() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!localStorage.token || localStorage.token === "error") {
-      navigate("/login", {replace: true});
-      window.location.reload();
-    }
+    if (!localStorage.token || localStorage.token === "error") navigate("/login", {replace: true});
 
     if (btnWork && location.state) location.state.code === "REFRESH_TOKEN_NOT_FOUND" ? setBtnWork(true) : setBtnWork(false);
     if (localStorage.token === "error") setBtnWork(true);

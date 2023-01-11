@@ -12,10 +12,7 @@ function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.token || localStorage.token === "error") {
-      navigate("/login", {replace: true});
-      window.location.reload();
-    }
+    if (!localStorage.token || localStorage.token === "error") navigate("/login", {replace: true});
   }, [navigate]);
 
   const logout = () => {

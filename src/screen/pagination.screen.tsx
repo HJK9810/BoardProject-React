@@ -14,9 +14,9 @@ function Pagination({pagination, setPage}: pageProps) {
           </button>
         </li>
         {[0, 1, 2, 3, 4]
-          .map((k) => k + number - 1)
-          .filter((k) => k > 0 && k <= totalPages)
-          .map((el) => {
+          .map((k: number) => k + number - 1)
+          .filter((k: number) => k > 0 && k <= totalPages)
+          .map((el: number) => {
             return (
               <li className="page-item " key={el}>
                 <button className={"page-link " + (number + 1 === el ? "active" : "")} onClick={() => handleClick(el - 1)}>

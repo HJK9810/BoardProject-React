@@ -61,7 +61,7 @@ function Baord() {
 
   const moveView = (e: MouseEvent) => {
     e.preventDefault();
-    const findOne: Readonly<questionForm> | undefined = post.find((el: Readonly<questionForm>) => e.currentTarget.id === el.id + "");
+    const findOne: Readonly<questionForm> | undefined = post.find((question: Readonly<questionForm>) => e.currentTarget.id === question.id + "");
     const choiceOne: Readonly<userForm> | null = findOne ? findOne.users : null;
 
     if (choiceOne && (choiceOne.email === user.sub || user.auth.includes("ADMIN"))) navigate(`/viewOne/${e.currentTarget.id}`);
@@ -72,20 +72,20 @@ function Baord() {
     setCheck((e.target as HTMLInputElement).checked);
   };
 
-  const printOne = (el: Readonly<questionForm>) => {
-    const name: string = el.users.name;
-    const id: string = el.id + "";
+  const printOne = (question: Readonly<questionForm>) => {
+    const name: string = question.users.name;
+    const id: string = question.id + "";
 
     return (
-      <div className="pt-3" key={el.id} id={id} onClick={moveView}>
+      <div className="pt-3" key={question.id} id={id} onClick={moveView}>
         <h3 className="p-2 pt-3" id={id} onClick={moveView}>
-          {el.title}
+          {question.title}
         </h3>
         <span className="p-2" id={id} onClick={moveView}>
-          작성자 : {el.users.email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
+          작성자 : {question.users.email === user.sub || user.auth.includes("ADMIN") ? name : name.charAt(0) + "*" + name.substring(2)}
         </span>
         <p className="p-2 mb-2 text-muted" id={id} onClick={moveView}>
-          <Moment date={el.createdDate} format="YYYY.MM.DD" />
+          <Moment date={question.createdDate} format="YYYY.MM.DD" />
         </p>
         <hr className="m-0 opacity-100" id={id} onClick={moveView} />
       </div>

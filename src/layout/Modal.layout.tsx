@@ -27,9 +27,9 @@ export function ModalConfirm({show, message, cancleFunc, clickFunc, id}: modalPr
         <div className="modal-dialog modal-content">
           <div className="text-center modal-body">
             {message.split("\n").map((line, i) => (
-              <span key={i}>
+              <React.Fragment key={i}>
                 {line} <br />
-              </span>
+              </React.Fragment>
             ))}
           </div>
           <div className="modal-footer">

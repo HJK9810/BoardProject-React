@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode";
-import {MouseEvent, useEffect, useState} from "react";
+import React, {MouseEvent, useEffect, useState} from "react";
 import Moment from "react-moment";
 import {useNavigate} from "react-router-dom";
 import {ModalConfirm} from "../layout/Modal.layout";
@@ -49,9 +49,9 @@ function Answer({answers, viewId, token, setACount}: answerProps) {
                 <div className="p-3 m-2 mt-0 bg-dark rounded" onMouseEnter={() => setBtnShow(true)} onMouseLeave={() => setBtnShow(false)}>
                   <div>
                     {el.contents.split("\n").map((line: string, i: number) => (
-                      <span key={i}>
+                      <React.Fragment key={i}>
                         {line} <br />
-                      </span>
+                      </React.Fragment>
                     ))}
                   </div>
                 </div>

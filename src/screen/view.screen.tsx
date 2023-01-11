@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import BoardService from "../service/BoardService";
 import {useNavigate, useParams} from "react-router-dom";
 import Answer from "../answer/answer.screen";
@@ -54,7 +54,13 @@ function ViewOne() {
       <ImageView image={image} setImage={(p: string[]) => setImage(p)} check={false} />
 
       <h3 className="p-3 mb-1">상세내용</h3>
-      <div className="p-3 m-2 bg-dark rounded">{post.contents}</div>
+      <div className="p-3 m-2 bg-dark rounded">
+        {post.contents.split("\n").map((line: string, i: number) => (
+          <React.Fragment key={i}>
+            {line} <br />
+          </React.Fragment>
+        ))}
+      </div>
 
       <div className={post.answers.length ? "" : "d-none"}>
         <Answer answers={post.answers} viewId={`${id}`} token={localStorage.token} setACount={(c: number) => setACount(c)} />

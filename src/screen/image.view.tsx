@@ -2,7 +2,7 @@ import {MouseEvent, useState} from "react";
 import BoardService from "../service/BoardService";
 import {imageProps} from "../service/Props";
 
-function ImageView({image, check, setImage}: imageProps) {
+function ImageView({images, check, setImage}: imageProps) {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [clickURL, setClickURL] = useState("");
@@ -10,10 +10,10 @@ function ImageView({image, check, setImage}: imageProps) {
 
   const widthSize = 200 + "px";
 
-  const showImage = (root: string, idx: number) => {
-    const lastIndex: number = root.lastIndexOf(")");
-    const url: string = BoardService.fullFileURL(root.substring(lastIndex + 1));
-    const fileName: string = root.substring(1, lastIndex);
+  const showImage = (savedName: string, idx: number) => {
+    const lastIndex: number = savedName.lastIndexOf(")");
+    const url: string = BoardService.fullFileURL(savedName.substring(lastIndex + 1));
+    const fileName: string = savedName.substring(1, lastIndex);
 
     return <img id={`${idx}`} alt={fileName} key={idx} src={url} className="m-1" width={widthSize} onClick={check ? handleShow : undefined} />;
   };
@@ -28,15 +28,15 @@ function ImageView({image, check, setImage}: imageProps) {
   const delImage = (e: MouseEvent) => {
     e.preventDefault();
 
-    image.splice(id, 1);
-    setImage(image);
+    images.splice(id, 1);
+    setImage(images);
     setShow(false);
   };
 
   return (
     <>
-      <div className="p-3 m-2 bg-dark rounded" style={{height: image.length > 1 ? widthSize : 40 + "px"}}>
-        <div className="scroll-image">{image.length ? image.map((el: string, i: number) => (el ? showImage(el, i) : null)) : null}</div>
+      <div className="p-3 m-2 bg-dark rounded" style={{height: images.length > 1 ? widthSize : 40 + "px"}}>
+        <div className="scroll-image">{images.length ? images.map((image: string, i: number) => (image ? showImage(image, i) : null)) : null}</div>
       </div>
 
       <div className={"modal-backdrop show" + (show ? "" : " d-none")}></div>

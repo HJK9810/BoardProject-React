@@ -103,7 +103,7 @@ function Edit() {
           <input type="file" className="form-control" multiple onChange={(e) => setFiles(e.target.files)} />
         </div>
         <h4 className="p-3 mb-1">기존 첨부파일</h4>
-        <ImageView image={image} setImage={(p: string[]) => setImage(p)} check={true} />
+        <ImageView images={image} setImage={(p: string[]) => setImage(p)} check={true} />
         <div className="p-3 mt-1">
           <label className="form-label">문의사항</label>
           <textarea className="form-control" rows={5} style={{resize: "none"}} value={contents} onChange={(e) => setContents(e.target.value)} />

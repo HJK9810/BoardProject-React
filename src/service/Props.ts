@@ -13,7 +13,7 @@ export interface answerProps {
 }
 
 export interface imageProps {
-  image: string[];
+  images: string[];
   check: boolean;
   setImage: (vlaue: string[]) => void;
 }
